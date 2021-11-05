@@ -8,11 +8,12 @@ def var_handle(var): # -> str
 
     except SyntaxError:
         pass
-
+ 
     return var
 
 
 def f(string): # -> str
+    # need to work on padding size config compared to real fstrings
     global timem
     output = ''
     var = ''
@@ -22,7 +23,8 @@ def f(string): # -> str
     semicolon_value = ''
     for s in string:
         # make 2 semilcon indicators for semicolon stepping
-
+        print(len(output))
+        print(output+'t')
         if s not in ['{','}',':'] and next != True and past_semicolon != True and  past_padding != True:
             output += s
 
@@ -53,16 +55,22 @@ def f(string): # -> str
 
                         if semicolon_value[0] == '<':
                             semicolon_value = semicolon_value.strip('< ')
-                            print(semicolon_value)
+                            space = ' ' * int(semicolon_value)
+                            
+                            var = var + space
 
                         elif semicolon_value[0] == '>':
                             semicolon_value = semicolon_value.strip('> ')
-                            print(semicolon_value)
+                            
+                            space = ' ' * int(semicolon_value)
+                            
+                            var =  space + var
             
             elif past_semicolon == False:
                 var = var_handle(var)
 
             output += var
+            
             var = ''
             semicolon_value = ''
 
@@ -73,6 +81,7 @@ def f(string): # -> str
             semicolon_value += s
 
     # handle padding
+    print(output)
     return output
 
 
@@ -80,8 +89,22 @@ def main(): # -> none
     global hello, world
     hello = "Hello,"
     world = "world" 
-    string = '{hello} {world: < {5556}  }'
-    print(f(string))
+    string = '{hello} {world:<8}hiyyy'
+    string1 = f'{hello} {world:<13}hiyyy'
+    block = ''
+    block = f'{block:<10}'
+    print(len(block))
+    print(len(f(string)))
+    print(len(string1))
+    print(string1)
+    string = '{hello} {world:>8}hiyyy'
+    string1 = f'{hello} {world:>13}hiyyy'
+    block = ''
+    block = f'{block:<10}'
+    print(len(block))
+    print(len(f(string)))
+    print(len(string1))
+    print(string1)
 
 
 if __name__ == '__main__':
