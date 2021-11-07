@@ -1,4 +1,4 @@
-timem = 0
+
 def var_handle(var): # -> str
     global timem
     exec('global var')
@@ -14,7 +14,7 @@ def var_handle(var): # -> str
 
 def f(string): # -> str
     # need to work on padding size config compared to real fstrings
-    global timem
+
     output = ''
     var = ''
     next = False
