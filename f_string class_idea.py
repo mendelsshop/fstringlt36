@@ -1,11 +1,9 @@
-# create a class for fstring named f
+#combine var_handle and f to make a function that can handle all the var stuff
 class f(str):
     def __init__(self, string):
         self.string = string
     def var_handle(self,var): # -> str
-        global timem
-        exec('global var')
-    # need to work on gloabal and local variables handling
+        # need to work on gloabal and local variables handling
         try:
             var = eval(var)
 
@@ -107,9 +105,9 @@ def main(): # -> none
 
     
     print(len(f(string)))
-    print(f(string))
+    print(repr(f(string)))
     print(len(string1))
-    print(string1)
+    print(repr(string1))
 
 
 if __name__ == '__main__':

@@ -1,8 +1,6 @@
 
+#combine var_handle and f to make a function that can handle all the var stuff
 def var_handle(var): # -> str
-    global timem
-    exec('global var')
-    # need to work on gloabal and local variables handling
     try:
         var = eval(var)
 
