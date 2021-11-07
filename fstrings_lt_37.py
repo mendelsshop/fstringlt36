@@ -97,8 +97,11 @@ def main(): # -> none
     print(len(f(string)))
     print(len(string1))
     print(string1)
-    string = '{hello} {world:>8}hiyyy'
-    string1 = f'{hello} {world:>13}hiyyy'
+    # 8 = 13
+    # figure out diifreence n padding
+
+    string = '{hello} {world:>-1}hiyyy'
+    string1 = f'{hello} {world:>4}hiyyy'
     block = ''
     block = f'{block:<10}'
     print(len(block))
