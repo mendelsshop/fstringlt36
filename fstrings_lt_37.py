@@ -23,8 +23,8 @@ def f(string): # -> str
     semicolon_value = ''
     for s in string:
         # make 2 semilcon indicators for semicolon stepping
-        print(len(output))
-        print(output+'t')
+        # print(len(output))
+        # print(output+'t')
         if s not in ['{','}',':'] and next != True and past_semicolon != True and  past_padding != True:
             output += s
 
@@ -81,7 +81,7 @@ def f(string): # -> str
             semicolon_value += s
 
     # handle padding
-    print(output)
+    # print(output)
     return output
 
 
@@ -91,24 +91,23 @@ def main(): # -> none
     world = "world" 
     string = '{hello} {world:<8}hiyyy'
     string1 = f'{hello} {world:<13}hiyyy'
-    block = ''
-    block = f'{block:<10}'
-    print(len(block))
-    print(len(f(string)))
-    print(len(string1))
-    print(string1)
+    # block = ''
+    # block = f'{block:<10}'
+    # print(len(block))
+    # print(len(f(string)))
+    # print(len(string1))
+    # print(string1)
     # 8 = 13
     # figure out diifreence n padding
 
-    string = '{hello} {world:>-1}hiyyy'
-    string1 = f'{hello} {world:>4}hiyyy'
-    block = ''
-    block = f'{block:<10}'
-    print(len(block))
+    string = '{hello} {world:>8}hiyyy'
+    string1 = f'{hello} {world:>13}hiyyy'
+
+    
     print(len(f(string)))
+    print(f(string))
     print(len(string1))
     print(string1)
-
 
 if __name__ == '__main__':
     main()
