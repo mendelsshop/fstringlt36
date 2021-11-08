@@ -103,14 +103,14 @@ def main() -> None:
     # 8 = 13
     # figure out diifreence n padding
 
-    string = f('{hello} {world:>11}hiyyy')
+    string = f('{hello} {world:>9}hiyyy')
     string1 = f'{hello} {world:>13}hiyyy'
 
     
     print(len(f(string)))
-    print(repr(f(string)))
+    print(f(string))
     print(len(string1))
-    print(repr(string1))
+    print(string1)
     # need to fix type
     print(type(string)) 
 

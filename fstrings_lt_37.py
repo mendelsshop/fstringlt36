@@ -1,4 +1,4 @@
-
+import f_string_class_idea as fs
 #combine var_handle and f to make a function that can handle all the var stuff
 def var_handle(var): # -> str
     try:
@@ -106,6 +106,7 @@ def main(): # -> none
     print(f(string))
     print(len(string1))
     print(string1)
+    print(type(fs.f(string)))
 
 if __name__ == '__main__':
     main()
