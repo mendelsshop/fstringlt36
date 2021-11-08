@@ -1,17 +1,19 @@
 #combine var_handle and f to make a function that can handle all the var stuff
 class f(str):
-    def __init__(self, string):
+    def __init__(self, string) -> None:
         self.string = string
-    def var_handle(self,var): # -> str
+    def var_handle(self,var) -> str:
         # need to work on gloabal and local variables handling
+        
         try:
+            exec('global eval(var)')
             var = eval(var)
 
         except SyntaxError:
             pass
  
         return var
-    def change_to_fstring(self):
+    def change_to_fstring(self) -> str:
         output = ''
         var = ''
         next = False
@@ -80,12 +82,13 @@ class f(str):
         # handle padding
 
         return output
-    def __repr__(self):
+
+    def __repr__(self) -> str:
         return self.change_to_fstring()
-    def __str__(self):
+    def __str__(self) -> str:
         return self.change_to_fstring()
 
-def main(): # -> none
+def main() -> None:
     global hello, world
     hello = "Hello,"
     world = "world" 
@@ -100,7 +103,7 @@ def main(): # -> none
     # 8 = 13
     # figure out diifreence n padding
 
-    string = '{hello} {world:>11}hiyyy'
+    string = f('{hello} {world:>11}hiyyy')
     string1 = f'{hello} {world:>13}hiyyy'
 
     
@@ -108,6 +111,8 @@ def main(): # -> none
     print(repr(f(string)))
     print(len(string1))
     print(repr(string1))
+    # need to fix type
+    print(type(string)) 
 
 
 if __name__ == '__main__':
