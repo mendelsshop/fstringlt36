@@ -1,4 +1,8 @@
 #combine var_handle and f to make a function that can handle all the var stuff
+# fix spagghetti code in f class 
+
+
+
 class f(str):
     def __init__(self, string) -> None:
         self.string = string
@@ -94,14 +98,7 @@ def main() -> None:
     world = "world" 
     string = '{hello} {world:<8}hiyyy'
     string1 = f'{hello} {world:<13}hiyyy'
-    # block = ''
-    # block = f'{block:<10}'
-    # print(len(block))
-    # print(len(f(string)))
-    # print(len(string1))
-    # print(string1)
-    # 8 = 13
-    # figure out diifreence n padding
+
 
     string = f('{hello} {world:>9}hiyyy')
     string1 = f'{hello} {world:>13}hiyyy'
@@ -113,6 +110,7 @@ def main() -> None:
     print(string1)
     # need to fix type
     print(type(string)) 
+    print(f'{"hello"}')
 
 
 if __name__ == '__main__':
