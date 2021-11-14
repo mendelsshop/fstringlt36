@@ -2,6 +2,11 @@
 # fix spagghetti code in f class 
 
 
+# make multi level if elses
+# if found_ariable
+# if past_semicolon
+# etc
+
 
 class f(str):
     def __init__(self, string) -> None:
@@ -10,10 +15,11 @@ class f(str):
         # need to work on gloabal and local variables handling
         
         try:
-            exec('global eval(var)')
+            exec('global var')
             var = eval(var)
 
         except SyntaxError:
+            print('error: variable')
             pass
  
         return var
@@ -42,6 +48,7 @@ class f(str):
                 past_semicolon = True
                 next = False
                 # handle var so turn var handling into a function
+                # print('done')
                 var = self.var_handle(var)
             
                 continue
@@ -58,15 +65,15 @@ class f(str):
 
                             if semicolon_value[0] == '<':
                                 semicolon_value = semicolon_value.strip('< ')
-                                space = ' ' * int(semicolon_value)
-
+                                space = ' ' * (len(var) - int(semicolon_value))
+                                print(len(space))
                                 var = var + space
 
                             elif semicolon_value[0] == '>':
                                 semicolon_value = semicolon_value.strip('> ')
                             
-                                space = ' ' * int(semicolon_value)
-                            
+                                space = ' ' * (len(var) - int(semicolon_value))
+                                print(len(space))
                                 var =  space + var
 
                 elif past_semicolon == False:
@@ -95,22 +102,23 @@ class f(str):
 def main() -> None:
     global hello, world
     hello = "Hello,"
-    world = "world" 
-    string = '{hello} {world:<8}hiyyy'
-    string1 = f'{hello} {world:<13}hiyyy'
+    world = "wo" 
+    # string = '{hello} {world:<8}hiyyy'
+    # string1 = f'{hello} {world:<13}hiyyy'
 
 
-    string = f('{hello} {world:>9}hiyyy')
-    string1 = f'{hello} {world:>13}hiyyy'
+    string = f('{hello} {world:>5}hiyyy')
+    string1 = f'{hello} {world:>5}hiyyy'
 
     
-    print(len(f(string)))
-    print(f(string))
+    print(len(string))
+    print(string)
+    print(string)
     print(len(string1))
     print(string1)
     # need to fix type
-    print(type(string)) 
-    print(f'{"hello"}')
+    # print(type(string)) 
+    # print(type(f'{"hello"}'))
 
 
 if __name__ == '__main__':
