@@ -1,0 +1,10 @@
+class f()
+
+methods:
+handle_var
+parser
+-var for where in parsing in code
+-if else 
+padding_handling
+self-variables:
+self.string
