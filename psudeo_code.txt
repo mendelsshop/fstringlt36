@@ -4,7 +4,7 @@ methods:
 handle_var
 parser
 -var for where in parsing in code
--if else 
+-if else based on var
 padding_handling
 self-variables:
 self.string
