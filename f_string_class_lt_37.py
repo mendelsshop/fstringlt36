@@ -11,6 +11,7 @@
 class f(str):
     def __init__(self, string) -> None:
         self.string = string
+        self.version = '0.0.1-alpha'
     def var_handle(self,var) -> str:
         # need to work on gloabal and local variables handling
         
