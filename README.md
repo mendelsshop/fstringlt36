@@ -2,13 +2,17 @@
 
 About: 
 
-Python f-strings for before Python 3.7
+Python f-strings for before Python 3.7.
 
-this package shouldn't require any other packages
+This package shouldn't require any other packages.
 
-so it should be able to install on any Python version
+So it should be able to install on any Python version.
 
-although it's not been tested if thats true because it's not aworking yet
+Although it's not been tested if thats true because it's not working yet.
 
-Version: 0.0.1-alpha
+Version: 
+
+Version-Number: 0.0.1
+
+Version-Stage: alpha
 
