@@ -2,3 +2,4 @@ make into pypi package
 strucure python program properly 
 write proper comments
 have some semblance of pep8 style
+create functions to do basic stuff
