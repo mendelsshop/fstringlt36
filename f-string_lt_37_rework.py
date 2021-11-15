@@ -1,15 +1,10 @@
 import logging
 logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
-#combine var_handle and f to make a function that can handle all the var stuff
 # fix spagghetti code in f class 
+def boxify(list):
+    # find large line from list
+    pass
 
-
-# make multi level if elses
-# if found_ariable
-# if past_semicolon
-# etc
-
-# create logger
 class f(str):
     def __init__(self, string) -> None:
         self.string = string
@@ -24,7 +19,6 @@ class f(str):
         return None
     def var_handle(self,var) -> str:
         # need to work on gloabal and local variables handling
-        # print('var: ' + var)
         try:
             exec('global var')
             var = eval(var)
@@ -36,7 +30,6 @@ class f(str):
         return var
     def f_string_parse(self) -> str:
         self.current_phase = 'parsing'
-        # print('parsing', current_phase)
         self.i = 0
         self.output = ''
         self.var_handling = True
@@ -148,10 +141,6 @@ def main() -> None:
     global hello, world
     hello = "Hello,"
     world = "wo" 
-    # string = '{hello} {world:<8}hiyyy'
-    # string1 = f'{hello} {world:<13}hiyyy'
-
-
     string = f('{hello} {world}hiyyy')
     string1 = f'{hello} {world}hiyyy'
 
@@ -162,8 +151,6 @@ def main() -> None:
     print('| real f_string', string1, '|')
     print('------------------------------------------------test----------------------------------')
     # need to fix type
-    # print(type(string)) 
-    # print(type(f'{"hello"}'))
 
 
 if __name__ == '__main__':
