@@ -2,8 +2,15 @@ import logging
 logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 # fix spagghetti code in f class 
 def boxify(list):
-    # find large line from list
-    pass
+    # find larggest string in list
+    larggest_string = len(max(list, key=len))
+    print('#' *(larggest_string+4))
+    for item in list:
+        # center each item with .center(larggest_string)
+        print('#',item.center(larggest_string), '#')
+    print('#' *(larggest_string+4))
+    
+        
 
 class f(str):
     def __init__(self, string) -> None:
@@ -143,13 +150,13 @@ def main() -> None:
     world = "wo" 
     string = f('{hello} {world}hiyyy')
     string1 = f'{hello} {world}hiyyy'
-
-    print('------------------------------------------- -----test-------------------------------')
-    print('| len of fake f_string', len(string),'|')
-    print('| fake f_string', string, '|')
-    print('| len of real f_string', len(string1), '|')
-    print('| real f_string', string1, '|')
-    print('------------------------------------------------test----------------------------------')
+    tests = []
+    tests.append('len of fake f_string ' + str(len(string)))
+    # need to work on calling f_string.f from another variable
+    tests.append('fake f_string ' + f(string))
+    tests.append('len of real f_string ' + str(len(string1)))
+    tests.append('real f_string ' + string1)
+    boxify(tests)
     # need to fix type
 
 
