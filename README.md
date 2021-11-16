@@ -10,7 +10,24 @@ So it should be able to install on any Python version.
 
 Although it's not been tested if thats true because it's not working yet.
 
-!a and !r are curently not working.
+!a and !r are curently working.
+```
+import fstring_lt_37.f
+
+h = 'hello'
+
+# !a calls ascii()
+
+print(f('!a =  {h!a}'))
+
+# result = !a =  'hello'
+
+# !r calls repr()
+
+print(f('!r =  {h!r}'))
+
+# result = !r =  'hello' 
+```
 
 Version: 
 
