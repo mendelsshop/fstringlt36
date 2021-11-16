@@ -1,125 +1,185 @@
-#combine var_handle and f to make a function that can handle all the var stuff
+import logging
+logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 # fix spagghetti code in f class 
-
-
-# make multi level if elses
-# if found_ariable
-# if past_semicolon
-# etc
-
+def boxify(list):
+    # find larggest string in list
+    larggest_string = len(max(list, key=len))
+    print('#' *(larggest_string+4))
+    for item in list:
+        # center each item with .center(larggest_string)
+        print('#',item.center(larggest_string), '#')
+    print('#' *(larggest_string+4))
+    
+        
 
 class f(str):
     def __init__(self, string) -> None:
         self.string = string
-        self.version = '0.0.1-alpha'
+        self.version = '0.0.2-alpha'
+        logging.info('Started')
+
+        
+    def phase_change(self, phase) -> None:
+        self.current_phase = phase
+
+        logging.info('changing to ' + phase)
+        return None
     def var_handle(self,var) -> str:
         # need to work on gloabal and local variables handling
-        
         try:
             exec('global var')
             var = eval(var)
-
         except SyntaxError:
-            print('error: variable')
-            pass
- 
+            logging.error('error: variable')
+            return 'error: variable'
+        except NameError:
+            logging.error('error: variable name not found')
+            return 'error: variable name not found'
         return var
-    def change_to_fstring(self) -> str:
-        output = ''
-        var = ''
-        next = False
-        past_semicolon = False
-        past_padding = False
-        semicolon_value = ''
-        for s in self.string:
-            # make 2 semilcon indicators for semicolon stepping
-            # print(len(output))
-            # print(output+'t')
-            if s not in ['{','}',':'] and next != True and past_semicolon != True and  past_padding != True:
-                output += s
+    def f_string_parse(self) -> str:
+        self.current_phase = 'parsing'
+        self.i = 0
+        self.output = ''
+        self.var_handling = True
+        self.var = ''
+        self.change_to = ''
+        self.dummy_var = ''
 
-            elif s == '{':
-                if past_semicolon:
-                    next = False
-                    continue
+        def info():
+            try:
+                self.string[self.i]
+            except IndexError:
+                return False
+            # logging.info('f string parser version: ' + self.version)
+            if self.current_phase:
+                logging.info('current phase: ' + self.current_phase)
+            if self.string[self.i]:
+                logging.info('current substring: ' + self.string[self.i])
+            if self.var:
+                logging.info('var: ' + self.var)
+            if self.output:
+                logging.info('output: ' + self.output)
+            logging.info('var handling: ' + str(self.var_handling))
+            # logging.info('dummy_var', self.dummy_var)
+            return None        
+
+        while len(self.string) > self.i:
+            logging.info('================================================================')
+            # for self.i in range(len(self.string)):       
+            if self.current_phase == 'parsing':
+                if self.string[self.i] == '{':
+                    self.phase_change('f_string')
+                    self.i += 1
+                    info()
+                    logging.info('changing to f_string parsing')
+                      
                 else:
-                    next = True
+                    self.output += self.string[self.i]
+                    self.i += 1
+                    info()
+                    logging.info('adding to output')
+                   
+            elif self.current_phase == 'f_string':
+                if self.string[self.i] in  ['\"','\''] and self.var_handling == True: 
+                    self.var_handling = False
+                    self.var += self.string[self.i]
+                    self.i += 1
+                    info()
+                    logging.info('adding to var without var handling')
+                   
+                elif self.string[self.i] in ['\'','\"'] and self.var_handling == False:
+                    self.var_handling = True
+                    self.i += 1
+                    info()
+                    logging.info('stop adding to var with var handling')
+                   
+                elif self.string[self.i] == '}' and self.var_handling == True:
+                    self.phase_change('parsing')
+                    if self.var[0] in ['\'','\"']:
+                        self.var = self.var.strip('\"\'')
+                    else:
+                        self.var = self.var_handle(self.var)
+                    self.i += 1
+                    if self.change_to in ['r','a']:
+                        if self.change_to == 'r':
+                            self.var = repr(self.var)
+                        elif self.change_to == 'a':
+                            # return ascci of var
+                            self.var = ascii(self.var)
+                    self.change_to = ''
+                    self.output += self.var
+                    self.var = ''
 
-            elif s == ':':
-                past_semicolon = True
-                next = False
-                # handle var so turn var handling into a function
-                # print('done')
-                var = self.var_handle(var)
-            
-                continue
+                    logging.info('adding var to output')
+                    
+                   
+                elif (self.string[self.i] == ':' or self.string[self.i] == '!') and self.var_handling == True:
+                    self.phase_change('after f_string')
+                    self.i += 1
+                    info()
+                    logging.info('changing to after f_string parsing')
+                   
+                else:
+                    self.var += self.string[self.i]
+                    logging.info('adding to var'+self.string[self.i] +' with var handling')
+                    self.i += 1  
+                    info()
+                   
 
-            elif s == '}':
-                next = False
+            elif self.current_phase == 'after f_string':
+                if self.string[self.i] == '}':
+                    self.phase_change('f_string')
 
-                if past_semicolon == True:
-                    past_semicolon = False
+                    info()
 
-                    if semicolon_value:
+                    self.var_handling = True
+                    logging.info('changing to f_string parsing')
+                    continue
+                if self.string[self.i-1 ] + self.string[self.i] == '!s':                       
+                    self.i += 1
+                elif self.string[self.i-1 ] + self.string[self.i] == '!r':
+                    self.change_to = 'r'
+                    self.i += 1
 
-                        if semicolon_value[0] in ['<', '>']:
+                
+                elif self.string[self.i-1 ] + self.string[self.i] == '!a':
+                    self.change_to = 'a'
+                    self.i += 1
 
-                            if semicolon_value[0] == '<':
-                                semicolon_value = semicolon_value.strip('< ')
-                                space = ' ' * (len(var) - int(semicolon_value))
-                                print(len(space))
-                                var = var + space
+                    info()
 
-                            elif semicolon_value[0] == '>':
-                                semicolon_value = semicolon_value.strip('> ')
-                            
-                                space = ' ' * (len(var) - int(semicolon_value))
-                                print(len(space))
-                                var =  space + var
+                else:
+                    if self.string[self.i] in ['<','>']:
+                        pass
+                    self.dummy_var += self.string[self.i]
+                    self.i += 1
 
-                elif past_semicolon == False:
-                    var = self.var_handle(var)
+                    info()
+                    logging.info('handling padding')
+        logging.info('Done')
+        return self.output
+        
 
-                output += var
-            
-                var = ''
-                semicolon_value = ''
-
-            elif next == True:
-                var += s
-            
-            if past_semicolon == True:
-                semicolon_value += s
-
-        # handle padding
-
-        return output
 
     def __repr__(self) -> str:
-        return self.change_to_fstring()
+        return '\'' + self.f_string_parse() + '\''
     def __str__(self) -> str:
-        return self.change_to_fstring()
+        return self.f_string_parse()
 
 def main() -> None:
     global hello, world
     hello = "Hello,"
     world = "wo" 
-    # string = '{hello} {world:<8}hiyyy'
-    # string1 = f'{hello} {world:<13}hiyyy'
-
-
-    string = f('{hello} {world:>5}hiyyy')
-    string1 = f'{hello} {world:>5}hiyyy'
-
-    
-    print(len(string))
-    print(string)
-    print(string)
-    print(len(string1))
-    print(string1)
+    string = f('{hello!a} {world}hiyyy')
+    string1 = f'{hello!a} {world}hiyyy'
+    tests = []
+    tests.append('len of fake f_string ' + str(len(string)))
+    # need to work on calling f_string.f from another variable
+    tests.append('fake f_string ' + f(string))
+    tests.append('len of real f_string ' + str(len(string1)))
+    tests.append('real f_string ' + string1)
+    boxify(tests)
     # need to fix type
-    # print(type(string)) 
-    # print(type(f'{"hello"}'))
 
 
 if __name__ == '__main__':
