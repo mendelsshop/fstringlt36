@@ -31,9 +31,10 @@ class f(str):
             var = eval(var)
 
         except SyntaxError:
-            print('error: variable')
-            pass
- 
+            logging.error('error: variable')
+        except NameError:
+            logging.error('error: variable name not found')
+            return 'error: variable name not found'
         return var
     def f_string_parse(self) -> str:
         self.current_phase = 'parsing'
@@ -148,7 +149,7 @@ def main() -> None:
     global hello, world
     hello = "Hello,"
     world = "wo" 
-    string = f('{hello} {world}hiyyy')
+    string = f('{hell} {world}hiyyy')
     string1 = f'{hello} {world}hiyyy'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
