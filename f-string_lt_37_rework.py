@@ -42,6 +42,7 @@ class f(str):
         self.output = ''
         self.var_handling = True
         self.var = ''
+        self.change_to = ''
         self.dummy_var = ''
 
         def info():
@@ -93,26 +94,32 @@ class f(str):
                     logging.info('stop adding to var with var handling')
                    
                 elif self.string[self.i] == '}' and self.var_handling == True:
+                    print('var: ' + self.var)
+                    print('done')
                     self.phase_change('parsing')
                     if self.var[0] in ['\'','\"']:
                         self.var = self.var.strip('\"\'')
                     else:
                         self.var = self.var_handle(self.var)
-                    if len(self.string) > self.i:
-                        self.i += 1
-                        self.output += self.var
-                        self.var = ''
-                    else:
-                        self.output += self.var
-                        self.var = ''
-                        self.i += 1
+                    self.i += 1
+                    if self.change_to in ['r','a']:
+                        if self.change_to == 'r':
+                            self.var = repr(self.var)
+                        elif self.change_to == 'a':
+                            # return ascci of var
+                            self.var = ascii(self.var)
+                    self.change_to = ''
+                    self.output += self.var
+                    self.var = ''
+
                     logging.info('adding var to output')
                     
                    
-                elif self.string[self.i] == ':' and self.var_handling == True:
+                elif (self.string[self.i] == ':' or self.string[self.i] == '!') and self.var_handling == True:
                     self.phase_change('after f_string')
                     self.i += 1
                     info()
+                    print('changing to after f_string')
                     logging.info('changing to after f_string parsing')
                    
                 else:
@@ -125,8 +132,24 @@ class f(str):
             elif self.current_phase == 'after f_string':
                 if self.string[self.i] == '}':
                     self.phase_change('f_string')
+                    print('changing to f_string parsing')
+                    print(self.var)
                     info()
                     logging.info('changing to f_string parsing')
+                if self.string[self.i-1 ] + self.string[self.i] == '!s':                       
+                    self.i += 1
+                elif self.string[self.i-1 ] + self.string[self.i] == '!r':
+                    print('changing to r')
+                    self.change_to = 'r'
+                    self.i += 1
+                
+                elif self.string[self.i-1 ] + self.string[self.i] == '!a':
+                    print('changing to a')
+                    self.change_to = 'a'
+                    self.i += 1
+
+                    info()
+                    logging.info('changing to after f_string parsing')
                 else:
                     if self.string[self.i] in ['<','>']:
                         pass
@@ -149,8 +172,8 @@ def main() -> None:
     global hello, world
     hello = "Hello,"
     world = "wo" 
-    string = f('{hell} {world}hiyyy')
-    string1 = f'{hello} {world}hiyyy'
+    string = f('{hello!a} {world}hiyyy')
+    string1 = f'{hello!a} {world}hiyyy'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     # need to work on calling f_string.f from another variable
