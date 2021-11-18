@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import logging
 logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 # fix spagghetti code in f class 
