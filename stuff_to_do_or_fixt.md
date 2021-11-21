@@ -30,6 +30,8 @@ print(f('{hello()}')) = hello
 
 be able to index into a list or dictionary
 
+use is instead of == for true/false ifs
+
 and more 
 
 https://www.python.org/dev/peps/pep-0498/ for more on f-strings
