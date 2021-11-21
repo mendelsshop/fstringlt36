@@ -10,7 +10,7 @@ create functions to do basic stuff
 
 % fomatting for stuff like dates
 
-"# fomatting"
+\# fomatting
 
 . fomatting for presicion
 

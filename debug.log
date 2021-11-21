@@ -1,0 +1,138 @@
+INFO:root:Started
+INFO:root:================================================================
+INFO:root:changing to f_string
+INFO:root:current phase: f_string
+INFO:root:current substring: h
+INFO:root:var handling: True
+INFO:root:changing to f_string parsing
+INFO:root:================================================================
+INFO:root:adding to varh with var handling
+INFO:root:current phase: f_string
+INFO:root:current substring: e
+INFO:root:var: h
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:adding to vare with var handling
+INFO:root:current phase: f_string
+INFO:root:current substring: l
+INFO:root:var: he
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:adding to varl with var handling
+INFO:root:current phase: f_string
+INFO:root:current substring: l
+INFO:root:var: hel
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:adding to varl with var handling
+INFO:root:current phase: f_string
+INFO:root:current substring: o
+INFO:root:var: hell
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:adding to varo with var handling
+INFO:root:current phase: f_string
+INFO:root:current substring: !
+INFO:root:var: hello
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:changing to after f_string
+INFO:root:current phase: after f_string
+INFO:root:current substring: a
+INFO:root:var: hello
+INFO:root:var handling: True
+INFO:root:changing to after f_string parsing
+INFO:root:================================================================
+INFO:root:current phase: after f_string
+INFO:root:current substring: }
+INFO:root:var: hello
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:changing to f_string
+INFO:root:current phase: f_string
+INFO:root:current substring: }
+INFO:root:var: hello
+INFO:root:var handling: True
+INFO:root:changing to f_string parsing
+INFO:root:================================================================
+INFO:root:changing to parsing
+INFO:root:adding var to output
+INFO:root:================================================================
+INFO:root:current phase: parsing
+INFO:root:current substring: {
+INFO:root:output: 'Hello,' 
+INFO:root:var handling: True
+INFO:root:adding to output
+INFO:root:================================================================
+INFO:root:changing to f_string
+INFO:root:current phase: f_string
+INFO:root:current substring: w
+INFO:root:output: 'Hello,' 
+INFO:root:var handling: True
+INFO:root:changing to f_string parsing
+INFO:root:================================================================
+INFO:root:adding to varw with var handling
+INFO:root:current phase: f_string
+INFO:root:current substring: o
+INFO:root:var: w
+INFO:root:output: 'Hello,' 
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:adding to varo with var handling
+INFO:root:current phase: f_string
+INFO:root:current substring: r
+INFO:root:var: wo
+INFO:root:output: 'Hello,' 
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:adding to varr with var handling
+INFO:root:current phase: f_string
+INFO:root:current substring: l
+INFO:root:var: wor
+INFO:root:output: 'Hello,' 
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:adding to varl with var handling
+INFO:root:current phase: f_string
+INFO:root:current substring: d
+INFO:root:var: worl
+INFO:root:output: 'Hello,' 
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:adding to vard with var handling
+INFO:root:current phase: f_string
+INFO:root:current substring: }
+INFO:root:var: world
+INFO:root:output: 'Hello,' 
+INFO:root:var handling: True
+INFO:root:================================================================
+INFO:root:changing to parsing
+INFO:root:adding var to output
+INFO:root:================================================================
+INFO:root:current phase: parsing
+INFO:root:current substring: i
+INFO:root:output: 'Hello,' woh
+INFO:root:var handling: True
+INFO:root:adding to output
+INFO:root:================================================================
+INFO:root:current phase: parsing
+INFO:root:current substring: y
+INFO:root:output: 'Hello,' wohi
+INFO:root:var handling: True
+INFO:root:adding to output
+INFO:root:================================================================
+INFO:root:current phase: parsing
+INFO:root:current substring: y
+INFO:root:output: 'Hello,' wohiy
+INFO:root:var handling: True
+INFO:root:adding to output
+INFO:root:================================================================
+INFO:root:current phase: parsing
+INFO:root:current substring: y
+INFO:root:output: 'Hello,' wohiyy
+INFO:root:var handling: True
+INFO:root:adding to output
+INFO:root:================================================================
+INFO:root:adding to output
+INFO:root:Done
+INFO:root:Started
