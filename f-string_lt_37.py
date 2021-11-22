@@ -3,6 +3,14 @@ import logging
 logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 # fix spagghetti code in f class 
 def boxify(list):
+    '''
+    the boxify function is just way to test results in a nice boxify function
+    first we find the larggest string in the list given to the boxify function
+    then we print a hash/number sign times longest string + 4
+    then we go through each iem in the list and print a hash/number sign than using the str.center() method we center the current string by the largest string
+    followed by another hash/number sign
+    than we again do the hash/number sign times longest string + 4
+    '''
     # find larggest string in list
     larggest_string = len(max(list, key=len))
     print('#' *(larggest_string+4))
@@ -11,7 +19,6 @@ def boxify(list):
         print('#',item.center(larggest_string), '#')
     print('#' *(larggest_string+4))
     
-        
 
 class f(str):
     def __init__(self, string) -> None:
@@ -19,12 +26,15 @@ class f(str):
         self.version = '0.0.2-alpha'
         logging.info('Started')
 
-        
     def phase_change(self, phase) -> None:
+        '''
+        this method if for changing the phase of the f class parsing
+        the reason that it's in a method is because its easier to log/print in one place
+        '''
         self.current_phase = phase
-
         logging.info('changing to ' + phase)
-        return None
+        return 
+        
     def var_handle(self,var) -> str:
         # need to work on gloabal and local variables handling
         try:
