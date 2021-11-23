@@ -24,6 +24,14 @@ class f(str):
     def __init__(self, string) -> None:
         self.string = string
         self.version = '0.0.2-alpha'
+        self.current_phase = 'parsing'
+        self.i = 0
+        self.output = ''
+        self.var_handling = True
+        self.var = ''
+        self.change_to = ''
+        self.dummy_var = ''
+        self.is_in_lt_or_gt = False
         logging.info('Started')
 
     def phase_change(self, phase) -> None:
@@ -33,8 +41,29 @@ class f(str):
         '''
         self.current_phase = phase
         logging.info('changing to ' + phase)
-        return 
-        
+        return None
+
+    def info(self) -> None:
+        try:
+            self.string[self.i]
+        except IndexError:
+            return False
+        # logging.info('f string parser version: ' + self.version)
+        if self.current_phase:
+            logging.info('current phase: ' + self.current_phase)
+
+        if self.string[self.i]:
+            logging.info('current substring: ' + self.string[self.i])
+            
+        if self.var:
+            logging.info('var: ' + self.var)
+            
+        if self.output:
+            logging.info('output: ' + self.output)
+        logging.info('var handling: ' + str(self.var_handling))
+        # logging.info('dummy_var', self.dummy_var)
+        return None        
+
     def var_handle(self,var) -> str:
         # need to work on gloabal and local variables handling
         try:
@@ -47,33 +76,8 @@ class f(str):
             logging.error('error: variable name not found')
             return 'error: variable name not found'
         return var
+
     def f_string_parse(self) -> str:
-        self.current_phase = 'parsing'
-        self.i = 0
-        self.output = ''
-        self.var_handling = True
-        self.var = ''
-        self.change_to = ''
-        self.dummy_var = ''
-
-        def info():
-            try:
-                self.string[self.i]
-            except IndexError:
-                return False
-            # logging.info('f string parser version: ' + self.version)
-            if self.current_phase:
-                logging.info('current phase: ' + self.current_phase)
-            if self.string[self.i]:
-                logging.info('current substring: ' + self.string[self.i])
-            if self.var:
-                logging.info('var: ' + self.var)
-            if self.output:
-                logging.info('output: ' + self.output)
-            logging.info('var handling: ' + str(self.var_handling))
-            # logging.info('dummy_var', self.dummy_var)
-            return None        
-
         while len(self.string) > self.i:
             logging.info('================================================================')
             # for self.i in range(len(self.string)):       
@@ -81,13 +85,13 @@ class f(str):
                 if self.string[self.i] == '{':
                     self.phase_change('f_string')
                     self.i += 1
-                    info()
+                    self.info()
                     logging.info('changing to f_string parsing')
                       
                 else:
                     self.output += self.string[self.i]
                     self.i += 1
-                    info()
+                    self.info()
                     logging.info('adding to output')
                    
             elif self.current_phase == 'f_string':
@@ -95,77 +99,74 @@ class f(str):
                     self.var_handling = False
                     self.var += self.string[self.i]
                     self.i += 1
-                    info()
+                    self.info()
                     logging.info('adding to var without var handling')
                    
                 elif self.string[self.i] in ['\'','\"'] and self.var_handling == False:
                     self.var_handling = True
                     self.i += 1
-                    info()
+                    self.info()
                     logging.info('stop adding to var with var handling')
                    
                 elif self.string[self.i] == '}' and self.var_handling == True:
                     self.phase_change('parsing')
                     if self.var[0] in ['\'','\"']:
                         self.var = self.var.strip('\"\'')
+
                     else:
                         self.var = self.var_handle(self.var)
                     self.i += 1
                     if self.change_to in ['r','a']:
                         if self.change_to == 'r':
                             self.var = repr(self.var)
+
                         elif self.change_to == 'a':
                             # return ascci of var
                             self.var = ascii(self.var)
                     self.change_to = ''
                     self.output += self.var
                     self.var = ''
-
                     logging.info('adding var to output')
-                    
                    
                 elif (self.string[self.i] == ':' or self.string[self.i] == '!') and self.var_handling == True:
                     self.phase_change('after f_string')
                     self.i += 1
-                    info()
+                    self.info()
                     logging.info('changing to after f_string parsing')
                    
                 else:
                     self.var += self.string[self.i]
                     logging.info('adding to var'+self.string[self.i] +' with var handling')
                     self.i += 1  
-                    info()
+                    self.info()
                    
-
             elif self.current_phase == 'after f_string':
                 if self.string[self.i] == '}':
                     self.phase_change('f_string')
-
-                    info()
-
+                    self.info()
                     self.var_handling = True
                     logging.info('changing to f_string parsing')
                     continue
+
                 if self.string[self.i-1 ] + self.string[self.i] == '!s':                       
                     self.i += 1
+
                 elif self.string[self.i-1 ] + self.string[self.i] == '!r':
                     self.change_to = 'r'
                     self.i += 1
-
                 
                 elif self.string[self.i-1 ] + self.string[self.i] == '!a':
                     self.change_to = 'a'
                     self.i += 1
-
-                    info()
+                    self.info()
 
                 else:
                     if self.string[self.i] in ['<','>']:
-                        pass
+                        self.is_in_lt_or_gt = True
+
                     self.dummy_var += self.string[self.i]
                     self.i += 1
-
-                    info()
+                    self.info()
                     logging.info('handling padding')
         logging.info('Done')
         return self.output
