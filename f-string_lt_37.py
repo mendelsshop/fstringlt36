@@ -64,18 +64,18 @@ class f(str):
         # logging.info('dummy_var', self.dummy_var)
         return None        
 
-    def var_handle(self,var) -> str:
+    def var_handle(self) -> None or str:
         # need to work on gloabal and local variables handling
         try:
             exec('global var')
-            var = eval(var)
+            self.var = eval(self.var)
         except SyntaxError:
             logging.error('error: variable')
             return 'error: variable'
         except NameError:
             logging.error('error: variable name not found')
             return 'error: variable name not found'
-        return var
+        return 
 
     def f_string_parse(self) -> str:
         while len(self.string) > self.i:
@@ -95,26 +95,26 @@ class f(str):
                     logging.info('adding to output')
                    
             elif self.current_phase == 'f_string':
-                if self.string[self.i] in  ['\"','\''] and self.var_handling == True: 
+                if self.string[self.i] in  ['\"','\''] and self.var_handling is True: 
                     self.var_handling = False
                     self.var += self.string[self.i]
                     self.i += 1
                     self.info()
                     logging.info('adding to var without var handling')
                    
-                elif self.string[self.i] in ['\'','\"'] and self.var_handling == False:
+                elif self.string[self.i] in ['\'','\"'] and self.var_handling is False:
                     self.var_handling = True
                     self.i += 1
                     self.info()
                     logging.info('stop adding to var with var handling')
                    
-                elif self.string[self.i] == '}' and self.var_handling == True:
+                elif self.string[self.i] == '}' and self.var_handling is True:
                     self.phase_change('parsing')
                     if self.var[0] in ['\'','\"']:
                         self.var = self.var.strip('\"\'')
 
                     else:
-                        self.var = self.var_handle(self.var)
+                        self.var_handle()
                     self.i += 1
                     if self.change_to in ['r','a']:
                         if self.change_to == 'r':
@@ -128,7 +128,7 @@ class f(str):
                     self.var = ''
                     logging.info('adding var to output')
                    
-                elif (self.string[self.i] == ':' or self.string[self.i] == '!') and self.var_handling == True:
+                elif (self.string[self.i] == ':' or self.string[self.i] == '!') and self.var_handling is True:
                     self.phase_change('after f_string')
                     self.i += 1
                     self.info()
