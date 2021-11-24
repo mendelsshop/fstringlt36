@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import logging
+#should probably do a better job for logging
 logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 # fix spagghetti code in f class 
 def boxify(list):
@@ -22,6 +23,7 @@ def boxify(list):
 
 class f(str):
     def __init__(self, string) -> None:
+        # dummy_var is just for catching whatever doesnt work so far like {{}}
         self.string = string
         self.version = '0.0.2-alpha'
         self.current_phase = 'parsing'
@@ -32,6 +34,7 @@ class f(str):
         self.change_to = ''
         self.dummy_var = ''
         self.is_in_lt_or_gt = False
+        self.should_be_padding = False
         logging.info('Started')
 
     def phase_change(self, phase) -> None:
@@ -129,6 +132,7 @@ class f(str):
                     logging.info('adding var to output')
                    
                 elif (self.string[self.i] == ':' or self.string[self.i] == '!') and self.var_handling is True:
+                    # probably shouldn't need to go after f_string parsing if ! and just do it here
                     self.phase_change('after f_string')
                     self.i += 1
                     self.info()
@@ -160,23 +164,27 @@ class f(str):
                     self.i += 1
                     self.info()
 
-                else:
-                    if self.string[self.i] in ['<','>']:
-                        self.is_in_lt_or_gt = True
+                if self.string[self.i] in ['<','>']:
+                    self.is_in_lt_or_gt = True
+                    if self.string[self.i] == '<':
+                        self.should_be_padding = 'left aligned'
 
+                    elif self.string[self.i] == '>':
+                        self.should_be_padding = 'right aligned'
+                    self.i += 1
+                else:
                     self.dummy_var += self.string[self.i]
                     self.i += 1
                     self.info()
                     logging.info('handling padding')
         logging.info('Done')
         return self.output
-        
-
 
     def __repr__(self) -> str:
         return '\'' + self.f_string_parse() + '\''
     def __str__(self) -> str:
         return self.f_string_parse()
+
 
 def main() -> None:
     global hello, world
