@@ -63,22 +63,27 @@ class f(str):
             
         if self.output:
             logging.info('output: ' + self.output)
-        logging.info('var handling: ' + str(self.var_handling))
+
+        if self.dummy_var:
+            logging.info('dummy_var: ' + self.dummy_var)
+        # logging.info('var handling: ' + str(self.var_handling))
         # logging.info('dummy_var', self.dummy_var)
         return None        
 
-    def var_handle(self) -> None or str:
+    def var_handle(self) -> None:
         # need to work on gloabal and local variables handling
         try:
-            exec('global var')
+            try:
+                exec('global var')
+            except:
+                logging.info('global var not defined')
             self.var = eval(self.var)
-        except SyntaxError:
-            logging.error('error: variable')
-            return 'error: variable'
         except NameError:
             logging.error('error: variable name not found')
-            return 'error: variable name not found'
-        return 
+            self.var = 'error: variable name not found'
+        except SyntaxError:
+            logging.error('error: variable')
+            self.var = 'error: variable'
 
     def f_string_parse(self) -> str:
         while len(self.string) > self.i:
@@ -129,6 +134,12 @@ class f(str):
                     self.change_to = ''
                     self.output += self.var
                     self.var = ''
+                    self.dummy_var = ''
+                    self.is_in_lt_or_gt = False
+                    self.should_be_padding = False
+                    self.current_phase = 'parsing'
+                    self.var_handling = True
+
                     logging.info('adding var to output')
                    
                 elif (self.string[self.i] == ':' or self.string[self.i] == '!') and self.var_handling is True:
@@ -140,7 +151,7 @@ class f(str):
                    
                 else:
                     self.var += self.string[self.i]
-                    logging.info('adding to var'+self.string[self.i] +' with var handling')
+                    logging.info('adding to var '+self.string[self.i] +' with var handling')
                     self.i += 1  
                     self.info()
                    
@@ -152,26 +163,29 @@ class f(str):
                     logging.info('changing to f_string parsing')
                     continue
 
-                if self.string[self.i-1 ] + self.string[self.i] == '!s':                       
+                elif self.string[self.i-1 ] + self.string[self.i] == '!s':                       
                     self.i += 1
+                    self.info()
 
                 elif self.string[self.i-1 ] + self.string[self.i] == '!r':
                     self.change_to = 'r'
                     self.i += 1
+                    self.info()
                 
                 elif self.string[self.i-1 ] + self.string[self.i] == '!a':
                     self.change_to = 'a'
                     self.i += 1
                     self.info()
 
-                if self.string[self.i] in ['<','>']:
+                elif self.string[self.i] in ['<','>']:
                     self.is_in_lt_or_gt = True
                     if self.string[self.i] == '<':
                         self.should_be_padding = 'left aligned'
-
+                    
                     elif self.string[self.i] == '>':
                         self.should_be_padding = 'right aligned'
                     self.i += 1
+                    self.info()
                 else:
                     self.dummy_var += self.string[self.i]
                     self.i += 1
@@ -190,8 +204,9 @@ def main() -> None:
     global hello, world
     hello = "Hello,"
     world = "wo" 
-    string = f('{hello!a} {world}hiyyy')
-    string1 = f'{hello!a} {world}hiyyy'
+    world = {'a':'b','c':'d'} 
+    string = f("{hello!a} {world['a']}hiyyy")
+    string1 = f'{hello!a} {world["a"]}hiyyy'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     # need to work on calling f_string.f from another variable
