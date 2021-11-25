@@ -150,6 +150,7 @@ class f(str):
                     logging.info('changing to after f_string parsing')
                    
                 else:
+                    # need to work on '/" for dictionary keys beause it not adding the end quote
                     self.var += self.string[self.i]
                     logging.info('adding to var '+self.string[self.i] +' with var handling')
                     self.i += 1  
