@@ -4,6 +4,7 @@ import logging
 #should probably do a better job for logging
 logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 # fix spagghetti code in f class 
+
 def boxify(list):
     '''
     the boxify function is just way to test results in a nice boxify function
@@ -23,8 +24,9 @@ def boxify(list):
     
 
 class f(str):
+
     def __init__(self, string) -> None:
-        # dummy_var is just for catching whatever doesnt work so far like {{}}
+        # dummy_var is just for catching whatever doesnt work so far like padding
         self.string = string
         self.version = '0.0.3-alpha'
         self.current_phase = 'parsing'
@@ -119,6 +121,7 @@ class f(str):
                     self.i += 1
                     self.info()
                     logging.info('stop adding to var with var handling')
+
                 elif self.string[self.i] == '{':
                     self.amount_of_curly_braces += 1
                     self.i += 1
@@ -208,6 +211,7 @@ class f(str):
                         self.should_be_padding = 'right aligned'
                     self.i += 1
                     self.info()
+
                 else:
                     self.dummy_var += self.string[self.i]
                     self.i += 1
@@ -215,8 +219,12 @@ class f(str):
                     logging.info('handling padding')
         logging.info('Done')
         return self.output
+
     def curly_bracealize(self,string) -> str:
-        return ((self.amount_of_curly_braces) * '{') + string + ((self.amount_of_curly_braces) * '}')
+        '''
+        returns string encapsulated in {}
+        '''
+        return (self.amount_of_curly_braces * '{') + string + (self.amount_of_curly_braces * '}')
 
     def __repr__(self) -> str:
         return '\'' + self.f_string_parse() + '\''
