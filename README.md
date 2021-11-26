@@ -9,8 +9,8 @@ So it should be able to install on any Python version.
 Although it's not been tested if thats true because it's not working yet.
 <br>
 ## Features currently working:
-!a and !r are curently working.
-<br>
+### !a and !r  for assci() and repr().
+
 ```
 import fstring_lt_37.f
 
@@ -28,7 +28,9 @@ print(f('!r =  {h!r}'))
 
 # result of !r =  'hello' 
 ```
-using multiple curly/sciggly braces to output 1 or more curly/sciggly braces now works
+<br>
+
+### Multiple curly/sciggly braces to output 1 or more curly/sciggly braces now works.
 ```
 import fstring_lt_37.f
 
