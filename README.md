@@ -2,6 +2,8 @@
 ## About: 
 Python f-strings for before Python 3.7.
 <br>
+This package should try to emulate all f-string features <br >by using a class that inherits from str.
+<br>
 This package shouldn't require any other packages.
 <br>
 So it should be able to install on any Python version.
@@ -36,13 +38,19 @@ import fstring_lt_37.f
 
 h = 'hello'
 
-# from what I tested so far in Python3.9.9
-# you need to use add 2 more {{ not just one 
-# but if not the case its very easy to fix
-
-print(f('{{{h}}'))
+# using negative amounts of {} 
+# results in evaluating whats in the {}
+print(f('{{{h}}}'))
 
 # result = {hello}
+
+# using posotive amounts of {} 
+# results in not  evaluating whats in the {}
+# so in the example below we end up with h 
+# because python does not evaluate the var
+print(f('{{h}}'))
+
+# result = {h}
 ```
 ## Version: 
 Version-Number: 0.0.3

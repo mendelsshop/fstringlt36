@@ -37,6 +37,7 @@ class f(str):
         self.is_in_lt_or_gt = False
         self.should_be_padding = False
         self.amount_of_curly_braces = 0
+        self.unhandled_var = ''
         logging.info('Started')
 
     def phase_change(self, phase) -> None:
@@ -126,9 +127,12 @@ class f(str):
                     self.phase_change('parsing')
                     if self.var[0] in ['\'','\"']:
                         self.var = self.var.strip('\"\'')
-
+                        self.unhandled_var = self.var
+                
                     else:
+                        self.unhandled_var = self.var
                         self.var_handle()
+
                     self.i += 1
                     if self.change_to in ['r','a']:
                         if self.change_to == 'r':
@@ -137,9 +141,17 @@ class f(str):
                         elif self.change_to == 'a':
                             # return ascci of var
                             self.var = ascii(self.var)
-                    if self.amount_of_curly_braces > 1:
-                        self.var = self.curly_bracealize(self.var)
-                        self.i += self.amount_of_curly_braces 
+                            
+                    if self.amount_of_curly_braces > 0:
+                        if self.amount_of_curly_braces % 2 == 0:
+                            self.amount_of_curly_braces -= 1
+                            self.var = self.curly_bracealize(self.var)
+                            self.i += (self.amount_of_curly_braces + 1)
+                        
+                        else:
+                            self.var = self.curly_bracealize(self.unhandled_var)
+                            self.i += self.amount_of_curly_braces 
+
                     self.change_to = ''
                     self.output += self.var
                     self.var = ''
@@ -204,7 +216,7 @@ class f(str):
         logging.info('Done')
         return self.output
     def curly_bracealize(self,string) -> str:
-        return ((self.amount_of_curly_braces-1) * '{') + string + ((self.amount_of_curly_braces-1) * '}')
+        return ((self.amount_of_curly_braces) * '{') + string + ((self.amount_of_curly_braces) * '}')
 
     def __repr__(self) -> str:
         return '\'' + self.f_string_parse() + '\''
@@ -218,8 +230,8 @@ def main() -> None:
     hello = "Hello,"
     world = "wo" 
     world = ['5','4','5']
-    string = f("{{{hello!a}}} {world[1]}hiyyy")
-    string1 = f'{{{hello!a}}} {world[1]}hiyyy'
+    string = f("{{hello}} {{world[1]}}hiyyy")
+    string1 = f'{{hello}} {{world[1]}}hiyyy'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     # need to work on calling f_string.f from another variable
@@ -227,8 +239,6 @@ def main() -> None:
     tests.append('len of real f_string ' + str(len(string1)))
     tests.append('real f_string ' + string1)
     boxify(tests)
-    # z= f.curly_bracealize()
-    # print(z)
     # need to fix type
 
 
