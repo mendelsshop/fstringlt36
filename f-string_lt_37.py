@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from ensurepip import version
 import logging
 #should probably do a better job for logging
 logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
@@ -25,7 +26,7 @@ class f(str):
     def __init__(self, string) -> None:
         # dummy_var is just for catching whatever doesnt work so far like {{}}
         self.string = string
-        self.version = '0.0.2-alpha'
+        self.version = '0.0.3-alpha'
         self.current_phase = 'parsing'
         self.i = 0
         self.output = ''
@@ -35,6 +36,7 @@ class f(str):
         self.dummy_var = ''
         self.is_in_lt_or_gt = False
         self.should_be_padding = False
+        self.amount_of_curly_braces = 0
         logging.info('Started')
 
     def phase_change(self, phase) -> None:
@@ -52,6 +54,7 @@ class f(str):
         except IndexError:
             return False
         # logging.info('f string parser version: ' + self.version)
+        logging.info('version: ' + self.version)
         if self.current_phase:
             logging.info('current phase: ' + self.current_phase)
 
@@ -115,6 +118,9 @@ class f(str):
                     self.i += 1
                     self.info()
                     logging.info('stop adding to var with var handling')
+                elif self.string[self.i] == '{':
+                    self.amount_of_curly_braces += 1
+                    self.i += 1
                    
                 elif self.string[self.i] == '}' and self.var_handling is True:
                     self.phase_change('parsing')
@@ -131,6 +137,9 @@ class f(str):
                         elif self.change_to == 'a':
                             # return ascci of var
                             self.var = ascii(self.var)
+                    if self.amount_of_curly_braces > 1:
+                        self.var = self.curly_bracealize(self.var)
+                        self.i += self.amount_of_curly_braces 
                     self.change_to = ''
                     self.output += self.var
                     self.var = ''
@@ -139,7 +148,7 @@ class f(str):
                     self.should_be_padding = False
                     self.current_phase = 'parsing'
                     self.var_handling = True
-
+                    self.amount_of_curly_braces = 0
                     logging.info('adding var to output')
                    
                 elif (self.string[self.i] == ':' or self.string[self.i] == '!') and self.var_handling is True:
@@ -194,9 +203,12 @@ class f(str):
                     logging.info('handling padding')
         logging.info('Done')
         return self.output
+    def curly_bracealize(self,string) -> str:
+        return ((self.amount_of_curly_braces-1) * '{') + string + ((self.amount_of_curly_braces-1) * '}')
 
     def __repr__(self) -> str:
         return '\'' + self.f_string_parse() + '\''
+
     def __str__(self) -> str:
         return self.f_string_parse()
 
@@ -205,9 +217,9 @@ def main() -> None:
     global hello, world
     hello = "Hello,"
     world = "wo" 
-    world = {'a':'b','c':'d'} 
-    string = f("{hello!a} {world['a']}hiyyy")
-    string1 = f'{hello!a} {world["a"]}hiyyy'
+    world = ['5','4','5']
+    string = f("{{{hello!a}}} {world[1]}hiyyy")
+    string1 = f'{{{hello!a}}} {world[1]}hiyyy'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     # need to work on calling f_string.f from another variable
@@ -215,6 +227,8 @@ def main() -> None:
     tests.append('len of real f_string ' + str(len(string1)))
     tests.append('real f_string ' + string1)
     boxify(tests)
+    # z= f.curly_bracealize()
+    # print(z)
     # need to fix type
 
 
