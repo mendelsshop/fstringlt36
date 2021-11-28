@@ -2,7 +2,7 @@
 ## About: 
 Python f-strings for before Python 3.7.
 <br>
-This package should try to emulate all f-string features <br >by using a class that inherits from str.
+This package should try to emulate all f-string features <br>by using a class that inherits from str.
 <br>
 This package shouldn't require any other packages.
 <br>
@@ -30,8 +30,6 @@ print(f('!r =  {h!r}'))
 
 # result of !r =  'hello' 
 ```
-<br>
-
 ### Multiple curly/sciggly braces to output 1 or more curly/sciggly braces now works.
 ```
 import fstring_lt_37.f
@@ -53,7 +51,7 @@ print(f('{{h}}'))
 # result = {h}
 ```
 ## Version: 
-Version-Number: 0.0.3
+Version Number: 0.0.3
 <br>
-Version-Stage: alpha
+Version Stage: alpha
 
