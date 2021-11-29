@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from ensurepip import version
 import logging
-#should probably do a better job for logging
+# should probably do a better job for logging
 logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 # fix spagghetti code in f class 
 
@@ -54,9 +54,10 @@ class f(str):
     def info(self) -> None:
         try:
             self.string[self.i]
+
         except IndexError:
             return False
-        # logging.info('f string parser version: ' + self.version)
+        
         logging.info('version: ' + self.version)
         if self.current_phase:
             logging.info('current phase: ' + self.current_phase)
@@ -72,8 +73,10 @@ class f(str):
 
         if self.dummy_var:
             logging.info('dummy_var: ' + self.dummy_var)
-        # logging.info('var handling: ' + str(self.var_handling))
-        # logging.info('dummy_var', self.dummy_var)
+            
+        if self.var_handling:
+            logging.info('var handling: ' + str(self.var_handling))
+
         return None        
 
     def var_handle(self) -> None:
@@ -81,12 +84,16 @@ class f(str):
         try:
             try:
                 exec('global var')
+
             except:
                 logging.info('global var not defined')
+
             self.var = eval(self.var)
+
         except NameError:
             logging.error('error: variable name not found')
             self.var = 'error: variable name not found'
+
         except SyntaxError:
             logging.error('error: variable')
             self.var = 'error: variable'
@@ -209,6 +216,7 @@ class f(str):
                     
                     elif self.string[self.i] == '>':
                         self.should_be_padding = 'right aligned'
+
                     self.i += 1
                     self.info()
 
@@ -217,6 +225,7 @@ class f(str):
                     self.i += 1
                     self.info()
                     logging.info('handling padding')
+
         logging.info('Done')
         return self.output
 
@@ -234,6 +243,10 @@ class f(str):
 
 
 def main() -> None:
+    '''
+    just for visual testing
+    returns None
+    '''
     global hello, world
     hello = "Hello,"
     world = "wo" 
