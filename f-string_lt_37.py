@@ -52,6 +52,10 @@ class f(str):
         return None
 
     def info(self) -> None:
+        '''
+        this metod is for logging/printing info about the f class
+        while parsing the f string
+        '''
         try:
             self.string[self.i]
 
