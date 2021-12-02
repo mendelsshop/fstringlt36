@@ -40,6 +40,8 @@ class f(str):
         self.should_be_padding = False
         self.amount_of_curly_braces = 0
         self.unhandled_var = ''
+        self.list_or_dicthandling = False
+        self.list_or_dict_key = [1,None]
         logging.info('Started')
 
     def phase_change(self, phase) -> None:
@@ -80,6 +82,10 @@ class f(str):
             
         if self.var_handling:
             logging.info('var handling: ' + str(self.var_handling))
+        if self.list_or_dict_key[0]:
+            logging.info('list_or_dict_key[0]: ' + str(self.list_or_dict_key[0]))
+        if self.list_or_dict_key[1]:
+            logging.info('list_or_dict_key[1]: ' + str(self.list_or_dict_key[1]))
 
         return None        
 
@@ -120,14 +126,14 @@ class f(str):
                     logging.info('adding to output')
                    
             elif self.current_phase == 'f_string':
-                if self.string[self.i] in  ['\"','\''] and self.var_handling is True: 
+                if self.string[self.i] in  ['\"','\''] and self.var_handling is True and self.list_or_dicthandling is False: 
                     self.var_handling = False
                     self.var += self.string[self.i]
                     self.i += 1
                     self.info()
                     logging.info('adding to var without var handling')
                    
-                elif self.string[self.i] in ['\'','\"'] and self.var_handling is False:
+                elif self.string[self.i] in ['\'','\"'] and self.var_handling is False and self.list_or_dicthandling is False:
                     self.var_handling = True
                     self.i += 1
                     self.info()
@@ -175,6 +181,7 @@ class f(str):
                     self.current_phase = 'parsing'
                     self.var_handling = True
                     self.amount_of_curly_braces = 0
+                    self.list_or_dicthandling = False
                     logging.info('adding var to output')
                    
                 elif (self.string[self.i] == ':' or self.string[self.i] == '!') and self.var_handling is True:
@@ -186,10 +193,30 @@ class f(str):
                    
                 else:
                     # need to work on '/" for dictionary keys beause it not adding the end quote
-                    self.var += self.string[self.i]
-                    logging.info('adding to var '+self.string[self.i] +' with var handling')
-                    self.i += 1  
-                    self.info()
+                    if self.list_or_dict_key[0] == 1:
+                        self.var += self.string[self.i]
+                        self.list_or_dicthandling = True
+                        logging.info('adding to var '+self.string[self.i] +' with var handling---')
+                        self.i += 1  
+                        self.info()
+                        self.list_or_dict_key[0] = 2
+                        self.list_or_dict_key[1] = self.string[self.i]
+
+                    elif self.list_or_dict_key[0] == 2 and self.list_or_dict_key[1] == self.string[self.i]:
+                        self.var += self.string[self.i]
+                        print(self.var)
+                        self.list_or_dicthandling = True
+                        logging.info('adding to var '+self.string[self.i] +' with var handling-')
+                        self.i += 1  
+                        self.info()
+                        self.list_or_dict_key[0] == 0
+                        self.list_or_dict_key[1] = None
+
+                    else:
+                        self.var += self.string[self.i]
+                        self.i += 1
+                        self.info()
+                        logging.info('adding to var '+self.string[self.i] +' with var handling')
                    
             elif self.current_phase == 'after f_string':
                 if self.string[self.i] == '}':
@@ -254,9 +281,9 @@ def main() -> None:
     global hello, world
     hello = "Hello,"
     world = "wo" 
-    world = ['5','4','5']
-    string = f("{{hello}} {{world[1]}}hiyyy")
-    string1 = f'{{hello}} {{world[1]}}hiyyy'
+    world = {'1': 'world', '2': 'world3', '3': 'world5'}
+    string = f("{{hello}} {{{world['1']}}}hiyyy")
+    string1 = f'{{hello}} {{{world["1"]}}}hiyyy'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     # need to work on calling f_string.f from another variable
