@@ -241,7 +241,7 @@ class f(str):
         '''
         returns string encapsulated in {}
         '''
-        return (self.amount_of_curly_braces * '{') + string + (self.amount_of_curly_braces * '}')
+        return (self.amount_of_curly_braces * '{') + str(string) + (self.amount_of_curly_braces * '}')
 
     def __len__(self) -> int:
         return len(self.f_string_parse())
@@ -267,8 +267,8 @@ def main() -> None:
     world['tuple'] = (1,2,3,4,5)
     world['set'] = {1,2,3,4,5}
     world['function'] = lambda x: x**2
-    string = f("{{hello}} {world['list'][0]}hiyyy")
-    string1 = f'{{hello}} {world["list"][1]}hiyyy'
+    string = f("{{hello}} {{{world['list'][0]}}}hiyyy")
+    string1 = f'{{hello}} {{{world["list"][0]}}}hiyyy'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     # need to work on calling f_string.f from another variable
