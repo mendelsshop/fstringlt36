@@ -78,8 +78,7 @@ class f(str):
         if self.dummy_var:
             logging.info('dummy_var: ' + self.dummy_var)
             
-        if self.var_handling:
-            logging.info('var handling: ' + str(self.var_handling))
+        logging.info('var handling: ' + str(self.var_handling))
         
         logging.info('dict handling: ' + str(self.dict_handling))
 
@@ -136,13 +135,6 @@ class f(str):
                     self.info()
                     logging.info('stop adding to var with var handling')
 
-                # elif self.string[self.i] == ']' and self.dict_handling is True:
-                #     self.dict_handling = False
-                #     self.var += self.string[self.i]
-                #     self.phase_change('parsing')
-                #     self.i += 1
-                #     self.info()
-                #     logging.info('stop adding to var with dict handling')
                 elif self.string[self.i] == '{':
                     self.amount_of_curly_braces += 1
                     self.i += 1
@@ -177,7 +169,7 @@ class f(str):
                             self.i += self.amount_of_curly_braces 
 
                     self.change_to = ''
-                    self.output += self.var
+                    self.output += str(self.var)
                     self.var = ''
                     self.dummy_var = ''
                     self.is_in_lt_or_gt = False
@@ -196,7 +188,6 @@ class f(str):
                     logging.info('changing to after f_string parsing')
                    
                 else:
-                    # need to work on '/" for dictionary keys beause it not adding the end quote
                     if self.string[self.i] in ['\'','\"'] and self.string[self.i-1] == '[':
                         self.dict_handling = True
                         logging.info('dict handling')
@@ -234,7 +225,6 @@ class f(str):
                     
                     elif self.string[self.i] == '>':
                         self.should_be_padding = 'right aligned'
-
                     self.i += 1
                     self.info()
 
@@ -271,19 +261,13 @@ def main() -> None:
     global hello, world
     hello = "Hello,"
     world = "wo" 
-    # create a dictinary named world and stuff to wrld
     world = {'stuff':'to'}
-    # and thing to world dic
     world['thing'] = 'world'
-    # and a list
     world['list'] = [1,'hi',3,4,5]
-    # and a tuple
     world['tuple'] = (1,2,3,4,5)
-    # and a set
     world['set'] = {1,2,3,4,5}
-    # and a function
     world['function'] = lambda x: x**2
-    string = f("{{hello}} {world['list'][1]}hiyyy")
+    string = f("{{hello}} {world['list'][0]}hiyyy")
     string1 = f'{{hello}} {world["list"][1]}hiyyy'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
