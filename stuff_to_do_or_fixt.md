@@ -1,6 +1,6 @@
 make into pypi package 
 <br>
-use regex / re instead of if/elif/else
+use regex / re instead of if/elif/else https://docs.python.org/3/library/re.html
 <br>
 strucure python program properly 
 <br>
