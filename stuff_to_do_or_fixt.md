@@ -1,5 +1,7 @@
 make into pypi package 
 <br>
+use regex / re instead of if/elif/else
+<br>
 strucure python program properly 
 <br>
 write proper comments
