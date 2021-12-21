@@ -1,6 +1,6 @@
-# f-string_lt_37
+# f-string_lt_37 Regex Edition
 ## About: 
-Python f-strings for before Python 3.7.
+Python f-strings for before Python 3.7. using Regex
 <br>
 This package should try to emulate all f-string features <br>by using a class that inherits from str.
 <br>
