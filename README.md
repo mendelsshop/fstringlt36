@@ -15,7 +15,7 @@ Although it's not been tested if thats true because it's not working yet.
 ## Features currently working:
 ### None
 ## Version: 
-Version Number: 0.0.0
+Version Number: 0.0.1
 <br>
 Version Stage: alpha
 
