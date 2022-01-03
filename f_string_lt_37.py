@@ -5,6 +5,7 @@ logger = logging
 logger.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 
 # use regex \{.+\} to match {hello}
+# it looks like I will need to use the inspect library for turning strings into variables instead of the current var_handle
 class f(str):
 
     def __init__(self, string) -> None:
