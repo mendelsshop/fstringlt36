@@ -78,12 +78,12 @@ class f(str):
             self.var = eval(self.var)
 
         except NameError:
-            logger.error('error: variable name not found')
-            self.var = 'error: variable name not found'
+            logger.error('error: variable ' + self.var + ' not found')
+            self.var = '(error: variable ' + self.var + ' not found)'
 
         except SyntaxError:
-            logger.error('error: variable')
-            self.var = 'error: variable'
+            logger.error('error: variable SyntaxError')
+            self.var = 'error: variable SyntaxError'
 
     def f_string_parse(self) -> str:
         while len(self.string) > self.i:

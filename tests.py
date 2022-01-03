@@ -19,29 +19,30 @@ def boxify(list) -> None:
     print('#' *(larggest_string+4))
     
 
-def main() -> None:
+# def main() -> None:
     '''
     just for visual testing
     returns None
     '''
-    global hello, world
-    hello = "Hello,"
-    worlds = "wo" 
-    world = {'stuff':'to'}
-    world['thing'] = 'world'
-    world['list'] = [1,'hi',3,4,5]
-    world['tuple'] = (1,2,3,4,5)
-    world['set'] = {1,2,3,4,5}
-    world['function'] = lambda x: x**2
-    string = f("{{hello}} {{{world['list'][0]}}}hiyyy")
-    string1 = f'{{hello}} {{{world["list"][0]}}}hiyyy'
-    tests = []
-    tests.append('len of fake f_string ' + str(len(string)))
-    tests.append('fake f_string ' + f(string))
-    tests.append('len of real f_string ' + str(len(string1)))
-    tests.append('real f_string ' + string1)
-    boxify(tests)
+global hello, world
+hello = "Hello,"
+worlds = "wo" 
+world = {'stuff':'to'}
+world['thing'] = 'world'
+world['list'] = [1,'hi',3,4,5]
+world['tuple'] = (1,2,3,4,5)
+world['set'] = {1,2,3,4,5}
+world['function'] = lambda x: x**2
+string = f("{hello} {worlds}hiyyy")
+string1 = f'{hello} {worlds}hiyyy'
+tests = []
+tests.append('len of fake f_string ' + str(len(string)))
+tests.append('fake f_string ' + f(string))
+tests.append('len of real f_string ' + str(len(string1)))
+tests.append('real f_string ' + string1)
+print(string)
+boxify(tests)
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
