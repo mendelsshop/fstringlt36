@@ -17,10 +17,10 @@ class f(str):
         self.output = ''
         self.version = '0.0.1-alpha'
         logger.info('Started')
-    def var_to_string(self, string) -> str
+    def var_to_string(self, string) -> str:
         # i got this from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
         scope = inspect.stack()[1][0]
-        while name not in scope.f_locals:
+        while string not in scope.f_locals:
             scope = scope.f_back
             if scope is None:
                 scope = dict()
