@@ -17,35 +17,45 @@ class f(str):
         self.output = ''
         self.version = '0.0.1-alpha'
         logger.info('Started')
-    def var_to_string(self, string) -> str:
-        # i got this from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
+    def get_scope(string) -> dict:
+        '''
+        this function returns a dict of global variables if the string provided is in the global scope
+        or else it returns a dict of None
+        '''
         scope = inspect.stack()[1][0]
         while string not in scope.f_locals:
             scope = scope.f_back
             if scope is None:
-                scope = dict()
+                return dict()
+            return scope.f_locals
 
-        scope = scope.f_locals
+    def get_global_scope(string) -> dict:
+        '''
+        this function returns a dict of global variables if the string provided is in the global scope
+        or else it returns a dict of None
+        '''
+        scope = inspect.stack()[1][0]
+        while string not in scope.f_globals:
+            scope = scope.f_back
+            if scope is None:
+                return dict()
+            return scope.f_globals
 
-
-    def var_handle(self) -> None:
-        # need to work on gloabal and local variables handling
+    def var_to_string(self, string) -> str:
+        '''
+        this function takes a string and returns a string of the variable
+        it favors local variables over global variables
+        so it will only return a global variable if it is not defined in the local scope
+        '''
+        # i got this from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
         try:
-            try:
-                exec('global var')
-
-            except:
-                logger.info('global var not defined')
-
-            self.var = eval(self.var)
-
+            value = eval(string, None, self.get_scope(string))
         except NameError:
-            logger.error('error: variable name not found')
-            self.var = 'error: variable name not found'
-
-        except SyntaxError:
-            logger.error('error: variable')
-            self.var = 'error: variable'
+            try:
+                value = eval(string, None, self.get_global_scope(string))
+            except NameError: 
+                value = 'error: variable name not found'
+        return value
 
     def f_string_parse(self) -> str:
         logger.info('parsing starts')
