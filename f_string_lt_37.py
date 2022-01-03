@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
+import re
 import logging
+import inspect
+
 # should probably do a better job for logging
 logger = logging
 logger.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
@@ -14,6 +17,16 @@ class f(str):
         self.output = ''
         self.version = '0.0.1-alpha'
         logger.info('Started')
+    def var_to_string(self, string) -> str
+        # i got this from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
+        scope = inspect.stack()[1][0]
+        while name not in scope.f_locals:
+            scope = scope.f_back
+            if scope is None:
+                scope = dict()
+
+        scope = scope.f_locals
+
 
     def var_handle(self) -> None:
         # need to work on gloabal and local variables handling
