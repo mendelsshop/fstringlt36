@@ -4,6 +4,7 @@ import logging
 logger = logging
 logger.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 
+# use regex \{.+\} to match {hello}
 class f(str):
 
     def __init__(self, string) -> None:
