@@ -17,6 +17,7 @@ class f(str):
         self.output = ''
         self.version = '0.0.1-alpha'
         logger.info('Started')
+
     def get_scope(string) -> dict:
         '''
         this function returns a dict of global variables if the string provided is in the global scope
@@ -27,6 +28,7 @@ class f(str):
             scope = scope.f_back
             if scope is None:
                 return dict()
+                
             return scope.f_locals
 
     def get_global_scope(string) -> dict:
@@ -39,6 +41,7 @@ class f(str):
             scope = scope.f_back
             if scope is None:
                 return dict()
+
             return scope.f_globals
 
     def var_to_string(self, string) -> str:
@@ -50,11 +53,14 @@ class f(str):
         # i got this from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
         try:
             value = eval(string, None, self.get_scope(string))
+
         except NameError:
             try:
                 value = eval(string, None, self.get_global_scope(string))
+
             except NameError: 
                 value = 'error: variable name not found'
+
         return value
 
     def f_string_parse(self) -> str:
