@@ -8,21 +8,26 @@ logger = logging
 logger.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 
 # use regex \{.+\} to match {hello}
+
+
 # it looks like I will need to use the inspect library for turning strings into variables instead of the current var_handle
 class f(str):
 
-    def __init__(self, string) -> None:
+    def __init__(self, string =None) -> None:
         # dummy_var is just for catching whatever doesnt work so far like padding
         self.string = string
         self.output = ''
         self.version = '0.0.1-alpha'
+        self.regex = re.compile(r'\{+.+?\}+',re.MULTILINE | re.UNICODE)
+        self.last_index = 0
         logger.info('Started')
 
-    def get_scope(string) -> dict:
+    def get_scope(self, string) -> dict:
         '''
         this function returns a dict of global variables if the string provided is in the global scope
         or else it returns a dict of None
         '''
+        # print(string)
         scope = inspect.stack()[1][0]
         while string not in scope.f_locals:
             scope = scope.f_back
@@ -30,11 +35,12 @@ class f(str):
                 return dict()
             return scope.f_locals
 
-    def get_global_scope(string) -> dict:
+    def get_global_scope(self, string) -> dict:
         '''
         this function returns a dict of global variables if the string provided is in the global scope
         or else it returns a dict of None
         '''
+        # print(string)
         scope = inspect.stack()[1][0]
         while string not in scope.f_globals:
             scope = scope.f_back
@@ -55,13 +61,17 @@ class f(str):
         except NameError:
             try:
                 value = eval(string, None, self.get_global_scope(string))
+                
 
             except NameError: 
-                value = 'error: variable name not found'
+                value = 'error: variable ' + string + ' not found'
         return value
 
     def f_string_parse(self) -> str:
         logger.info('parsing starts')
+        # potato is just a dummy value until I can evaluate the string
+        subst = "potato"
+        self.output = self.regex.sub(subst, self.string, 0)
         logger.info('parsing end')
         return self.output
 
@@ -80,4 +90,8 @@ class f(str):
     def __str__(self) -> str:
         return self.f_string_parse()
 
+def main():
+    pass
 
+if __name__ == '__main__':
+    main()
