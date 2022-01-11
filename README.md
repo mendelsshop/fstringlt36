@@ -12,6 +12,8 @@ So it should be able to install on any Python version.
 <br>
 Although it's not been tested if thats true because it's not working yet.
 <br>
+Once I implement all the features I will test it across multiple python version and platforms.
+<br>
 ## Features currently working:
 ### None
 ## Version: 
