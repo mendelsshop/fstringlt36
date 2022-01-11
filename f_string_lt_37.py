@@ -18,10 +18,13 @@ class f(str):
         self.string = string
         self.output = ''
         self.version = '0.0.1-alpha'
+        # regex breakdown \{+ for 1 or more {, .+? for everything in the curly braces
+        # need to fix space in when using more than 1
         self.regex = re.compile(r'\{+.+?\}+',re.MULTILINE | re.UNICODE)
-        self.last_index = 0
+        self.subst_val = "potato"
         logger.info('Started')
 
+    # get_scope() and get_global_scope() can technicaly be combined
     def get_scope(self, string) -> dict:
         '''
         this function returns a dict of global variables if the string provided is in the global scope
@@ -57,12 +60,15 @@ class f(str):
         # i got this from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
         try:
             value = eval(string, None, self.get_scope(string))
+            logger.info('finding the value of whats in string based on locals')
 
+        # this might catch other errors besides for string not being in locals 
+        # but im just asssuming any error is a edge case so i dont care
         except NameError:
             try:
                 value = eval(string, None, self.get_global_scope(string))
+                logger.info('finding the value of whats in string based on globals')
                 
-
             except NameError: 
                 value = 'error: variable ' + string + ' not found'
         return value
@@ -70,16 +76,17 @@ class f(str):
     def f_string_parse(self) -> str:
         logger.info('parsing starts')
         # potato is just a dummy value until I can evaluate the string
-        subst = "potato"
-        self.output = self.regex.sub(subst, self.string, 0)
+        # might have to loop over string instead of using re.sub
+        self.output = self.regex.sub(self.subst_val, self.string, 0)
         logger.info('parsing end')
         return self.output
 
-    def curly_bracealize(self,string) -> str:
+    def curly_bracealize(self, string, amount = 1) -> str:
         '''
-        returns string encapsulated in {}
+        returns string encapsulated in an amount of {} based on function arg amount
+        amount defaults to 1
         '''
-        return (self.amount_of_curly_braces * '{') + str(string) + (self.amount_of_curly_braces * '}')
+        return (amount * '{') + str(string) + (amount * '}')
 
     def __len__(self) -> int:
         return len(self.f_string_parse())

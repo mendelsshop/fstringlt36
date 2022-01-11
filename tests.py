@@ -1,3 +1,4 @@
+import unittest
 # i know i should be using unit test 
 # but i don't know unit tests so this will do
 from f_string_lt_37 import f
@@ -35,11 +36,12 @@ def main() -> None:
     world['function'] = lambda x: x**2
     string = f('{hello{55ttgbgg}}} {worlds}')
     string1 = f'{hello} {worlds}'
+    # this is so the we only need to evaluate the fstring once and not every time string is called
     s = string.f_string_parse()
     tests = []
     tests.append('len of fake f_string ' + str(len(s)))
-    tests.append('fake f_string ' + str(s))
-    tests.append('len of real f_string ' + str(len(string1)))
+    tests.append('fake f_string ' + str(string))
+    tests.append('len of real f_string ' + str(len(s)))
     tests.append('real f_string ' + string1)
     boxify(tests)
 
