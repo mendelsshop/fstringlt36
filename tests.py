@@ -30,10 +30,10 @@ def main() -> None:
     world = {'stuff':'to'}
     world['thing'] = 'world'
     world['list'] = [1,'hi',3,4,5]
-    world['tuple'] = (1,2,3,4,5)
-    world['set'] = {1,2,3,4,5}
+    world['tuple'] = (1,2,'4',5)
+    world['set'] = {1,2,3,'4',5}
     world['function'] = lambda x: x**2
-    string = f('{hello} {worlds}')
+    string = f('{hello{55ttgbgg}}} {worlds}')
     string1 = f'{hello} {worlds}'
     s = string.f_string_parse()
     tests = []
