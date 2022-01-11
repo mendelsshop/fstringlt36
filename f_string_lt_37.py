@@ -28,7 +28,6 @@ class f(str):
             scope = scope.f_back
             if scope is None:
                 return dict()
-                
             return scope.f_locals
 
     def get_global_scope(string) -> dict:
@@ -41,7 +40,6 @@ class f(str):
             scope = scope.f_back
             if scope is None:
                 return dict()
-
             return scope.f_globals
 
     def var_to_string(self, string) -> str:
@@ -60,7 +58,6 @@ class f(str):
 
             except NameError: 
                 value = 'error: variable name not found'
-
         return value
 
     def f_string_parse(self) -> str:
