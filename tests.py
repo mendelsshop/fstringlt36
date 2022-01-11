@@ -33,8 +33,8 @@ def main() -> None:
     world['tuple'] = (1,2,3,4,5)
     world['set'] = {1,2,3,4,5}
     world['function'] = lambda x: x**2
-    string = f("{{hello}} {{{world['list'][0]}}}hiyyy")
-    string1 = f'{{hello}} {{{world["list"][0]}}}hiyyy'
+    string = f("{hello} {worlds}yyy")
+    string1 = f'{hello} {worlds}hiyyy'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     tests.append('fake f_string ' + f(string))
