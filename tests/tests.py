@@ -1,7 +1,22 @@
-import unittest
+import os
+import sys
+
+# get path to this file using os and sys.
+# then get the path to the project files using os.path.join
+path = os.path.dirname(os.path.realpath(__file__))
+split_path = path.split('\\')
+split_path.pop(-1)
+split_path.append('src')
+
+path = '\\'.join(split_path)
+sys.path.append(path)
+from f_string_lt_37 import f
+
 # i know i should be using unit test 
 # but i don't know unit tests so this will do
-from f_string_lt_37 import f
+import unittest
+
+
 def boxify(list) -> None:
     '''
     the boxify function is just way to test results in a nice boxify function
