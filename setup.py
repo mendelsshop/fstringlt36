@@ -14,7 +14,7 @@ setup(
     author_email = 'mendelsshop@gmail.com',
     url = 'https://github.com/mendelsshop/f-string_lt_37/tree/regex',
     packages=['fstring_lt_37'],
-    install_requires=['re', 'inspect', 'unittest', 'logging'],
+    install_requires=['re', 'inspect', 'unittest', 'logging', 'os', 'sys'],
     packages=find_packages(where='src'),
     classifiers=[
         'Programming Language :: Python',
