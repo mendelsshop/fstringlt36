@@ -1,6 +1,6 @@
 import os
 import sys
-if os.os.name == 'nt':
+if os.name == 'nt':
     sep = '\\'
 else:
     sep = '/'
@@ -55,7 +55,7 @@ def main() -> None:
     world['tuple'] = (1,2,'4',5)
     world['set'] = {1,2,3,'4',5}
     world['function'] = lambda x: x**2
-    string = f('{hello{55ttgbgg}}} {worlds}')
+    string = f('{hello} {worlds}')
     string1 = f'{hello} {worlds}'
     # this is so the we only need to evaluate the fstring once and not every time string is called
     s = string.f_string_parse()

@@ -58,26 +58,37 @@ class f(str):
         so it will only return a global variable if it is not defined in the local scope
         '''
         # i got this from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
+        # to make fomater specifiers work:
+        # i will have to have a double eval()
+        # like this: value = eval('format specifier' % eval(string, None ,self.get_scope(string)))
+        print(string)
         try:
-            value = eval(string, None, self.get_scope(string))
             logger.info('finding the value of whats in string based on locals')
-
+            value = eval(string, None, self.get_scope(string))
+            
         # this might catch other errors besides for string not being in locals 
         # but im just asssuming any error is a edge case so i dont care
         except NameError:
             try:
-                value = eval(string, None, self.get_global_scope(string))
                 logger.info('finding the value of whats in string based on globals')
+                value = eval(string, None, self.get_global_scope(string))
                 
             except NameError: 
                 value = 'error: variable ' + string + ' not found'
+                logger.info('variable ' + string +' not found')
         return value
 
     def f_string_parse(self) -> str:
         logger.info('parsing starts')
         # potato is just a dummy value until I can evaluate the string
-        # might have to loop over string instead of using re.sub
-        self.output = self.regex.sub(self.subst_val, self.string, 0)
+        # have to loop over the regex findall() then replace the {} with the evaluated string
+        for match in self.regex.findall(self.string):
+            print(match[1:-1])
+            self.output = re.sub(match, self.var_to_string(match[1:-1]), self.string)
+        # might have to update var_to_string to accept fomat specifiers ie %s %d %f etc
+        # amount of curly braces shoould be handled here
+
+        # self.output = self.regex.sub(self.subst_val, self.string, 0)
         logger.info('parsing end')
         return self.output
 
