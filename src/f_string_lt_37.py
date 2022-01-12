@@ -4,8 +4,7 @@ import logging
 import inspect
 
 # should probably do a better job for logging
-logger = logging
-logger.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
+
 
 # use regex \{.+\} to match {hello}
 
@@ -15,6 +14,8 @@ class f(str):
 
     def __init__(self, string =None) -> None:
         # dummy_var is just for catching whatever doesnt work so far like padding
+        self.logger = logging
+        self.logger.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
         self.string = string
         self.output = ''
         self.version = '0.0.1-alpha'
@@ -22,7 +23,7 @@ class f(str):
         # need to fix space in when using more than 1
         self.regex = re.compile(r'\{+.+?\}+',re.MULTILINE | re.UNICODE)
         self.subst_val = "potato"
-        logger.info('Started')
+        self.logger.info('Started')
 
     # get_scope() and get_global_scope() can technicaly be combined
     def get_scope(self, string) -> dict:
@@ -63,23 +64,23 @@ class f(str):
         # like this: value = eval('format specifier' % eval(string, None ,self.get_scope(string)))
         print(string)
         try:
-            logger.info('finding the value of whats in string based on locals')
+            self.logger.info('finding the value of whats in string based on locals')
             value = eval(string, None, self.get_scope(string))
             
         # this might catch other errors besides for string not being in locals 
         # but im just asssuming any error is a edge case so i dont care
         except NameError:
             try:
-                logger.info('finding the value of whats in string based on globals')
+                self.logger.info('finding the value of whats in string based on globals')
                 value = eval(string, None, self.get_global_scope(string))
                 
             except NameError: 
                 value = 'error: variable ' + string + ' not found'
-                logger.info('variable ' + string +' not found')
+                self.logger.info('variable ' + string +' not found')
         return value
 
     def f_string_parse(self) -> str:
-        logger.info('parsing starts')
+        self.logger.info('parsing starts')
         # potato is just a dummy value until I can evaluate the string
         # have to loop over the regex findall() then replace the {} with the evaluated string
         for match in self.regex.findall(self.string):
@@ -89,7 +90,7 @@ class f(str):
         # amount of curly braces shoould be handled here
 
         # self.output = self.regex.sub(self.subst_val, self.string, 0)
-        logger.info('parsing end')
+        self.logger.info('parsing end')
         return self.output
 
     def curly_bracealize(self, string, amount = 1) -> str:
