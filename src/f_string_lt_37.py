@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 import logging
-logger = logging
 # should probably do a better job for logging
-logger.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
 # fix spagghetti code in f class 
 class f(str):
 
     def __init__(self, string) -> None:
+        self.logger = logging
+        self.logger.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
         # dummy_var is just for catching whatever doesnt work so far like padding
         self.string = string
         self.version = '0.0.3-alpha'
@@ -22,7 +22,7 @@ class f(str):
         self.amount_of_curly_braces = 0
         self.unhandled_var = ''
         self.dict_handling = False
-        logger.info('Started')
+        self.logger.info('Started')
 
     def phase_change(self, phase) -> None:
         '''
@@ -30,7 +30,7 @@ class f(str):
         the reason that it's in a method is because its easier to log/print in one place
         '''
         self.current_phase = phase
-        logger.info('changing to ' + phase)
+        self.logger.info('changing to ' + phase)
         return None
 
     def info(self) -> None:
@@ -44,25 +44,25 @@ class f(str):
         except IndexError:
             return False
         
-        logger.info('version: ' + self.version)
+        self.logger.info('version: ' + self.version)
         if self.current_phase:
-            logger.info('current phase: ' + self.current_phase)
+            self.logger.info('current phase: ' + self.current_phase)
 
         if self.string[self.i]:
-            logger.info('current substring: ' + self.string[self.i])
+            self.logger.info('current substring: ' + self.string[self.i])
             
         if self.var:
-            logger.info('var: ' + self.var)
+            self.logger.info('var: ' + self.var)
             
         if self.output:
-            logger.info('output: ' + self.output)
+            self.logger.info('output: ' + self.output)
 
         if self.dummy_var:
-            logger.info('dummy_var: ' + self.dummy_var)
+            self.logger.info('dummy_var: ' + self.dummy_var)
             
-        logger.info('var handling: ' + str(self.var_handling))
+        self.logger.info('var handling: ' + str(self.var_handling))
         
-        logger.info('dict handling: ' + str(self.dict_handling))
+        self.logger.info('dict handling: ' + str(self.dict_handling))
 
         return None        
 
@@ -73,34 +73,34 @@ class f(str):
                 exec('global var')
 
             except:
-                logger.info('global var not defined')
+                self.logger.info('global var not defined')
 
             self.var = eval(self.var)
 
         except NameError:
-            logger.error('error: variable ' + self.var + ' not found')
+            self.logger.error('error: variable ' + self.var + ' not found')
             self.var = '(error: variable ' + self.var + ' not found)'
 
         except SyntaxError:
-            logger.error('error: variable SyntaxError')
+            self.logger.error('error: variable SyntaxError')
             self.var = 'error: variable SyntaxError'
 
     def f_string_parse(self) -> str:
         while len(self.string) > self.i:
-            logger.info('================================================================')
+            self.logger.info('================================================================')
             # for self.i in range(len(self.string)):       
             if self.current_phase == 'parsing':
                 if self.string[self.i] == '{':
                     self.phase_change('f_string')
                     self.i += 1
                     self.info()
-                    logger.info('changing to f_string parsing')
+                    self.logger.info('changing to f_string parsing')
                       
                 else:
                     self.output += self.string[self.i]
                     self.i += 1
                     self.info()
-                    logger.info('adding to output')
+                    self.logger.info('adding to output')
                    
             elif self.current_phase == 'f_string':
                 if self.string[self.i] in  ['\"','\''] and self.var_handling is True and self.string[self.i-1] != '[' and self.dict_handling is False:
@@ -109,13 +109,13 @@ class f(str):
                     self.i += 1
                     self.info()
                     print(self.var)
-                    logger.info('adding to var without var handling')
+                    self.logger.info('adding to var without var handling')
                    
                 elif self.string[self.i] in ['\'','\"'] and self.var_handling is False:
                     self.var_handling = True
                     self.i += 1
                     self.info()
-                    logger.info('stop adding to var with var handling')
+                    self.logger.info('stop adding to var with var handling')
 
                 elif self.string[self.i] == '{':
                     self.amount_of_curly_braces += 1
@@ -160,21 +160,21 @@ class f(str):
                     self.var_handling = True
                     self.amount_of_curly_braces = 0
                     self.dict_handling = False
-                    logger.info('adding var to output')
+                    self.logger.info('adding var to output')
                    
                 elif (self.string[self.i] == ':' or self.string[self.i] == '!') and self.var_handling is True:
                     # probably shouldn't need to go after f_string parsing if ! and just do it here
                     self.phase_change('after f_string')
                     self.i += 1
                     self.info()
-                    logger.info('changing to after f_string parsing')
+                    self.logger.info('changing to after f_string parsing')
                    
                 else:
                     if self.string[self.i] in ['\'','\"'] and self.string[self.i-1] == '[':
                         self.dict_handling = True
-                        logger.info('dict handling')
+                        self.logger.info('dict handling')
                     self.var += self.string[self.i]
-                    logger.info('adding to var '+self.string[self.i] +' with var handling')
+                    self.logger.info('adding to var '+self.string[self.i] +' with var handling')
                     self.i += 1  
                     self.info()
                    
@@ -183,7 +183,7 @@ class f(str):
                     self.phase_change('f_string')
                     self.info()
                     self.var_handling = True
-                    logger.info('changing to f_string parsing')
+                    self.logger.info('changing to f_string parsing')
                     continue
 
                 elif self.string[self.i-1 ] + self.string[self.i] == '!s':                       
@@ -214,9 +214,9 @@ class f(str):
                     self.dummy_var += self.string[self.i]
                     self.i += 1
                     self.info()
-                    logger.info('handling padding')
+                    self.logger.info('handling padding')
 
-        logger.info('Done')
+        self.logger.info('Done')
         return self.output
 
     def curly_bracealize(self,string) -> str:

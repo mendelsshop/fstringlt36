@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -13,6 +13,12 @@ setup(
     author_email = 'mendelsshop@gmail.com',
     url = 'https://github.com/mendelsshop/f-string_lt_37',
     packages=['f-string_lt_37'],
-    install_requires=[]
+    install_requires=['logging' ,'os', 'sys'],
+    packages=find_packages(where='src'),
+    classifiers=[
+        'Programming Language :: Python',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent'
+        ]
 )
 
