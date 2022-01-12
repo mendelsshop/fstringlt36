@@ -52,7 +52,7 @@ class f(str):
                 return dict()
             return scope.f_globals
 
-    def var_to_string(self, string) -> str:
+    def var_to_string(self, string, format=None) -> str:
         '''
         this function takes a string and returns a string of the variable
         it favors local variables over global variables
@@ -62,21 +62,31 @@ class f(str):
         # to make fomater specifiers work:
         # i will have to have a double eval()
         # like this: value = eval('format specifier' % eval(string, None ,self.get_scope(string)))
-        print(string)
-        try:
-            self.logger.info('finding the value of whats in string based on locals')
-            value = eval(string, None, self.get_scope(string))
-            
-        # this might catch other errors besides for string not being in locals 
-        # but im just asssuming any error is a edge case so i dont care
-        except NameError:
+        # if there is no format specifier then it will just eval() the string
+        if type(format) is str: 
             try:
-                self.logger.info('finding the value of whats in string based on globals')
-                value = eval(string, None, self.get_global_scope(string))
-                
-            except NameError: 
-                value = 'error: variable ' + string + ' not found'
-                self.logger.info('variable ' + string +' not found')
+                self.logger.info('finding the value of whats in string based on locals')
+                value = eval('format' % eval(string, None, self.get_scope(string)))
+            except NameError:
+                try:
+                    self.logger.info('finding the value of whats in string based on globals')
+                    value = eval('format' % eval(string, None, self.get_global_scope(string)))
+                except NameError:
+                    value = 'error: variable ' + string + ' not found'
+                    self.logger.error('variable ' + string + ' not found')
+        else:
+            try:
+                self.logger.info('finding the value of whats in string based on locals')
+                value = eval(string, None, self.get_scope(string))
+            # this might catch other errors besides for string not being in locals 
+            # but im just asssuming any error is a edge case so i dont care
+            except NameError:
+                try:
+                    self.logger.info('finding the value of whats in string based on globals')
+                    value = eval(string, None, self.get_global_scope(string))
+                except NameError: 
+                    value = 'error: variable ' + string + ' not found'
+                    self.logger.error('variable ' + string +' not found')
         return value
 
     def f_string_parse(self) -> str:
