@@ -1,14 +1,20 @@
 import os
 import sys
+if os.os.name == 'nt':
+    sep = '\\'
+else:
+    sep = '/'
 
-# get path to this file using os and sys.
-# then get the path to the project files using os.path.join
+# gets the path to src directories
 path = os.path.dirname(os.path.realpath(__file__))
-split_path = path.split('\\')
+split_path = path.split(sep)
 split_path.pop(-1)
 split_path.append('src')
+path = sep.join(split_path)
 
-path = '\\'.join(split_path)
+# kinda hacky way to import the fstring module from the src folder 
+# because when I tried to import fstring like this: from ..src.f_string_lt_37 import f 
+# or any variation of that it would not work
 sys.path.append(path)
 from f_string_lt_37 import f
 
