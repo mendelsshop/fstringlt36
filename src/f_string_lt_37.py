@@ -17,7 +17,7 @@ class f(str):
         self.logger = logging
         self.logger.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
         self.string = string
-        self.output = ''
+        self.output = string
         self.version = '0.0.1-alpha'
         # regex breakdown \{+ for 1 or more {, .+? for everything in the curly braces
         # need to fix space in when using more than 1
@@ -36,7 +36,9 @@ class f(str):
         while string not in scope.f_locals:
             scope = scope.f_back
             if scope is None:
+                print('local scope not found')
                 return dict()
+            # print('local scope')
             return scope.f_locals
 
     def get_global_scope(self, string) -> dict:
@@ -49,7 +51,9 @@ class f(str):
         while string not in scope.f_globals:
             scope = scope.f_back
             if scope is None:
+                print('global scope not found')
                 return dict()
+            # print('global scope')
             return scope.f_globals
 
     def var_to_string(self, string, format=None) -> str:
@@ -94,8 +98,9 @@ class f(str):
         # potato is just a dummy value until I can evaluate the string
         # have to loop over the regex findall() then replace the {} with the evaluated string
         for match in self.regex.findall(self.string):
-            print(match[1:-1])
-            self.output = re.sub(match, self.var_to_string(match[1:-1]), self.string)
+            # print(match[1:-1])
+            print(self.var_to_string(match[1:-1]))
+            self.output = re.sub(match, self.var_to_string(match[1:-1]), self.output)
         # might have to update var_to_string to accept fomat specifiers ie %s %d %f etc
         # amount of curly braces shoould be handled here
 
