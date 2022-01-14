@@ -61,6 +61,8 @@ def main() -> None:
     # because it is a class method so when you call inspect.stack()[1][0]
     # it will return the the file name of where .fstring_parse() is created
     # not the file name of the file where you call the fsring class
+    # s = string.f_string_parse()
+    # print(s)
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     tests.append('fake f_string ' + str(string))

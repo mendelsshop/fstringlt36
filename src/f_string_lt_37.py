@@ -16,6 +16,7 @@ class f(str):
         self.string = string
         self.output = string
         self.version = '0.0.1-alpha'
+        self.scope = inspect.stack()[1][0]
         self.regex = re.compile(r'\{+.+?\}+', re.MULTILINE | re.UNICODE)
         self.logger.info('Started')
 
@@ -26,12 +27,14 @@ class f(str):
         if the string provided is in the local scope
         or else it returns a dict of None
         '''
-        while string not in self.scope.f_locals:
-            self.scope = self.scope.f_back
-            if self.scope is None:
+        scope = self.scope
+        print(scope)
+        while string not in scope.f_locals:
+            scope = scope.f_back
+            if scope is None:
                 return dict()
 
-            return self.scope.f_locals
+            return scope.f_locals
 
     def get_global_scope(self, string) -> dict:
         '''
@@ -39,12 +42,13 @@ class f(str):
         if the string provided is in the global scope
         or else it returns a dict of None
         '''
-        while string not in self.scope.f_globals:
-            self.scope = self.scope.f_back
-            if self.scope is None:
+        scope = self.scope
+        while string not in scope.f_globals:
+            scope = scope.f_back
+            if scope is None:
                 return dict()
 
-            return self.scope.f_globals
+            return scope.f_globals
 
     def var_to_string(self, string, _global=None, format=None) -> str:
         '''
@@ -98,13 +102,9 @@ class f(str):
         self.logger.info('parsing starts')
         for match in self.regex.findall(self.string):
             try:
-                # reset scope
-                self.scope = inspect.stack()[1][0]
                 self.output = re.sub(match, self.var_to_string(match[1:-1]), self.output)
 
             except NameError:
-                # reset scope
-                self.scope = inspect.stack()[1][0]
                 self.output = re.sub(match, self.var_to_string(match[1:-1], _global=True), self.output)
 
         # amount of curly braces shoould be handled here
