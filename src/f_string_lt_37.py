@@ -17,6 +17,7 @@ class f(str):
         self.output = string
         self.version = '0.0.1-alpha'
         self.regex = re.compile(r'\{+.+?\}+', re.MULTILINE | re.UNICODE)
+        self.scope = inspect.stack()[1][0]
         self.logger.info('Started')
 
     # get_scope() and get_global_scope() can technicaly be combined
