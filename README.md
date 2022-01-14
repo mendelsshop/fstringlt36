@@ -39,8 +39,8 @@ where value is the replacement string to whatever you put in `{}`.
 
 ```python
 >>> from fstring_lt_37 import f
->>> value = 'foo'
->>> s = f("{value}")
+>>> var = 'foo'
+>>> s = f("{var}")
 >>> print(s)
 'foo'
 >>> t = s.f_string_parse()
