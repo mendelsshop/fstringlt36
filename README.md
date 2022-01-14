@@ -25,13 +25,12 @@ Once I implement all the features I will test it across multiple python version 
 #### note:
 please note to not call `f().f_string_parse()` directly but use the `f()` class.
 <br>
-if you try to `f_string_parse()` to use directly it will ruin your output and fall back to.
+if you try to `f_string_parse()` to use directly it will ruin your output and fall back to:
 ```python
 >>> value = 'error: variable ' + string + ' not found'
 ```
 where value is the replacement string to whatever you put in `{}`.
-<br>
-ie:
+
 ```python
 >>> import f_string_lt_37 as f
 >>> value = 'foo'
