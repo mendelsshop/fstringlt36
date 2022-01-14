@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='f-string_lt_37',
-    version='0.0.1',
+    version='0.0.2',
     description='Python f-strings for before Python3.7',
     license='MIT',
     long_description=long_description,

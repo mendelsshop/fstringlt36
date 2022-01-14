@@ -15,7 +15,7 @@ class f(str):
             level=logging.DEBUG)
         self.string = string
         self.output = string
-        self.version = '0.0.1-alpha'
+        self.version = '0.0.2-alpha'
         self.regex = re.compile(r'\{+.+?\}+', re.MULTILINE | re.UNICODE)
         self.scope = inspect.stack()[1][0]
         self.logger.info('Started')

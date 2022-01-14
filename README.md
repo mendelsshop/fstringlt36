@@ -15,9 +15,36 @@ Although it's not been tested if thats true because it's not working yet.
 Once I implement all the features I will test it across multiple python version and platforms.
 <br>
 ## Features currently working:
-### None
+### basic string replacement
+```python
+>>> import fstring_lt_37 as f
+>>> hello = "Hello,"
+>>> f("{hello} world")
+'hello world'
+```
+#### note:
+please note to not call `f().f_string_parse()` directly but use the `f()` class.
+<br>
+if you try to `f_string_parse()` to use directly it will ruin your output and fall back to.
+```python
+>>> value = 'error: variable ' + string + ' not found'
+```
+where value is the replacement string to whatever you put in `{}`.
+ie:
+```python
+>>> import f_string_lt_37 as f
+>>> value = 'foo'
+>>> s = f("{value}")
+>>> print(s)
+foo
+>>> t = s.f_string_parse()
+>>> print(s)
+error: variable value not found
+>>> print(t)
+error: variable value not found
+```
 ## Version: 
-Version Number: 0.0.1
+Version Number: 0.0.2
 <br>
 Version Stage: alpha
 
