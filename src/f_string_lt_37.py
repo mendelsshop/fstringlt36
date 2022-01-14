@@ -2,115 +2,118 @@
 import re
 import logging
 import inspect
-
 # should probably do a better job for logging
 
 
-# use regex \{.+\} to match {hello}
-
-
-# it looks like I will need to use the inspect library for turning strings into variables instead of the current var_handle
 class f(str):
 
-    def __init__(self, string =None) -> None:
-        # dummy_var is just for catching whatever doesnt work so far like padding
+    def __init__(self, string) -> None:
         self.logger = logging
-        self.logger.basicConfig(filename='debug.log', encoding='utf-8', level=logging.DEBUG)
+        self.logger.basicConfig(
+            filename='debug.log',
+            encoding='utf-8',
+            level=logging.DEBUG)
         self.string = string
         self.output = string
         self.version = '0.0.1-alpha'
-        # regex breakdown \{+ for 1 or more {, .+? for everything in the curly braces
-        # need to fix space in when using more than 1
-        self.regex = re.compile(r'\{+.+?\}+',re.MULTILINE | re.UNICODE)
-        self.subst_val = "potato"
+        self.regex = re.compile(r'\{+.+?\}+', re.MULTILINE | re.UNICODE)
         self.logger.info('Started')
 
     # get_scope() and get_global_scope() can technicaly be combined
     def get_scope(self, string) -> dict:
         '''
-        this function returns a dict of global variables if the string provided is in the global scope
+        this function returns a dict of global variables
+        if the string provided is in the local scope
         or else it returns a dict of None
         '''
-        # print(string)
-        scope = inspect.stack()[1][0]
-        while string not in scope.f_locals:
-            scope = scope.f_back
-            if scope is None:
-                print('local scope not found')
+        while string not in self.scope.f_locals:
+            self.scope = self.scope.f_back
+            if self.scope is None:
                 return dict()
-            # print('local scope')
-            return scope.f_locals
+
+            return self.scope.f_locals
 
     def get_global_scope(self, string) -> dict:
         '''
-        this function returns a dict of global variables if the string provided is in the global scope
+        this function returns a dict of global variables
+        if the string provided is in the global scope
         or else it returns a dict of None
         '''
-        # print(string)
-        scope = inspect.stack()[1][0]
-        while string not in scope.f_globals:
-            scope = scope.f_back
-            if scope is None:
-                print('global scope not found')
+        while string not in self.scope.f_globals:
+            self.scope = self.scope.f_back
+            if self.scope is None:
                 return dict()
-            # print('global scope')
-            return scope.f_globals
 
-    def var_to_string(self, string, format=None) -> str:
+            return self.scope.f_globals
+
+    def var_to_string(self, string, _global=None, format=None) -> str:
         '''
-        this function takes a string and returns a string of the variable
-        it favors local variables over global variables
-        so it will only return a global variable if it is not defined in the local scope
+        this function takes a string
+        optinally if the string is in the global scope
+        and optinally if the string has a format
+        returns a string of the variable
         '''
-        # i got this from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
-        # to make fomater specifiers work:
-        # i will have to have a double eval()
-        # like this: value = eval('format specifier' % eval(string, None ,self.get_scope(string)))
-        # if there is no format specifier then it will just eval() the string
-        if type(format) is str: 
-            try:
-                self.logger.info('finding the value of whats in string based on locals')
-                value = eval('format' % eval(string, None, self.get_scope(string)))
-            except NameError:
+        # could probably be cut down a bit
+        # this is from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
+        if type(format) is str:
+            if _global is None:
                 try:
-                    self.logger.info('finding the value of whats in string based on globals')
-                    value = eval('format' % eval(string, None, self.get_global_scope(string)))
+                    self.logger.info('finding the value of whats in string based on locals')
+                    value = eval('format' % eval(string, None, self.get_scope(string)))
+
                 except NameError:
                     value = 'error: variable ' + string + ' not found'
                     self.logger.error('variable ' + string + ' not found')
+            else:
+                try:
+                    self.logger.info('finding the value of whats in string based on globals')
+                    value = eval('format' % eval(string, None, self.get_global_scope(string)))
+
+                except NameError:
+                    value = 'error: variable ' + string + ' not found'
+                    self.logger.error('variable ' + string + ' not found')
+
         else:
-            try:
-                self.logger.info('finding the value of whats in string based on locals')
-                value = eval(string, None, self.get_scope(string))
-            # this might catch other errors besides for string not being in locals 
-            # but im just asssuming any error is a edge case so i dont care
-            except NameError:
+            if _global is None:
+                try:
+                    self.logger.info('finding the value of whats in string based on locals')
+                    value = eval(string, None, self.get_scope(string))
+
+                except NameError:
+                    value = 'error: variable ' + string + ' not found'
+                    self.logger.error('variable ' + string + ' not found')
+
+            else:
                 try:
                     self.logger.info('finding the value of whats in string based on globals')
                     value = eval(string, None, self.get_global_scope(string))
-                except NameError: 
+
+                except NameError:
                     value = 'error: variable ' + string + ' not found'
-                    self.logger.error('variable ' + string +' not found')
+                    self.logger.error('variable ' + string + ' not found')
+
         return value
 
     def f_string_parse(self) -> str:
         self.logger.info('parsing starts')
-        # potato is just a dummy value until I can evaluate the string
-        # have to loop over the regex findall() then replace the {} with the evaluated string
         for match in self.regex.findall(self.string):
-            # print(match[1:-1])
-            print(self.var_to_string(match[1:-1]))
-            self.output = re.sub(match, self.var_to_string(match[1:-1]), self.output)
-        # might have to update var_to_string to accept fomat specifiers ie %s %d %f etc
-        # amount of curly braces shoould be handled here
+            try:
+                # reset scope
+                self.scope = inspect.stack()[1][0]
+                self.output = re.sub(match, self.var_to_string(match[1:-1]), self.output)
 
-        # self.output = self.regex.sub(self.subst_val, self.string, 0)
+            except NameError:
+                # reset scope
+                self.scope = inspect.stack()[1][0]
+                self.output = re.sub(match, self.var_to_string(match[1:-1], _global=True), self.output)
+
+        # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
         return self.output
 
-    def curly_bracealize(self, string, amount = 1) -> str:
+    def curly_bracealize(self, string, amount=1) -> str:
         '''
-        returns string encapsulated in an amount of {} based on function arg amount
+        returns string encapsulated in an amount of {} based on arg amount
         amount defaults to 1
         '''
         return (amount * '{') + str(string) + (amount * '}')
@@ -124,8 +127,10 @@ class f(str):
     def __str__(self) -> str:
         return self.f_string_parse()
 
+
 def main():
     pass
+
 
 if __name__ == '__main__':
     main()
