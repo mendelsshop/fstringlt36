@@ -30,6 +30,7 @@ if you try to `f_string_parse()` to use directly it will ruin your output and fa
 >>> value = 'error: variable ' + string + ' not found'
 ```
 where value is the replacement string to whatever you put in `{}`.
+<br>
 ie:
 ```python
 >>> import f_string_lt_37 as f
