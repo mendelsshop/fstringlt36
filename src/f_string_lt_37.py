@@ -2,6 +2,7 @@
 import re
 import logging
 import inspect
+import regexs
 # should probably do a better job for logging
 
 
@@ -16,9 +17,8 @@ class f(str):
         self.string = string
         self.output = string
         self.version = '0.0.2-alpha'
-        self.regex0 = re.compile(r'\{+.+?\}+', re.MULTILINE | re.UNICODE)
-        # regex for a character defined from the lambda not in quotes
-        self.regex1 = lambda x: re.compile(r'(?<!\'|\")'+x+'(?!\'|\")', re.MULTILINE | re.UNICODE)
+        self.regex0 = regexs.regex0
+        self.regex1 = regexs.regex1
         self.scope = inspect.stack()[1][0]
         self.logger.info('Started')
 
@@ -99,16 +99,19 @@ class f(str):
 
     def f_string_parse(self) -> str:
         self.logger.info('parsing starts')
-        for match in self.regex.findall(self.string):
+        for match in self.regex0.findall(self.string):
+            regex_colon = self.regex1(':')
+            split_match = regex_colon.split(match[1:-1])
+            print(split_match)
             try:
                 # reset scope
                 self.scope = inspect.stack()[1][0]
-                self.output = re.sub(match, self.var_to_string(match[1:-1]), self.output)
+                self.output = re.sub(match, self.var_to_string(split_match[0]), self.output)
 
             except NameError:
                 # reset scope
                 self.scope = inspect.stack()[1][0]
-                self.output = re.sub(match, self.var_to_string(match[1:-1], _global=True), self.output)
+                self.output = re.sub(match, self.var_to_string(split_match[0], _global=True), self.output)
 
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
