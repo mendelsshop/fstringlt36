@@ -98,20 +98,27 @@ class f(str):
         return value
 
     def f_string_parse(self) -> str:
+        # blank = ''
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
-            regex_colon = self.regex1(':')
-            split_match = regex_colon.split(match[1:-1])
-            print(split_match)
+            blank0 = ''
+            blank1 = ''
+            split_match = self.regex1(':').split(match[1:-1])
+            # the code below that checks for = sign and returns name-of-var = value-of-variable
+            # should probably moved to var_to_string
+            if self.regex1('=').search(split_match[0]):
+                blank = match[1:-1] + '\''
+                split_match[0] = self.regex1('=').split(split_match[0])[0]
+                blank1 = '\''
             try:
                 # reset scope
                 self.scope = inspect.stack()[1][0]
-                self.output = re.sub(match, self.var_to_string(split_match[0]), self.output)
+                self.output = re.sub(match, blank0 + self.var_to_string(split_match[0]) + blank1, self.output)
 
             except NameError:
                 # reset scope
                 self.scope = inspect.stack()[1][0]
-                self.output = re.sub(match, self.var_to_string(split_match[0], _global=True), self.output)
+                self.output = re.sub(match, blank0 + self.var_to_string(split_match[0]) + blank1, self.output)
 
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
