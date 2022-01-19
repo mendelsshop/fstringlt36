@@ -28,6 +28,7 @@ class f(str):
         this function returns a dict of global variables
         if the string provided is in the local scope
         or else it returns a dict of None
+        this is from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
         '''
         while string not in self.scope.f_locals:
             self.scope = self.scope.f_back
@@ -41,6 +42,7 @@ class f(str):
         this function returns a dict of global variables
         if the string provided is in the global scope
         or else it returns a dict of None
+        this is from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
         '''
         while string not in self.scope.f_globals:
             self.scope = self.scope.f_back
@@ -49,7 +51,7 @@ class f(str):
 
             return self.scope.f_globals
 
-    def var_to_string(self, string, _global=None, format=None) -> str:
+    def var_to_string(self, string, _global=None, format=None, equal=None) -> str:
         '''
         this function takes a string
         optinally if the string is in the global scope
@@ -57,7 +59,11 @@ class f(str):
         returns a string of the variable
         '''
         # could probably be cut down a bit
-        # this is from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
+        if self.regex1('=').search(string):
+            equal = True
+            strcopy = string
+            string = self.regex1('=').split(string)[0]
+
         if type(format) is str:
             if _global is None:
                 try:
@@ -94,6 +100,9 @@ class f(str):
                 except NameError:
                     value = 'error: variable ' + string + ' not found'
                     self.logger.error('variable ' + string + ' not found')
+        
+        if equal:
+            return strcopy + self.__repr__(value)
 
         return value
 
@@ -101,24 +110,16 @@ class f(str):
         # blank = ''
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
-            blank0 = ''
-            blank1 = ''
             split_match = self.regex1(':').split(match[1:-1])
-            # the code below that checks for = sign and returns name-of-var = value-of-variable
-            # should probably moved to var_to_string
-            if self.regex1('=').search(split_match[0]):
-                blank = match[1:-1] + '\''
-                split_match[0] = self.regex1('=').split(split_match[0])[0]
-                blank1 = '\''
             try:
                 # reset scope
                 self.scope = inspect.stack()[1][0]
-                self.output = re.sub(match, blank0 + self.var_to_string(split_match[0]) + blank1, self.output)
+                self.output = re.sub(match, self.var_to_string(split_match[0]), self.output)
 
             except NameError:
                 # reset scope
                 self.scope = inspect.stack()[1][0]
-                self.output = re.sub(match, blank0 + self.var_to_string(split_match[0]) + blank1, self.output)
+                self.output = re.sub(match, self.var_to_string(split_match[0]), self.output)
 
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
@@ -134,7 +135,8 @@ class f(str):
     def __len__(self) -> int:
         return len(self.f_string_parse())
 
-    def __repr__(self) -> str:
+    def __repr__(self, string=None) -> str:
+        if string: return '\'' + string + '\''
         return '\'' + self.f_string_parse() + '\''
 
     def __str__(self) -> str:
