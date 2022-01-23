@@ -17,15 +17,23 @@ Once I implement all the features I will test it across multiple python version 
 
 ## Features currently working:
 
-### basic string replacement
+### basic variable replacement
 
 ```python
 >>> from f_string_lt_37 import f
->>> hello = "Hello,"
->>> f("{hello} world")
-'hello world'
+>>> h = "Hello,"
+>>> f("{h} world")
+hello world
 ```
-
+#### using the equal operator (I don't know a better name for this and I'm to lazy to look at the documentation)
+```python
+>>> from f_string_lt_37 import f
+>>> h = "Hello,"
+>>> # instead of doing print(f("h = {h}"))
+>>> # you can do print(f("{h = }"))
+>>> print(f("{h = }"))
+h = 'Hello,'
+```
 #### note:
 please note to not call `f().f_string_parse()` directly but use the `f()` class.
 <br>
@@ -42,12 +50,12 @@ where value is the replacement string to whatever you put in `{}`.
 >>> var = 'foo'
 >>> s = f("{var}")
 >>> print(s)
-'foo'
+foo
 >>> t = s.f_string_parse()
 >>> print(t)
-'error: variable value not found'
+error: variable value not found
 >>> print(s)
-'error: variable value not found'
+error: variable value not found
 # besides for messing up t it will also mess up s because it's a reference to the same object.
 
 ```
