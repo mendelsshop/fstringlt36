@@ -16,6 +16,7 @@ class f(str):
             level=logging.DEBUG)
         self.string = string
         self.output = string
+        # should probably move this to a config file or take it from setup.py
         self.version = '0.0.2-alpha'
         self.regex0 = regexs.regex0
         self.regex1 = regexs.regex1
