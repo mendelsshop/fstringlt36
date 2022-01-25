@@ -52,20 +52,22 @@ class f(str):
 
             return self.scope.f_globals
 
-    def var_to_string(self, string, format=None) -> str:
+    def str_equal_string(self, string) -> tuple:
+        equal = None
+        if self.regex1('=').search(string):
+            equal = True
+            string = self.regex1('=').split(string)[0]
+        return string, equal
+
+    def var_to_string(self, string, ogstring, format=None, equal=None) -> str:
         '''
         this function takes a string
-        optinally if the string is in the global scope
+        trys to evaluate the string first in the local scope
+        and then in the global scope
+        if still nothing is found catches the NameError 
         and optinally if the string has a format
         returns a string of the variable
         '''
-        equal = None
-        # this cannot be moved to a function because when I tried it kept changing to a None value
-        # unless it was called from self.f_string_parse() and passed into self.var_to_string()
-        if self.regex1('=').search(string):
-            equal = True
-            strcopy = string
-            string = self.regex1('=').split(string)[0]
 
         if type(format) is str:
             try:
@@ -101,20 +103,18 @@ class f(str):
                     self.logger.error('variable ' + string + ' not found')
         
         if equal:
-            return strcopy + self.__repr__(value)
+            return ogstring + self.__repr__(value)
 
         return value
 
     def f_string_parse(self) -> str:
-        # blank = ''
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
             split_match = self.regex1(':').split(match[1:-1])
             self.scope = inspect.stack()[1][0]
-            self.output = re.sub(match, self.var_to_string(split_match[0]), self.output)
-
-
-
+            string = self.str_equal_string(split_match[0])[0]
+            equal = self.str_equal_string(split_match[0])[1]
+            self.output = re.sub(match, self.var_to_string(string, split_match[0], equal=equal), self.output)
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
         return self.output
