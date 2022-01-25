@@ -4,7 +4,7 @@ import logging
 import inspect
 import regexs
 # should probably do a better job for logging
-
+# next feaure detect amount of curly braces and based that reurn either an evaluted or unevaluated vairable encapsulted in a certain amount of curly braces
 
 class f(str):
 
@@ -52,29 +52,30 @@ class f(str):
 
             return self.scope.f_globals
 
-    def var_to_string(self, string, _global=None, format=None, equal=None) -> str:
+    def var_to_string(self, string, format=None) -> str:
         '''
         this function takes a string
         optinally if the string is in the global scope
         and optinally if the string has a format
         returns a string of the variable
         '''
-        # could probably be cut down a bit
+        equal = None
+        # this cannot be moved to a function because when I tried it kept changing to a None value
+        # unless it was called from self.f_string_parse() and passed into self.var_to_string()
         if self.regex1('=').search(string):
             equal = True
             strcopy = string
             string = self.regex1('=').split(string)[0]
 
         if type(format) is str:
-            if _global is None:
-                try:
-                    self.logger.info('finding the value of whats in string based on locals')
-                    value = eval('format' % eval(string, None, self.get_scope(string)))
+            try:
+                self.logger.info('finding the value of whats in string based on locals')
+                value = eval('format' % eval(string, None, self.get_scope(string)))
 
-                except NameError:
-                    value = 'error: variable ' + string + ' not found'
-                    self.logger.error('variable ' + string + ' not found')
-            else:
+            except NameError:
+                value = 'error: variable ' + string + ' not found'
+                self.logger.error('variable ' + string + ' not found')
+    
                 try:
                     self.logger.info('finding the value of whats in string based on globals')
                     value = eval('format' % eval(string, None, self.get_global_scope(string)))
@@ -84,16 +85,13 @@ class f(str):
                     self.logger.error('variable ' + string + ' not found')
 
         else:
-            if _global is None:
-                try:
-                    self.logger.info('finding the value of whats in string based on locals')
-                    value = eval(string, None, self.get_scope(string))
+            try:
+                self.logger.info('finding the value of whats in string based on locals')
+                value = eval(string, None, self.get_scope(string))
 
-                except NameError:
-                    value = 'error: variable ' + string + ' not found'
-                    self.logger.error('variable ' + string + ' not found')
-
-            else:
+            except NameError:
+                value = 'error: variable ' + string + ' not found'
+                self.logger.error('variable ' + string + ' not found')
                 try:
                     self.logger.info('finding the value of whats in string based on globals')
                     value = eval(string, None, self.get_global_scope(string))
@@ -112,15 +110,10 @@ class f(str):
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
             split_match = self.regex1(':').split(match[1:-1])
-            try:
-                # reset scope
-                self.scope = inspect.stack()[1][0]
-                self.output = re.sub(match, self.var_to_string(split_match[0]), self.output)
+            self.scope = inspect.stack()[1][0]
+            self.output = re.sub(match, self.var_to_string(split_match[0]), self.output)
 
-            except NameError:
-                # reset scope
-                self.scope = inspect.stack()[1][0]
-                self.output = re.sub(match, self.var_to_string(split_match[0]), self.output)
+
 
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
