@@ -25,7 +25,7 @@ Once I implement all the features I will test it across multiple python version 
 >>> f("{h} world")
 hello world
 ```
-#### using the equal operator (I don't know a better name for this and I'm to lazy to look at the documentation)
+#### using the equal operator (I don't know a better name for this and I'm to lazy to look at the document)
 ```python
 >>> from f_string_lt_37 import f
 >>> h = "Hello,"
