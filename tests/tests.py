@@ -16,7 +16,7 @@ path = sep.join(split_path)
 # because when I tried to import fstring like this: from ..src.f_string_lt_37 import f 
 # or any variation of that it would not work
 sys.path.append(path)
-from f_string_lt_37 import f
+from f_string_lt_36 import f
 
 # i know i should be using unit test 
 # but i don't know unit tests so this will do
