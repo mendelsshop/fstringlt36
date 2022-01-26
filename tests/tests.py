@@ -20,7 +20,7 @@ path = sep.join(split_path)
 # from ..src.f_string_lt_37 import f
 # or any variation of that it would not work
 sys.path.append(path)
-from f_string_lt_37 import f
+from f_string_lt_36 import f
 
 
 def boxify(list) -> None:
@@ -68,7 +68,7 @@ def main() -> None:
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     tests.append('fake f_string ' + str(string))
-    tests.append('len of real f_string ' + str(len(string)))
+    tests.append('len of real f_string ' + str(len(string1)))
     tests.append('real f_string ' + string1)
     boxify(tests)
 

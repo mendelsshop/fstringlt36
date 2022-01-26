@@ -1,8 +1,12 @@
-# f-string_lt_37 Regex Edition
+# f-string_lt_36 Regex Edition
 ## About: 
-Python f-strings for before Python 3.7. using Regex
+Python f-strings for before Python 3.6. using Regex
 <br>
 This package should try to emulate all f-string features <br>by using a class that inherits from str.
+<br>
+You can also use it to get newer f-string features in earlier versions of Python.
+<br>
+such as: `h = 'hello'; f'{h = }'`. the ; is just to denonote the end of a line.
 <br>
 This package requires the re (regular expressions, regex) module.
 <br>
@@ -20,14 +24,14 @@ Once I implement all the features I will test it across multiple python version 
 ### basic variable replacement
 
 ```python
->>> from f_string_lt_37 import f
+>>> from f_string_lt_36 import f
 >>> h = "Hello,"
 >>> f("{h} world")
 hello world
 ```
 #### using the equal operator (I don't know a better name for this and I'm to lazy to look at the document)
 ```python
->>> from f_string_lt_37 import f
+>>> from f_string_lt_36 import f
 >>> h = "Hello,"
 >>> # instead of doing print(f("h = {h}"))
 >>> # you can do print(f("{h = }"))
@@ -46,7 +50,7 @@ if you try to `f_string_parse()` to use directly it will ruin your output and fa
 where value is the replacement string to whatever you put in `{}`.
 
 ```python
->>> from fstring_lt_37 import f
+>>> from fstring_lt_36 import f
 >>> var = 'foo'
 >>> s = f("{var}")
 >>> print(s)

@@ -5,16 +5,16 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name='f-string_lt_37',
+    name='f-string_lt_36',
     version='0.0.2',
-    description='Python f-strings for before Python3.7',
+    description='Python f-strings for before Python3.6',
     license='MIT',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author = 'Mendelsshop',
     author_email = 'mendelsshop@gmail.com',
-    url = 'https://github.com/mendelsshop/f-string_lt_37/tree/regex',
-    packages=['fstring_lt_37'],
+    url = 'https://github.com/mendelsshop/f-string_lt_36/tree/regex',
+    packages=['fstring_lt_36'],
     install_requires=['re', 'inspect', 'unittest', 'logging', 'os', 'sys'],
     packages=find_packages(where='src'),
     classifiers=[
