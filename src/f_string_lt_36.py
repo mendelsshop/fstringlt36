@@ -54,6 +54,8 @@ class f(str):
 
     def str_equal_string(self, string) -> tuple:
         equal = None
+        # need to check if its the last no space char or if its followed by !s, !a or !r
+        # so that it does not split in middle the variable/string
         if self.regex1('=').search(string):
             equal = True
             string = self.regex1('=').split(string)
@@ -144,6 +146,7 @@ class f(str):
     def f_string_parse(self) -> str:
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
+            # this can split in middle string so we need to figure out after sometthing else not if : in to in qoutes
             split_match = self.regex1(':').split(match[1:-1])
             self.scope = inspect.stack()[1][0]
             string = self.str_equal_string(split_match[0])[0][0]
