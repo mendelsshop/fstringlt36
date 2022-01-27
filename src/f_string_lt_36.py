@@ -56,21 +56,34 @@ class f(str):
         equal = None
         if self.regex1('=').search(string):
             equal = True
-            string = self.regex1('=').split(string)[0]
+            string = self.regex1('=').split(string)
+        if type(string) is str:
+            string = [string, '']
         return string, equal
 
     def type_conversions(self, string) -> str:
-        if self.regex1('!').search(string):
-        
-            # if theres a space at the end of the string
-            # raise an error
-            string = repr(self.regex1('!').split(string)[1])
-            print(string[-1])
-            if string[-1].isspace():
-                raise SyntaxError(" f-string: expecting '}'")
+        if '!' in string:
+            string = string.split('!')[1]
+            # if string conatain anything besides for a, s, or r
+            if string not in ['a', 's', 'r']:
+                # if string does not start with a, s, or r
+                if string[0] not in ['a', 's', 'r']:
+                    raise SyntaxError("SyntaxError: f-string: invalid conversion character: expected 's', 'r', or 'a'")
+                else:
+                    # if after with a, s, or r there is anything else
+                    if string[1:]:
+                        raise SyntaxError("f-string: expecting '}'")
+            else:
+                return '!' + string
+        return None
 
 
-    def var_to_string(self, string, ogstring, format=None, equal=None) -> str:
+
+            
+            
+
+
+    def var_to_string(self, string, ogstring, format=None, equal=None, type_conversion=None) -> str:
         '''
         this function takes a string
         trys to evaluate the string first in the local scope
@@ -114,6 +127,16 @@ class f(str):
                     self.logger.error('variable ' + string + ' not found')
         
         if equal:
+            if type_conversion:
+                if type_conversion == '!a':
+                    value = ascii(value)
+                elif type_conversion == '!s':
+                    value = str(value)
+                elif type_conversion == '!r':
+                    value = repr(value)
+                # return ogstring with type conversion in it
+                return self.regex1('!').split(ogstring)[0] + value
+
             return ogstring + self.__repr__(value)
 
         return value
@@ -123,10 +146,10 @@ class f(str):
         for match in self.regex0.findall(self.string):
             split_match = self.regex1(':').split(match[1:-1])
             self.scope = inspect.stack()[1][0]
-            string = self.str_equal_string(split_match[0])[0]
+            string = self.str_equal_string(split_match[0])[0][0]
             equal = self.str_equal_string(split_match[0])[1]
-            type_conversion = self.type_conversions(split_match[0])
-            self.output = re.sub(match, self.var_to_string(string, split_match[0], equal=equal), self.output)
+            type_conversion = self.type_conversions(self.str_equal_string(split_match[0])[0][1])
+            self.output = re.sub(match, self.var_to_string(string, split_match[0], equal=equal, type_conversion=type_conversion), self.output)
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
         return self.output

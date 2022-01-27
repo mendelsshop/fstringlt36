@@ -56,8 +56,8 @@ def main() -> None:
     world['tuple'] = (1, 2, '4', 5)
     world['set'] = {1, 2, 3, '4', 5}
     world['function'] = lambda x: x**2
-    string = f('{hello  =!a } {worlds}')
-    string1 = f'{hello = !a} {worlds}'
+    string = f('{hello =!s} {worlds}')
+    string1 = f'{hello =!s} {worlds}'
     # calling .fstring_parse() will not work
     # because it is a class method so when you call inspect.stack()[1][0]
     # it will return the the file name of where .fstring_parse() is created
