@@ -59,6 +59,17 @@ class f(str):
             string = self.regex1('=').split(string)[0]
         return string, equal
 
+    def type_conversions(self, string) -> str:
+        if self.regex1('!').search(string):
+        
+            # if theres a space at the end of the string
+            # raise an error
+            string = repr(self.regex1('!').split(string)[1])
+            print(string[-1])
+            if string[-1].isspace():
+                raise SyntaxError(" f-string: expecting '}'")
+
+
     def var_to_string(self, string, ogstring, format=None, equal=None) -> str:
         '''
         this function takes a string
@@ -114,6 +125,7 @@ class f(str):
             self.scope = inspect.stack()[1][0]
             string = self.str_equal_string(split_match[0])[0]
             equal = self.str_equal_string(split_match[0])[1]
+            type_conversion = self.type_conversions(split_match[0])
             self.output = re.sub(match, self.var_to_string(string, split_match[0], equal=equal), self.output)
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
@@ -131,7 +143,7 @@ class f(str):
 
     def __repr__(self, string=None) -> str:
         if string: return '\'' + string + '\''
-        return '\'' + self.f_string_parse() + '\''
+        return '\"' + self.f_string_parse() + '\"'
 
     def __str__(self) -> str:
         return self.f_string_parse()
