@@ -176,7 +176,8 @@ class f(str):
 
 
 def main():
-    pass
+    print('to test it use the tests.py in the test directory')
+    print('or import into you\'re own file using from f_string_lt_36 import f')
 
 
 if __name__ == '__main__':
