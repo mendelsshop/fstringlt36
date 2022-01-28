@@ -54,10 +54,11 @@ def main() -> None:
     world['thing'] = 'world'
     world['list'] = [1, 'hi', 3, 4, 5]
     world['tuple'] = (1, 2, '4', 5)
+    val = 5 * 5
     world['set'] = {1, 2, 3, '4', 5}
     world['function'] = lambda x: x**2
-    string = f('{he=llo =!s} {worlds}')
-    string1 = f'{hello =!s} {worlds}'
+    string = f('{5 * 5 =:.2f} {worlds}')
+    string1 = f'{5 * 5 =:.2f} {worlds}'
     # calling .fstring_parse() will not work
     # because it is a class method so when you call inspect.stack()[1][0]
     # it will return the the file name of where .fstring_parse() is created

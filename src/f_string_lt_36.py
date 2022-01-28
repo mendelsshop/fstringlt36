@@ -98,19 +98,14 @@ class f(str):
         if type(format) is str:
             try:
                 self.logger.info('finding the value of whats in string based on locals')
-                value = eval('format' % eval(string, None, self.get_scope(string)))
+                # need to figure out how to evaluate format codes
+                print(eval('(5 / 5)' + '.2', None, self.get_scope(string)))
+                value = eval(format % eval(string, None, self.get_scope(string)))
 
             except NameError:
-                value = 'error: variable ' + string + ' not found'
                 self.logger.error('variable ' + string + ' not found')
-    
-                try:
-                    self.logger.info('finding the value of whats in string based on globals')
-                    value = eval('format' % eval(string, None, self.get_global_scope(string)))
-
-                except NameError:
-                    value = 'error: variable ' + string + ' not found'
-                    self.logger.error('variable ' + string + ' not found')
+                self.logger.info('finding the value of whats in string based on globals')
+                value = eval(format % eval(string, None, self.get_global_scope(string)))
 
         else:
             try:
@@ -118,15 +113,9 @@ class f(str):
                 value = eval(string, None, self.get_scope(string))
 
             except NameError:
-                value = 'error: variable ' + string + ' not found'
                 self.logger.error('variable ' + string + ' not found')
-                try:
-                    self.logger.info('finding the value of whats in string based on globals')
-                    value = eval(string, None, self.get_global_scope(string))
-
-                except NameError:
-                    value = 'error: variable ' + string + ' not found'
-                    self.logger.error('variable ' + string + ' not found')
+                self.logger.info('finding the value of whats in string based on globals')
+                value = eval(string, None, self.get_global_scope(string))
         
         if equal:
             if type_conversion:
@@ -148,11 +137,19 @@ class f(str):
         for match in self.regex0.findall(self.string):
             # this can split in middle string so we need to figure out after sometthing else not if : in to in qoutes
             split_match = self.regex1(':').split(match[1:-1])
+            try:
+                format = split_match[1]
+            except IndexError:
+                format = None
+            print(format, 'format code')
             self.scope = inspect.stack()[1][0]
             string = self.str_equal_string(split_match[0])[0][0]
+            print(string, 'cut down string')
             equal = self.str_equal_string(split_match[0])[1]
+            print(equal, 'after = ')
             type_conversion = self.type_conversions(self.str_equal_string(split_match[0])[0][1])
-            self.output = re.sub(match, self.var_to_string(string, split_match[0], equal=equal, type_conversion=type_conversion), self.output)
+            print(type_conversion, 'type-conversion')
+            self.output = re.sub(match, self.var_to_string(string, split_match[0], equal=equal, type_conversion=type_conversion, format=format), self.output)
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
         return self.output
