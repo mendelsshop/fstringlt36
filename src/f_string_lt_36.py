@@ -22,6 +22,8 @@ class f(str):
         self.regex1 = regexs.regex1
         self.scope = inspect.stack()[1][0]
         self.logger.info('Started')
+        self.output = self.f_string_parse()
+        string = self.output
 
     # get_scope() and get_global_scope() can technicaly be combined
     def get_scope(self, string) -> dict:
@@ -56,34 +58,41 @@ class f(str):
         equal = None
         # need to check if its the last no space char or if its followed by !s, !a or !r
         # so that it does not split in middle the variable/string
-        if self.regex1('=').search(string):
+        # if the last match from self.regex10('=').findall(string):
+        #     equal = self.regex10('=').findall(string)[-1]
+
+        if self.regex1('=').findall(string):
+            # check if the = is part of an operator
             equal = True
             string = self.regex1('=').split(string)
+            
         if type(string) is str:
             string = [string, '']
+
         return string, equal
 
     def type_conversions(self, string) -> str:
+        strcpy = string
         if '!' in string:
-            string = string.split('!')[1]
+            string = string.split('!')
             # if string conatain anything besides for a, s, or r
-            if string not in ['a', 's', 'r']:
+            if string[1] not in ['a', 's', 'r']:
                 # if string does not start with a, s, or r
-                if string[0] not in ['a', 's', 'r']:
+                if string[1][0] not in ['a', 's', 'r']:
                     raise SyntaxError("SyntaxError: f-string: invalid conversion character: expected 's', 'r', or 'a'")
+                
                 else:
                     # if after with a, s, or r there is anything else
-                    if string[1:]:
+                    if string[1][1:]:
                         raise SyntaxError("f-string: expecting '}'")
+
+            elif string == '=':
+                return None, strcpy 
+
             else:
-                return '!' + string
-        return None
+                return '!' + string[1], string[0]
 
-
-
-            
-            
-
+        return None, strcpy
 
     def var_to_string(self, string, ogstring, format=None, equal=None, type_conversion=None) -> str:
         '''
@@ -99,7 +108,6 @@ class f(str):
             try:
                 self.logger.info('finding the value of whats in string based on locals')
                 # need to figure out how to evaluate format codes
-                print(eval('(5 / 5)' + '.2', None, self.get_scope(string)))
                 value = eval(format % eval(string, None, self.get_scope(string)))
 
             except NameError:
@@ -117,38 +125,57 @@ class f(str):
                 self.logger.info('finding the value of whats in string based on globals')
                 value = eval(string, None, self.get_global_scope(string))
         
+        if type_conversion:
+            if type_conversion == '!a':
+                # need to fix error with unicode characters and regex
+                # print('ascci', ascii(value))
+                value = ascii(value)
+
+            elif type_conversion == '!s':
+                value = str(value)
+
+            elif type_conversion == '!r':
+                value = repr(value)
+
+            value1 =self.regex1('!').split(ogstring)[0]
+
         if equal:
-            if type_conversion:
-                if type_conversion == '!a':
-                    value = ascii(value)
-                elif type_conversion == '!s':
-                    value = str(value)
-                elif type_conversion == '!r':
-                    value = repr(value)
-                # return ogstring with type conversion in it
-                return self.regex1('!').split(ogstring)[0] + value
+            if type_conversion: return value1 + value
 
             return ogstring + self.__repr__(value)
 
         return value
 
     def f_string_parse(self) -> str:
+        print('iteerating through string')
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
             # this can split in middle string so we need to figure out after sometthing else not if : in to in qoutes
+            # we need to also check if : is followed by an operator like :=
             split_match = self.regex1(':').split(match[1:-1])
             try:
                 format = split_match[1]
             except IndexError:
                 format = None
+
             print(format, 'format code')
             self.scope = inspect.stack()[1][0]
+            print(split_match[0],'split match')
+            equals = self.str_equal_string(split_match[0])
             string = self.str_equal_string(split_match[0])[0][0]
-            print(string, 'cut down string')
             equal = self.str_equal_string(split_match[0])[1]
             print(equal, 'after = ')
-            type_conversion = self.type_conversions(self.str_equal_string(split_match[0])[0][1])
-            print(type_conversion, 'type-conversion')
+            print(string, 'string')
+
+            if equal:
+                type_conversion = self.type_conversions(equals[0][-1])[0]
+                
+            else:
+                type_conversion = self.type_conversions(split_match[0])[0]
+                string = self.type_conversions(split_match[0])[1]
+
+            print(type_conversion, 'type conversion')
+            print(string, 'string')
             self.output = re.sub(match, self.var_to_string(string, split_match[0], equal=equal, type_conversion=type_conversion, format=format), self.output)
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
@@ -162,15 +189,17 @@ class f(str):
         return (amount * '{') + str(string) + (amount * '}')
 
     def __len__(self) -> int:
-        return len(self.f_string_parse())
-
+        return len(self.output)
     def __repr__(self, string=None) -> str:
-        if string: return '\'' + string + '\''
-        return '\"' + self.f_string_parse() + '\"'
-
-    def __str__(self) -> str:
-        return self.f_string_parse()
-
+        if string:
+            return repr(string)
+        return repr(self.output)
+    def __str__(self, string=None) -> str:
+        if string:
+            return str(string)
+        return str(self.output)
+    def __call__(self):
+        return self.output
 
 def main():
     print('to test it use the tests.py in the test directory')
