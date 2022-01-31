@@ -3,6 +3,10 @@ import re
 import logging
 import inspect
 import regexs
+import sys
+
+pythonv = sys.version.split('(')[0]
+# print('python version:', pythonv)
 # should probably do a better job for logging
 # next feaure detect amount of curly braces and based that reurn either an evaluted or unevaluated vairable encapsulted in a certain amount of curly braces
 
@@ -10,10 +14,24 @@ class f(str):
 
     def __init__(self, string) -> None:
         self.logger = logging
-        self.logger.basicConfig(
-            filename='debug.log',
-            encoding='utf-8',
-            level=logging.DEBUG)
+        self.pythonv = float(pythonv.split('.')[0] + '.' + pythonv.split('.')[1])
+        if self.pythonv > 3.8:
+            self.logger.basicConfig(
+                filename='debug.log',
+                encoding='utf-8',
+                format='%(asctime)s %(levelname)s %(message)s',
+                datefmt='%m/%d/%Y %I:%M:%S %p',
+                level=logging.DEBUG)
+
+        else:
+            self.logger.basicConfig(
+                filename='debug.log',
+                format='%(asctime)s %(levelname)s %(message)s',
+                datefmt='%m/%d/%Y %I:%M:%S %p',
+                level=logging.DEBUG)
+
+        self.pythonv = pythonv
+        self.logger.debug('python version: %s', self.pythonv)
         self.string = string
         self.output = string
         # should probably move this to a config file or take it from setup.py
