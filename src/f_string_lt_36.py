@@ -176,7 +176,10 @@ class f(str):
 
             print(type_conversion, 'type conversion')
             print(string, 'string')
-            self.output = re.sub(match, self.var_to_string(string, split_match[0], equal=equal, type_conversion=type_conversion, format=format), self.output)
+            s = self.var_to_string(string, split_match[0], equal=equal, type_conversion=type_conversion, format=format)
+            self.output = self.output.replace(match, s)
+            # using re.sub messes with unicode and errors out wit bad escape \U so until i figure it out i will use str.replace()
+            # self.output = re.sub(match, s, self.output)
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
         return self.output
