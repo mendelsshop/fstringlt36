@@ -50,6 +50,7 @@ def main() -> None:
     # global hello, world
     hello = "Hello,"
     worlds = "wo"
+    emoji = "😊"
     world = {'stuff': 'to'}
     world['thing'] = 'world'
     world['list'] = [1, 'hi', 3, 4, 5]
@@ -57,18 +58,13 @@ def main() -> None:
     val = 5 * 5
     world['set'] = {1, 2, 3, '4', 5}
     world['function'] = lambda x: x**2
-    string = f('{5 * 5 =:.2f} {worlds}')
-    string1 = f'{5 * 5 =:.2f} {worlds}'
-    # calling .fstring_parse() will not work
-    # because it is a class method so when you call inspect.stack()[1][0]
-    # it will return the the file name of where .fstring_parse() is created
-    # not the file name of the file where you call the fsring class
-    # so when you call .fstring_parse() it messes up something and
-    # it will output 'error variable ' + string + ' not found'
-    # instead of the parsed string
+    # str is needed here becuse if not for some reason it will return the orginal string 
+    # and not the the fstring version of the string
+    string = str(f('{emoji = !r} {worlds}'))
+    string1 = f'{emoji = } {worlds}'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
-    tests.append('fake f_string ' + str(string))
+    tests.append('fake f_string ' + string)
     tests.append('len of real f_string ' + str(len(string1)))
     tests.append('real f_string ' + string1)
     boxify(tests)
