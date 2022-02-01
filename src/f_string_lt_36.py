@@ -208,19 +208,99 @@ class f(str):
         amount defaults to 1
         '''
         return (amount * '{') + str(string) + (amount * '}')
-
+    # check
     def __len__(self) -> int:
         return len(self.output)
+    # check
     def __repr__(self, string=None) -> str:
         if string:
             return repr(string)
         return repr(self.output)
+    # check
     def __str__(self, string=None) -> str:
         if string:
             return str(string)
         return str(self.output)
+    # check
     def __call__(self):
-        return self.output
+        raise TypeError('\'str\' is not callable')
+    # check
+    def __radd__(self, string):
+        return string + self.output
+    # check
+    def __add__(self, string):
+        return self.output + string
+    # check
+    def __iadd__(self, string):
+        self.output += string
+        return self
+    # maybe idk
+    def __iter__(self):
+        return iter(self.output)
+    # check
+    def __getitem__(self, index):
+        return self.output[index]
+    # check  
+    def __setitem__(self, index, value):
+        raise TypeError('\'str\' object does not support item assignment')
+    # check  
+    def __delitem__(self, index):
+            del self.output[index]
+            return self.output
+    # check 
+    def __contains__(self, item):
+        return item in self.output
+
+
+    # def __getattr__(self, name):
+        # return getattr(self.output, name)
+
+    # def __setattr__(self, name, value):
+        # setattr(self.output, name, value)
+        # return self
+    
+    # def __delattr__(self, name):
+    #     delattr(self.output, name)
+    #     return self
+
+    # def __lt__(self, other):
+    #     return self.output < other
+
+    # def __le__(self, other):
+    #     return self.output <= other
+
+    # def __eq__(self, other):
+    #     return self.output == other
+
+    # def __ne__(self, other):
+    #     return self.output != other
+
+    # def __gt__(self, other):
+    #     return self.output > other
+
+    # def __ge__(self, other):
+    #     return self.output >= other
+
+    # def __hash__(self):
+    #     return hash(self.output)
+
+    # def __nonzero__(self):
+    #     return bool(self.output)
+
+    # def __getstate__(self):
+    #     return self.output
+
+    # def __setstate__(self, state):
+    #     self.output = state
+
+    # def __reduce__(self):
+    #     return self.output
+
+    # def __class__(self):
+        # return '<class \'str\'>'
+
+
+
 
 def main():
     print('to test it use the tests.py in the test directory')

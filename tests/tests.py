@@ -60,7 +60,7 @@ def main() -> None:
     world['function'] = lambda x: x**2
     # str is needed here becuse if not for some reason it will return the orginal string 
     # and not the the fstring version of the string
-    string = str(f('{emoji = !a} {worlds}'))
+    string = f('{emoji = !a} {worlds}')
     string1 = f'{emoji = !a} {worlds}'
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
