@@ -14,8 +14,7 @@ class f(str):
 
     def __init__(self, string) -> None:
         self.logger = logging
-        self.pythonv = float(pythonv.split('.')[0] + '.' + pythonv.split('.')[1])
-        if self.pythonv > 3.8:
+        if sys.version_info >= (3, 8):
             self.logger.basicConfig(
                 filename='debug.log',
                 encoding='utf-8',
@@ -33,7 +32,6 @@ class f(str):
         self.pythonv = pythonv
         self.logger.debug('python version: %s', self.pythonv)
         self.string = string
-        self.output = string
         # should probably move this to a config file or take it from setup.py
         self.version = '0.0.2-alpha'
         self.regex0 = regexs.regex0
@@ -42,6 +40,10 @@ class f(str):
         self.logger.info('Started')
         self.output = self.f_string_parse()
         string = self.output
+        # print(string)
+        # print(self.output)
+        # print(self.string)
+        self.logger.info('Finished')
 
     # get_scope() and get_global_scope() can technicaly be combined
     def get_scope(self, string) -> dict:
@@ -195,12 +197,12 @@ class f(str):
             print(type_conversion, 'type conversion')
             print(string, 'string')
             s = self.var_to_string(string, split_match[0], equal=equal, type_conversion=type_conversion, format=format)
-            self.output = self.output.replace(match, s)
+            self.string = self.string.replace(match, s)
             # using re.sub messes with unicode and errors out wit bad escape \U so until i figure it out i will use str.replace()
             # self.output = re.sub(match, s, self.output)
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
-        return self.output
+        return self.string
 
     def curly_bracealize(self, string, amount=1) -> str:
         '''
@@ -245,11 +247,21 @@ class f(str):
         raise TypeError('\'str\' object does not support item assignment')
     # check  
     def __delitem__(self, index):
-            del self.output[index]
-            return self.output
+        del self.output[index]
+        return self.output
     # check 
     def __contains__(self, item):
         return item in self.output
+
+    # def __capitalize__(self):
+    #     # self.output = self.f_string_parse()
+    #     return self.output.capitalize()
+
+    # def __lower__(self):
+    #     return self.output.lower()
+
+    # def __upper__(self):
+        # return self.output.upper()
 
 
     # def __getattr__(self, name):

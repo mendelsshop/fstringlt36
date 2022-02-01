@@ -62,6 +62,8 @@ def main() -> None:
     # and not the the fstring version of the string
     string = f('{emoji = !a} {worlds}')
     string1 = f'{emoji = !a} {worlds}'
+    # string = string.upper()
+    # string1 = string1.upper()
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     tests.append('fake f_string ' + string)
