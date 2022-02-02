@@ -14,13 +14,14 @@ class f(str):
 
     def __init__(self, string) -> None:
         self.logger = logging
-        if sys.version_info >= (3, 8):
+        if sys.version_info > (3, 9):
             self.logger.basicConfig(
                 filename='debug.log',
                 encoding='utf-8',
                 format='%(asctime)s %(levelname)s %(message)s',
                 datefmt='%m/%d/%Y %I:%M:%S %p',
                 level=logging.DEBUG)
+            # print('3.9 or above')
 
         else:
             self.logger.basicConfig(
@@ -28,6 +29,8 @@ class f(str):
                 format='%(asctime)s %(levelname)s %(message)s',
                 datefmt='%m/%d/%Y %I:%M:%S %p',
                 level=logging.DEBUG)
+            # print('3.8 or lower')
+        
 
         self.pythonv = pythonv
         self.logger.debug('python version: %s', self.pythonv)
