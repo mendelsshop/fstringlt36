@@ -326,6 +326,7 @@ class f(str):
     # def __class__(self):
         # return '<class \'str\'>'
     def upper(self):
+
         return self.output.upper()
 
     def lower(self):
