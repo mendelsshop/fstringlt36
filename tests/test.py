@@ -2,6 +2,7 @@
 import os
 import sys
 import unittest
+from unittest import TestCase, main, skipIf, expectedFailure
 # i know i should be using unit test
 # but i don't know unit tests so this will do
 if os.name == 'nt':
@@ -21,6 +22,12 @@ path = sep.join(split_path)
 # or any variation of that it would not work
 sys.path.append(path)
 from f_string_lt_36 import f
+# creates a test class
+class TestFString(TestCase):
+    # creates a test case
+    def test_f_string(self):
+        s = f("Hello")
+        self.assertEqual(str(s), "Hello")
 
 
 def boxify(list) -> None:
