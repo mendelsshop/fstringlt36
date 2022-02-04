@@ -12,6 +12,10 @@ pythonv = sys.version.split('(')[0]
 
 class f(str):
 
+    def __new__(cls, *args, **kwargs):
+        # return cls.__str__(*args, **kwargs)
+        return super().__new__(cls)
+
     def __init__(self, string) -> None:
         self.logger = logging
         if sys.version_info > (3, 9):
@@ -174,7 +178,7 @@ class f(str):
         return value
 
     def f_string_parse(self) -> str:
-        print('iteerating through string')
+        # print('iteerating through string')
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
             # this can split in middle string so we need to figure out after sometthing else not if : in to in qoutes
@@ -185,14 +189,14 @@ class f(str):
             except IndexError:
                 format = None
 
-            print(format, 'format code')
+            # print(format, 'format code')
             self.scope = inspect.stack()[1][0]
-            print(split_match[0],'split match')
+            # print(split_match[0],'split match')
             equals = self.str_equal_string(split_match[0])
             string = self.str_equal_string(split_match[0])[0][0]
             equal = self.str_equal_string(split_match[0])[1]
-            print(equal, 'after = ')
-            print(string, 'string')
+            # print(equal, 'after = ')
+            # print(string, 'string')
 
             if equal:
                 type_conversion = self.type_conversions(equals[0][-1])[0]
@@ -201,8 +205,8 @@ class f(str):
                 type_conversion = self.type_conversions(split_match[0])[0]
                 string = self.type_conversions(split_match[0])[1]
 
-            print(type_conversion, 'type conversion')
-            print(string, 'string')
+            # print(type_conversion, 'type conversion')
+            # print(string, 'string')
             s = self.var_to_string(string, split_match[0], equal=equal, type_conversion=type_conversion, format=format)
             self.string = self.string.replace(match, s)
             # using re.sub messes with unicode and errors out wit bad escape \U so until i figure it out i will use str.replace()
@@ -227,12 +231,13 @@ class f(str):
         return repr(self.output)
     # check
     def __str__(self, string=None) -> str:
+        # print(self)
         if string:
             return str(string)
         return str(self.output)
     # check
-    def __call__(self):
-        raise TypeError('\'str\' is not callable')
+    # def __call__(self):
+        # raise TypeError('\'str\' is not callable')
     # check
     def __radd__(self, string):
         return string + self.output
@@ -248,21 +253,24 @@ class f(str):
         return iter(self.output)
     # check
     def __getitem__(self, index):
-        return self.output[index]
+        print(self.string[index])
+        return self.string[index]
     # check  
-    def __setitem__(self, index, value):
-        raise TypeError('\'str\' object does not support item assignment')
+    # def __setitem__(self, index, value):
+        # raise TypeError('\'str\' object does not support item assignment')
     # check  
-    def __delitem__(self, index):
-        del self.output[index]
-        return self.output
+    # def __delitem__(self, index):
+    #     del self.output[index]
+    #     return self.output
     # check 
     def __contains__(self, item):
         return item in self.output
 
-    # def __capitalize__(self):
-    #     # self.output = self.f_string_parse()
-    #     return self.output.capitalize()
+    def __capitalize__(self):
+        # self.output = self.f_string_parse()
+        print('capitalize', self.output)
+        s = self.output
+        return s.capitalize()
 
     # def __lower__(self):
     #     return self.output.lower()
@@ -317,6 +325,14 @@ class f(str):
 
     # def __class__(self):
         # return '<class \'str\'>'
+    def upper(self):
+        return self.output.upper()
+
+    def lower(self):
+        return self.output.lower()
+    
+    def capitalize(self):
+        return self.output.capitalize()
 
 
 

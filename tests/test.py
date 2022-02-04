@@ -62,11 +62,14 @@ def main() -> None:
     # and not the the fstring version of the string
     string = f('{emoji = !a} {worlds}')
     string1 = f'{emoji = !a} {worlds}'
-    # string = string.upper()
-    # string1 = string1.upper()
+    string = string.upper()
+    string1 = string1.upper()
+    s = string[0]
+    print(s, 'test')
+    print(string.capitalize())
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
-    tests.append('fake f_string ' + string)
+    tests.append('fake f_string ' + str(string))
     tests.append('len of real f_string ' + str(len(string1)))
     tests.append('real f_string ' + string1)
     boxify(tests)
