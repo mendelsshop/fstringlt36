@@ -128,6 +128,10 @@ class f(str):
         '''
 
         if type(format) is str:
+            # check if python version is 2.6 or greater
+            # if this is true we can use str.format() because 2.6 is the oldest version to support it
+            if self.pythonv >= '2.6':
+                pass
             try:
                 self.logger.info('finding the value of whats in string based on locals')
                 # need to figure out how to evaluate format codes
