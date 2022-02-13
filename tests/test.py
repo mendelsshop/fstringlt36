@@ -41,10 +41,12 @@ def boxify(list) -> None:
     than we again do the hash/number sign times longest string + 4
     '''
     # find larggest string in list
+    print(list)
     larggest_string = len(max(list, key=len))
     print('#' * (larggest_string+4))
     for item in list:
         # center each item with .center(larggest_string)
+        print(item)
         print('#', item.center(larggest_string), '#')
     print('#' * (larggest_string + 4))
 
@@ -67,18 +69,23 @@ def main() -> None:
     world['function'] = lambda x: x**2
     # str is needed here becuse if not for some reason it will return the orginal string 
     # and not the the fstring version of the string
-    string = f('{emoji = !a} {worlds}')
-    string1 = f'{emoji = !a} {worlds}'
-    string = string.upper()
-    string1 = string1.upper()
-    s = string[0]
-    print(s, 'test')
-    print(string.capitalize())
+    string = f('{emoji  !a} {worlds}')
+    string1 = f'{emoji  !a} {worlds}'
+    # string = string.upper()
+    # string1 = string1.upper()
+    # s = string[0]
+    # print(s, 'test')
+    # print(string.capitalize())
+    # print(string)
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
-    tests.append('fake f_string ' + str(string))
+    tests.append(string)
+    # print(tests)
+    # print(tests[1])
     tests.append('len of real f_string ' + str(len(string1)))
     tests.append('real f_string ' + string1)
+    # print(tests)
+    # print(tests[1])
     boxify(tests)
 
 

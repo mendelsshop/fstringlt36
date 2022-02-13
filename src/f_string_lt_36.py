@@ -10,11 +10,10 @@ pythonv = sys.version.split('(')[0]
 # should probably do a better job for logging
 # next feaure detect amount of curly braces and based that reurn either an evaluted or unevaluated vairable encapsulted in a certain amount of curly braces
 
-class f(str):
+class f(str,object):
 
     def __new__(cls, *args, **kwargs):
-        # return cls.__str__(*args, **kwargs)
-        return super().__new__(cls)
+        return super(f, cls).__new__(cls, *args, **kwargs)
 
     def __init__(self, string) -> None:
         self.logger = logging
@@ -266,19 +265,6 @@ class f(str):
     def __contains__(self, item):
         return item in self.output
 
-    def __capitalize__(self):
-        # self.output = self.f_string_parse()
-        print('capitalize', self.output)
-        s = self.output
-        return s.capitalize()
-
-    # def __lower__(self):
-    #     return self.output.lower()
-
-    # def __upper__(self):
-        # return self.output.upper()
-
-
     # def __getattr__(self, name):
         # return getattr(self.output, name)
 
@@ -334,6 +320,12 @@ class f(str):
     
     def capitalize(self):
         return self.output.capitalize()
+
+    def __unicode__(self):
+        return self.output
+
+    def casefold(self) -> str:
+        return super().casefold()
 
 
 
