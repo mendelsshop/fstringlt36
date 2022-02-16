@@ -252,8 +252,8 @@ class f(str,object):
         return iter(self.output)
     # check
     def __getitem__(self, index):
-        print(self.string[index])
         return self.string[index]
+        
     # check  
     # def __setitem__(self, index, value):
         # raise TypeError('\'str\' object does not support item assignment')
@@ -262,6 +262,7 @@ class f(str,object):
     #     del self.output[index]
     #     return self.output
     # check 
+
     def __contains__(self, item):
         return item in self.output
 
@@ -312,20 +313,23 @@ class f(str,object):
     # def __class__(self):
         # return '<class \'str\'>'
     def upper(self):
-
         return self.output.upper()
 
-    def lower(self):
+    def lower(self) -> str:
         return self.output.lower()
     
-    def capitalize(self):
+    def capitalize(self) -> str:
         return self.output.capitalize()
 
-    def __unicode__(self):
+    def __unicode__(self) -> str:
         return self.output
 
     def casefold(self) -> str:
-        return super().casefold()
+        return self.output.casefold()
+    
+    def center(self, width, fillchar=' ') -> str:
+        return self.output.center(width, fillchar)
+    
 
 
 
