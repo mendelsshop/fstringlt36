@@ -13,7 +13,7 @@ setup(
     author_email = 'mendelsshop@gmail.com',
     url = 'https://github.com/mendelsshop/f-string_lt_36',
     packages=['f-string_lt_36'],
-    install_requires=['logging' ,'os', 'sys', 're'],
+    install_requires=['logging' ,'os', 'sys', 're', 'unittest', 'inspect'],
     packages=find_packages(where='src'),
     classifiers=[
         'Programming Language :: Python',
