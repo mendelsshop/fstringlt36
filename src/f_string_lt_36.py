@@ -10,7 +10,7 @@ pythonv = sys.version.split('(')[0]
 # should probably do a better job for logging
 # next feaure detect amount of curly braces and based that reurn either an evaluted or unevaluated vairable encapsulted in a certain amount of curly braces
 
-class f(str,object):
+class f(str):
 
     def __new__(cls, *args, **kwargs):
         return super(f, cls).__new__(cls, *args, **kwargs)
@@ -220,43 +220,52 @@ class f(str,object):
         amount defaults to 1
         '''
         return (amount * '{') + str(string) + (amount * '}')
+
     # check
     def __len__(self) -> int:
         return len(self.output)
+
     # check
     def __repr__(self, string=None) -> str:
         if string:
             return repr(string)
         return repr(self.output)
+
     # check
     def __str__(self, string=None) -> str:
-        # print(self)
         if string:
             return str(string)
         return str(self.output)
+
     # check
     # def __call__(self):
         # raise TypeError('\'str\' is not callable')
+
     # check
     def __radd__(self, string):
         return string + self.output
+
     # check
     def __add__(self, string):
         return self.output + string
+
     # check
     def __iadd__(self, string):
         self.output += string
         return self
+
     # maybe idk
     def __iter__(self):
         return iter(self.output)
+
     # check
     def __getitem__(self, index):
         return self.string[index]
-        
+
     # check  
     # def __setitem__(self, index, value):
         # raise TypeError('\'str\' object does not support item assignment')
+
     # check  
     # def __delitem__(self, index):
     #     del self.output[index]
