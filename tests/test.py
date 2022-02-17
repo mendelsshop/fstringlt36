@@ -20,19 +20,13 @@ path = sep.join(split_path)
 sys.path.append(path)
 from f_string_lt_36 import f
 
-# creates a test class
 class TestFString(TestCase):
-    '''
-    this is a test class
-    '''
-    # this is a test
     def test_hello(self):
-        '''
-        this is a test
-        '''
-        # this is a test
-        # create variables
-        hello = "Hello,"
-        worlds = "wo"
-        emoji = "😊"
-        self.assertEqual(f('{hello} {worlds}{emoji}'), 'Hello, wo😊')
+        w = "World"
+        testcase = str(f('Hello, {w}'))
+        self.assertEqual(testcase, 'Hello, World')
+
+    def test_type_flag(self):
+        w = "World"
+        testcase = str(f('Hello, {w !r}'))
+        self.assertEqual(testcase, "Hello, 'World'")
