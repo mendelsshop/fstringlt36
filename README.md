@@ -1,3 +1,5 @@
+[![tests](https://github.com/mendelsshop/f-string_lt_36/actions/workflows/test.yml/badge.svg?branch=regex)](https://github.com/mendelsshop/f-string_lt_36/actions/workflows/test.yml)
+[![flake8](https://github.com/mendelsshop/f-string_lt_36/actions/workflows/flake8.yml/badge.svg)](https://github.com/mendelsshop/f-string_lt_36/actions/workflows/flake8.yml)
 # f-string_lt_36 Regex Edition
 ## About: 
 Python f-strings for before Python 3.6. using Regex
