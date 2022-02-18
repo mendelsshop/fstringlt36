@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name='f-string_lt_36',
+    name='f-string_lt_36-MENDELSSHOP',
     version='0.0.2',
     description='Python f-strings for before Python3.6',
     license='MIT',
@@ -13,10 +13,14 @@ setup(
     long_description_content_type='text/markdown',
     author = 'Mendelsshop',
     author_email = 'mendelsshop@gmail.com',
-    url = 'https://github.com/mendelsshop/f-string_lt_36/tree/regex',
+    url = 'https://github.com/mendelsshop/f-string_lt_36/',
+    project_urls = {
+        'Bug Tracker': 'https://github.com/mendelsshop/f-string_lt_36/issues'
+    },
     packages=['fstring_lt_36'],
     install_requires=['re', 'inspect', 'unittest', 'logging', 'os', 'sys', 'inspect'],
-    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
+    packages=find_packages(where="src"),
     classifiers=[
         'Programming Language :: Python',
         'License :: OSI Approved :: MIT License',
