@@ -11,7 +11,7 @@ else:
 path = os.path.dirname(os.path.realpath(__file__))
 split_path = path.split(sep)
 split_path.pop(-1)
-split_path.append('src')
+split_path.append('fstringlt36')
 path = sep.join(split_path)
 # kinda hacky way to import the fstring module from the src folder
 # because when I tried to import fstring like this:
@@ -61,7 +61,7 @@ def main() -> None:
     
     string = f('{emoji !a} {worlds}')
     string1 = f'{emoji !a} {worlds}'
-
+    
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     tests.append('fake f_string ' + string)

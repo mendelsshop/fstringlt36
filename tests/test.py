@@ -15,7 +15,7 @@ else:
 path = os.path.dirname(os.path.realpath(__file__))
 split_path = path.split(sep)
 split_path.pop(-1)
-split_path.append('src')
+split_path.append('fstringlt36')
 path = sep.join(split_path)
 sys.path.append(path)
 from fstringlt36 import f
@@ -65,3 +65,7 @@ class TestFString(TestCase):
         w = "bar"
         testcase = str(f('FOO {w}').swapcase())
         self.assertEqual(testcase, 'foo BAR')
+
+    def test_add(self):
+        testcase = str(f('{1 + 1 = }'))
+        self.assertEqual(testcase, '1 + 1 = 2')

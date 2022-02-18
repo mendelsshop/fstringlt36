@@ -3,14 +3,17 @@ import collections
 import re
 import logging
 import inspect
-from . import regexs
+try:
+    from . import regexs
+except ImportError:
+    import regexs
 import sys
 from typing import Callable
 
 pythonv = sys.version.split('(')[0]
-# print('python version:', pythonv)
 # should probably do a better job for logging
 # next feaure detect amount of curly braces and based that reurn either an evaluted or unevaluated vairable encapsulted in a certain amount of curly braces
+# make sure that when something like f("{5 + 5") is evaluated it converts the eval of 5 * 5 to a string
 
 class f(collections.UserString):
 
