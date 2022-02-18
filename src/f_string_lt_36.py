@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
+import collections
+# collections.UserStr()
 import re
 import logging
 import inspect
 import regexs
 import sys
+from typing import Callable
 
 pythonv = sys.version.split('(')[0]
 # print('python version:', pythonv)
 # should probably do a better job for logging
 # next feaure detect amount of curly braces and based that reurn either an evaluted or unevaluated vairable encapsulted in a certain amount of curly braces
 
-class f(str):
+class f(collections.UserString):
 
-    def __new__(cls, *args, **kwargs):
-        return super(f, cls).__new__(cls, *args, **kwargs)
+    # def __new__(cls, *args, **kwargs):
+    #     return super(f, cls).__new__(cls, *args, **kwargs)
 
     def __init__(self, string) -> None:
         self.logger = logging
@@ -34,7 +37,6 @@ class f(str):
                 level=logging.DEBUG)
             # print('3.8 or lower')
         
-
         self.pythonv = pythonv
         self.logger.debug('python version: %s', self.pythonv)
         self.string = string
@@ -44,11 +46,7 @@ class f(str):
         self.regex1 = regexs.regex1
         self.scope = inspect.stack()[1][0]
         self.logger.info('Started')
-        self.output = self.f_string_parse()
-        string = self.output
-        # print(string)
-        # print(self.output)
-        # print(self.string)
+        self.data = self.f_string_parse()
         self.logger.info('Finished')
 
     # get_scope() and get_global_scope() can technicaly be combined
@@ -221,124 +219,36 @@ class f(str):
         '''
         return (amount * '{') + str(string) + (amount * '}')
 
-    # check
-    def __len__(self) -> int:
-        return len(self.output)
 
+    # def __getattribute__(self, name):
+
+    #     s = super().__getattribute__(name)
+    #     if name in dir(str):
+    #         if isinstance(s, Callable):
+
+    #             def wrap():
+    #                 return f(s())
+
+    #             return wrap
+
+    #     else:
+    #         print(s)
+    #         return s
+    
     # check
     def __repr__(self, string=None) -> str:
         if string:
             return repr(string)
-        return repr(self.output)
+        return repr(self.data)
 
     # check
     def __str__(self, string=None) -> str:
         if string:
             return str(string)
-        return str(self.output)
+        return str(self.data)
 
-    # check
-    # def __call__(self):
-        # raise TypeError('\'str\' is not callable')
 
-    # check
-    def __radd__(self, string):
-        return string + self.output
 
-    # check
-    def __add__(self, string):
-        return self.output + string
-
-    # check
-    def __iadd__(self, string):
-        self.output += string
-        return self
-
-    # maybe idk
-    def __iter__(self):
-        return iter(self.output)
-
-    # check
-    def __getitem__(self, index):
-        return self.string[index]
-
-    # check  
-    # def __setitem__(self, index, value):
-        # raise TypeError('\'str\' object does not support item assignment')
-
-    # check  
-    # def __delitem__(self, index):
-    #     del self.output[index]
-    #     return self.output
-    # check 
-
-    def __contains__(self, item):
-        return item in self.output
-
-    # def __getattr__(self, name):
-        # return getattr(self.output, name)
-
-    # def __setattr__(self, name, value):
-        # setattr(self.output, name, value)
-        # return self
-    
-    # def __delattr__(self, name):
-    #     delattr(self.output, name)
-    #     return self
-
-    # def __lt__(self, other):
-    #     return self.output < other
-
-    # def __le__(self, other):
-    #     return self.output <= other
-
-    # def __eq__(self, other):
-    #     return self.output == other
-
-    # def __ne__(self, other):
-    #     return self.output != other
-
-    # def __gt__(self, other):
-    #     return self.output > other
-
-    # def __ge__(self, other):
-    #     return self.output >= other
-
-    # def __hash__(self):
-    #     return hash(self.output)
-
-    # def __nonzero__(self):
-    #     return bool(self.output)
-
-    # def __getstate__(self):
-    #     return self.output
-
-    # def __setstate__(self, state):
-    #     self.output = state
-
-    # def __reduce__(self):
-    #     return self.output
-
-    # def __class__(self):
-        # return '<class \'str\'>'
-    def upper(self):
-        return self.output.upper()
-
-    def lower(self) -> str:
-        return self.output.lower()
-    
-    def capitalize(self) -> str:
-        return self.output.capitalize()
-
-    def __unicode__(self) -> str:
-        return self.output
-
-    def casefold(self) -> str:
-        return self.output.casefold()
-    
-    def center(self, width, fillchar=' ') -> str:
-        return self.output.center(width, fillchar)
-    
 
 
 

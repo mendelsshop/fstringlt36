@@ -30,3 +30,38 @@ class TestFString(TestCase):
         w = "World"
         testcase = str(f('Hello, {w !r}'))
         self.assertEqual(testcase, "Hello, 'World'")
+    
+    def test_lambda(self):
+        w = "World"
+        testcase = lambda x: str(f('Hello, {x}'))
+        self.assertEqual(testcase(w), 'Hello, World')
+
+        w = "World"
+        testcase = str(f('Hello, {w}'))
+        w = 'Different Value'
+        self.assertEqual(testcase, 'Hello, World')
+
+    def test_dot_capitalize(self):
+        w = "bar"
+        testcase = str(f('foo {w}').capitalize())
+        self.assertEqual(testcase, 'Foo bar')
+
+    def test_dot_upper(self):
+        w = "bar"
+        testcase = str(f('foo {w}').upper())
+        self.assertEqual(testcase, 'FOO BAR')
+    
+    def test_dot_lower(self):
+        w = "BAR"
+        testcase = str(f('FOO {w}').lower())
+        self.assertEqual(testcase, 'foo bar')
+
+    def test_dot_title(self):
+        w = "bar"
+        testcase = str(f('foo {w}').title())
+        self.assertEqual(testcase, 'Foo Bar')
+
+    def test_dot_swapcase(self):
+        w = "bar"
+        testcase = str(f('FOO {w}').swapcase())
+        self.assertEqual(testcase, 'foo BAR')

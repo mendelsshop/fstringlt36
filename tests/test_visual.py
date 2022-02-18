@@ -58,11 +58,13 @@ def main() -> None:
     val = 5 * 5
     world['set'] = {1, 2, 3, '4', 5}
     world['function'] = lambda x: x**2
-    string = f('{emoji  !a} {worlds}')
-    string1 = f'{emoji  !a} {worlds}'
+    
+    string = f('{emoji !a} {worlds}')
+    string1 = f'{emoji !a} {worlds}'
+
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
-    tests.append('fake f_string' + string)
+    tests.append('fake f_string ' + string)
     tests.append('len of real f_string ' + str(len(string1)))
     tests.append('real f_string ' + string1)
     boxify(tests)
