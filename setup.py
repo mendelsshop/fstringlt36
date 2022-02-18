@@ -14,9 +14,9 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     author = 'Mendelsshop',
     author_email = 'mendelsshop@gmail.com',
-    url = 'https://github.com/mendelsshop/f-string_lt_36/',
+    url = 'https://github.com/mendelsshop/fstringlt36/',
     project_urls = {
-        'Bug Tracker': 'https://github.com/mendelsshop/f-string_lt_36/issues'
+        'Bug Tracker': 'https://github.com/mendelsshop/fstringlt36/issues'
     },
 
     install_requires=[''],
