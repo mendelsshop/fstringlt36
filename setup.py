@@ -18,7 +18,7 @@ setuptools.setup(
         'Bug Tracker': 'https://github.com/mendelsshop/f-string_lt_36/issues'
     },
     # packages=['fstring_lt_36'],
-    install_requires=['re', 'inspect', 'unittest', 'logging', 'os', 'sys', 'inspect'],
+    install_requires=[''],
     package_dir={'': 'src'},
     packages=setuptools.find_packages(where="src"),
     classifiers=[
