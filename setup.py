@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='f-string_lt_36',
-    version='0.0.2',
+    version='0.0.3',
     description='Python f-strings for before Python3.6',
     license='MIT',
     long_description=long_description,
