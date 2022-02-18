@@ -20,7 +20,7 @@ setuptools.setup(
 
     install_requires=['fstringlt36'],
     package_dir={'': 'src'},
-    packages=['fstringlt36'],
+    packages=['fstringlt36.py'],
     classifiers=[
         'Programming Language :: Python',
         'License :: OSI Approved :: MIT License',
