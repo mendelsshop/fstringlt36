@@ -3,8 +3,11 @@ import collections
 import re
 import logging
 import inspect
+# if imported from pip
 try:
     from . import regexs
+# if imported from tests/test.py
+# or from tests/test_visual.py
 except ImportError:
     import regexs
 import sys
