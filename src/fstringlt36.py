@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import collections
-# collections.UserStr()
 import re
 import logging
 import inspect

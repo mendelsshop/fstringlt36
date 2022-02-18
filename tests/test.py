@@ -18,7 +18,7 @@ split_path.pop(-1)
 split_path.append('src')
 path = sep.join(split_path)
 sys.path.append(path)
-from f_string_lt_36 import f
+from fstringlt36 import f
 
 class TestFString(TestCase):
     def test_hello(self):
