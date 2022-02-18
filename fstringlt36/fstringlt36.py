@@ -3,7 +3,7 @@ import collections
 import re
 import logging
 import inspect
-import regexs
+from . import regexs
 import sys
 from typing import Callable
 
