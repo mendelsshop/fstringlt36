@@ -15,9 +15,6 @@ pythonv = sys.version.split('(')[0]
 
 class f(collections.UserString):
 
-    # def __new__(cls, *args, **kwargs):
-    #     return super(f, cls).__new__(cls, *args, **kwargs)
-
     def __init__(self, string) -> None:
         self.logger = logging
         if sys.version_info > (3, 9):
@@ -41,7 +38,7 @@ class f(collections.UserString):
         self.logger.debug('python version: %s', self.pythonv)
         self.string = string
         # should probably move this to a config file or take it from setup.py
-        self.version = '0.0.2-alpha'
+        self.version = '0.0.3-alpha'
         self.regex0 = regexs.regex0
         self.regex1 = regexs.regex1
         self.scope = inspect.stack()[1][0]
