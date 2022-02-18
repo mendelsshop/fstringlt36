@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-from setuptools import setup, find_packages
+import setuptools 
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setup(
+setuptools.setup(
     name='f-string_lt_36-MENDELSSHOP',
     version='0.0.2',
     description='Python f-strings for before Python3.6',
@@ -17,10 +17,10 @@ setup(
     project_urls = {
         'Bug Tracker': 'https://github.com/mendelsshop/f-string_lt_36/issues'
     },
-    packages=['fstring_lt_36'],
+    # packages=['fstring_lt_36'],
     install_requires=['re', 'inspect', 'unittest', 'logging', 'os', 'sys', 'inspect'],
     package_dir={'': 'src'},
-    packages=find_packages(where="src"),
+    packages=setuptools.find_packages(where="src"),
     classifiers=[
         'Programming Language :: Python',
         'License :: OSI Approved :: MIT License',
