@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='f-string_lt_36-MENDELSSHOP',
+    name='f-string_lt_36',
     version='0.0.2',
     description='Python f-strings for before Python3.6',
     license='MIT',
@@ -17,7 +17,7 @@ setuptools.setup(
     project_urls = {
         'Bug Tracker': 'https://github.com/mendelsshop/f-string_lt_36/issues'
     },
-    # packages=['fstring_lt_36'],
+
     install_requires=[''],
     package_dir={'': 'src'},
     packages=setuptools.find_packages(where="src"),
