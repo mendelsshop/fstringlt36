@@ -67,7 +67,7 @@ error: variable value not found
 
 ```
 ## Version: 
-Version Number: 0.0.2
+Version Number: 0.0.3
 <br>
 Version Stage: alpha
 
