@@ -18,9 +18,9 @@ setuptools.setup(
         'Bug Tracker': 'https://github.com/mendelsshop/f-string_lt_36/issues'
     },
 
-    install_requires=['fstringlt36'],
-    package_dir={'': 'src'},
-    packages=['fstringlt36.py'],
+    install_requires=['src'],
+    # package_dir={'': 'src'},
+    packages=[''],
     classifiers=[
         'Programming Language :: Python',
         'License :: OSI Approved :: MIT License',
