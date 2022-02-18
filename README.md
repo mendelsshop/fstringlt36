@@ -2,7 +2,7 @@
 [![flake8](https://github.com/mendelsshop/f-string_lt_36/actions/workflows/flake8.yml/badge.svg)](https://github.com/mendelsshop/f-string_lt_36/actions/workflows/flake8.yml)
 [![Upload Python Package](https://github.com/mendelsshop/f-string_lt_36/actions/workflows/python-publish.yml/badge.svg)](https://github.com/mendelsshop/f-string_lt_36/actions/workflows/python-publish.yml)
 # f-string_lt_36 Regex Edition
-# Installation: pip install fstringlt36
+## Installation: pip install fstringlt36
 ## About: 
 Python f-strings for before Python 3.6. using Regex
 <br>
