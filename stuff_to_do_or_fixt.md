@@ -1,6 +1,6 @@
-make into pypi package 
-<br>
-use regex / re instead of if/elif/else https://docs.python.org/3/library/re.html
+# figure out how to use `def funtion-name() -> return-type:` for python 2
+# find replacement for `collections.userString` for python 2
+# and basically fix stuff for python 2
 <br>
 strucure python program properly 
 <br>
