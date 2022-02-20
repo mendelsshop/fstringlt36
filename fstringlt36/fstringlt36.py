@@ -11,7 +11,6 @@ try:
 except ImportError:
     import regexs
 import sys
-from typing import Callable
 
 pythonv = sys.version.split('(')[0]
 # should probably do a better job for logging
@@ -221,38 +220,15 @@ class f(collections.UserString):
         '''
         return (amount * '{') + str(string) + (amount * '}')
 
-
-    # def __getattribute__(self, name):
-
-    #     s = super().__getattribute__(name)
-    #     if name in dir(str):
-    #         if isinstance(s, Callable):
-
-    #             def wrap():
-    #                 return f(s())
-
-    #             return wrap
-
-    #     else:
-    #         print(s)
-    #         return s
-    
-    # check
     def __repr__(self, string=None) -> str:
         if string:
             return repr(string)
         return repr(self.data)
 
-    # check
     def __str__(self, string=None) -> str:
         if string:
             return str(string)
         return str(self.data)
-
-
-
-
-
 
 
 def main():
