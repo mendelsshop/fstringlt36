@@ -66,12 +66,11 @@ def main():
     tests.append('fake f_string ' + string)
 
     # if python supports f-strings
-    try:
-        eval('f"hi"') == 'hi'
-        string1 = f'{emoji} {worlds}'
+    if sys.version_info > (3, 6):
+        string1 = eval("f'{emoji} {worlds}'")
         tests.append('len of real f_string ' + str(len(string1)))
         tests.append('real f_string ' + string1)
-    except SyntaxError:
+    else:
         tests.append('real f_string not supported')
     boxify(tests)
 
