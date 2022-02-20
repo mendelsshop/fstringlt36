@@ -102,7 +102,7 @@ class f(UserString):
 
         return string, equal
 
-    def type_conversions(self, string)  :
+    def type_conversions(self, string):
         strcpy = string
         if '!' in string:
             string = string.split('!')
@@ -125,7 +125,7 @@ class f(UserString):
 
         return None, strcpy
 
-    def var_to_string(self, string, ogstring, format=None, equal=None, type_conversion=None)  :
+    def var_to_string(self, string, ogstring, format=None, equal=None, type_conversion=None):
         '''
         this function takes a string
         trys to evaluate the string first in the local scope
@@ -180,7 +180,7 @@ class f(UserString):
 
         return value
 
-    def f_string_parse(self)  :
+    def f_string_parse(self):
         # print('iteerating through string')
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
@@ -218,19 +218,19 @@ class f(UserString):
         self.logger.info('parsing end')
         return self.string
 
-    def curly_bracealize(self, string, amount=1)  :
+    def curly_bracealize(self, string, amount=1):
         '''
         returns string encapsulated in an amount of {} based on arg amount
         amount defaults to 1
         '''
         return (amount * '{') + str(string) + (amount * '}')
 
-    def __repr__(self, string=None)  :
+    def __repr__(self, string=None):
         if string:
             return repr(string)
         return repr(self.data)
 
-    def __str__(self, string=None)  :
+    def __str__(self, string=None):
         if string:
             return str(string)
         return str(self.data)
