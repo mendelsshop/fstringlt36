@@ -1,8 +1,7 @@
-#!/usr/bin/env python3
-import collections
 import re
 import logging
 import inspect
+from tkinter import E
 # if imported from pip
 try:
     from . import regexs
@@ -13,11 +12,17 @@ except ImportError:
 import sys
 
 pythonv = sys.version.split('(')[0]
+
+# if python is 2.7 or lower
+if pythonv < '3.0':
+    from UserString import UserString
+else:
+    from collections import UserString
 # should probably do a better job for logging
 # next feaure detect amount of curly braces and based that reurn either an evaluted or unevaluated vairable encapsulted in a certain amount of curly braces
 # make sure that when something like f("{5 + 5") is evaluated it converts the eval of 5 * 5 to a string
 
-class f(collections.UserString):
+class f(UserString):
 
     def __init__(self, string) -> None:
         self.logger = logging
