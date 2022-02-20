@@ -1,13 +1,14 @@
 import re
 import logging
 import inspect
-from tkinter import E
 # if imported from pip
 try:
     from . import regexs
 # if imported from tests/test.py
 # or from tests/test_visual.py
 except ImportError:
+    import regexs
+except ValueError:
     import regexs
 import sys
 
@@ -24,7 +25,7 @@ else:
 
 class f(UserString):
 
-    def __init__(self, string) -> None:
+    def __init__(self, string):
         self.logger = logging
         if sys.version_info > (3, 9):
             self.logger.basicConfig(
@@ -56,7 +57,7 @@ class f(UserString):
         self.logger.info('Finished')
 
     # get_scope() and get_global_scope() can technicaly be combined
-    def get_scope(self, string) -> dict:
+    def get_scope(self, string):
         '''
         this function returns a dict of global variables
         if the string provided is in the local scope
@@ -70,7 +71,7 @@ class f(UserString):
 
             return self.scope.f_locals
 
-    def get_global_scope(self, string) -> dict:
+    def get_global_scope(self, string):
         '''
         this function returns a dict of global variables
         if the string provided is in the global scope
@@ -84,7 +85,7 @@ class f(UserString):
 
             return self.scope.f_globals
 
-    def str_equal_string(self, string) -> tuple:
+    def str_equal_string(self, string):
         equal = None
         # need to check if its the last no space char or if its followed by !s, !a or !r
         # so that it does not split in middle the variable/string
@@ -101,7 +102,7 @@ class f(UserString):
 
         return string, equal
 
-    def type_conversions(self, string) -> str:
+    def type_conversions(self, string)  :
         strcpy = string
         if '!' in string:
             string = string.split('!')
@@ -124,7 +125,7 @@ class f(UserString):
 
         return None, strcpy
 
-    def var_to_string(self, string, ogstring, format=None, equal=None, type_conversion=None) -> str:
+    def var_to_string(self, string, ogstring, format=None, equal=None, type_conversion=None)  :
         '''
         this function takes a string
         trys to evaluate the string first in the local scope
@@ -162,7 +163,6 @@ class f(UserString):
         if type_conversion:
             if type_conversion == '!a':
                 # need to fix error with unicode characters and regex
-                # print('ascci', ascii(value))
                 value = ascii(value)
 
             elif type_conversion == '!s':
@@ -180,7 +180,7 @@ class f(UserString):
 
         return value
 
-    def f_string_parse(self) -> str:
+    def f_string_parse(self)  :
         # print('iteerating through string')
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
@@ -218,19 +218,19 @@ class f(UserString):
         self.logger.info('parsing end')
         return self.string
 
-    def curly_bracealize(self, string, amount=1) -> str:
+    def curly_bracealize(self, string, amount=1)  :
         '''
         returns string encapsulated in an amount of {} based on arg amount
         amount defaults to 1
         '''
         return (amount * '{') + str(string) + (amount * '}')
 
-    def __repr__(self, string=None) -> str:
+    def __repr__(self, string=None)  :
         if string:
             return repr(string)
         return repr(self.data)
 
-    def __str__(self, string=None) -> str:
+    def __str__(self, string=None)  :
         if string:
             return str(string)
         return str(self.data)

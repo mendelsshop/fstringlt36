@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import os
 import sys
 
@@ -6,6 +6,7 @@ if os.name == 'nt':
     sep = '\\'
 else:
     sep = '/'
+import sys
 
 # gets the path to src directories
 path = os.path.dirname(os.path.realpath(__file__))
@@ -23,7 +24,7 @@ from fstringlt36 import f
 
 
 
-def boxify(list) -> None:
+def boxify(list):
     '''
     the boxify function is just way to test results in a nice boxify function
     first we find the larggest string in the list given to the boxify function
@@ -38,11 +39,11 @@ def boxify(list) -> None:
     print('#' * (larggest_string+4))
     for item in list:
         # center each item with .center(larggest_string)
-        print('#', item.center(larggest_string), '#')
+        print('# ' + item.center(larggest_string) + ' #')
     print('#' * (larggest_string + 4))
 
 
-def main() -> None:
+def main():
     '''
     just for visual testing
     returns None
@@ -50,7 +51,7 @@ def main() -> None:
 
     hello = "Hello,"
     worlds = "wo"
-    emoji = "😊"
+    emoji = "z"
     world = {'stuff': 'to'}
     world['thing'] = 'world'
     world['list'] = [1, 'hi', 3, 4, 5]
@@ -59,14 +60,19 @@ def main() -> None:
     world['set'] = {1, 2, 3, '4', 5}
     world['function'] = lambda x: x**2
     
-    string = f('{emoji !a} {worlds}')
-    string1 = f'{emoji !a} {worlds}'
-    
+    string = f(u'{emoji} {worlds}')
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     tests.append('fake f_string ' + string)
-    tests.append('len of real f_string ' + str(len(string1)))
-    tests.append('real f_string ' + string1)
+
+    # if python supports f-strings
+    try:
+        eval('f"hi"') == 'hi'
+        string1 = f'{emoji} {worlds}'
+        tests.append('len of real f_string ' + str(len(string1)))
+        tests.append('real f_string ' + string1)
+    except SyntaxError:
+        tests.append('real f_string not supported')
     boxify(tests)
 
 
