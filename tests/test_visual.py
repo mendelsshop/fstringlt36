@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import sys
 
@@ -51,7 +50,7 @@ def main():
 
     hello = "Hello,"
     worlds = "wo"
-    emoji = "z"
+    emoji = "🤓"
     world = {'stuff': 'to'}
     world['thing'] = 'world'
     world['list'] = [1, 'hi', 3, 4, 5]
@@ -60,7 +59,7 @@ def main():
     world['set'] = {1, 2, 3, '4', 5}
     world['function'] = lambda x: x**2
     
-    string = f(u'{emoji} {worlds}')
+    string = f('{emoji} {worlds}')
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     tests.append('fake f_string ' + string)
