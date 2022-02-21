@@ -176,7 +176,7 @@ class f(UserString):
         if equal:
             if type_conversion: return value1 + value
 
-            return ogstring + self.__repr__(value)
+            return ogstring + repr(value)
 
         return value
 
@@ -224,17 +224,6 @@ class f(UserString):
         amount defaults to 1
         '''
         return (amount * '{') + str(string) + (amount * '}')
-
-    def __repr__(self, string=None):
-        if string:
-            return repr(string)
-        return repr(self.data)
-
-    def __str__(self, string=None):
-        if string:
-            return str(string)
-        return str(self.data)
-
 
 def main():
     print('to test it use the tests.py in the test directory')

@@ -50,7 +50,7 @@ def main():
 
     hello = "Hello,"
     worlds = "wo"
-    emoji = "🤓"
+    # emoji = ""
     world = {'stuff': 'to'}
     world['thing'] = 'world'
     world['list'] = [1, 'hi', 3, 4, 5]
@@ -59,14 +59,14 @@ def main():
     world['set'] = {1, 2, 3, '4', 5}
     world['function'] = lambda x: x**2
     
-    string = f('{emoji} {worlds}')
+    string = f('{hello} {worlds}')
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     tests.append('fake f_string ' + string)
 
     # if python supports f-strings
     if sys.version_info > (3, 6):
-        string1 = eval("f'{emoji} {worlds}'")
+        string1 = eval("f'{hello} {worlds}'")
         tests.append('len of real f_string ' + str(len(string1)))
         tests.append('real f_string ' + string1)
     else:

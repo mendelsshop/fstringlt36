@@ -1,7 +1,5 @@
-#!/usr/bin/env python3
 import os
 import sys
-import unittest
 from unittest import TestCase, main, skipIf, expectedFailure
 
 # i know i should be using unit test
