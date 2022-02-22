@@ -149,20 +149,28 @@ class f(UserString):
             if self.pythonv >= '2.6':
                 pass
             try:
-                self.logger.info('finding the value of whats in string based on locals')
+                self.logger.info(
+                    'finding the value of whats in string based on locals'
+                )
                 # need to figure out how to evaluate format codes
-                value = eval(format % eval(string, None, self.get_scope(string)))
+                value = eval(
+                    format % eval(string, None, self.get_scope(string))
+                )
 
             except NameError:
                 self.logger.error('variable ' + string + ' not found')
                 self.logger.info(
                     'finding the value of whats in string based on globals'
                 )
-                value = eval(format % eval(string, None, self.get_global_scope(string)))
+                value = eval(
+                    format % eval(string, None, self.get_global_scope(string))
+                )
 
         else:
             try:
-                self.logger.info('finding the value of whats in string based on locals')
+                self.logger.info(
+                    'finding the value of whats in string based on locals'
+                )
                 value = eval(string, None, self.get_scope(string))
 
             except NameError:

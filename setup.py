@@ -14,7 +14,9 @@ setuptools.setup(
     author='Mendelsshop',
     author_email='mendelsshop@gmail.com',
     url='https://github.com/mendelsshop/fstringlt36/',
-    project_urls={'Bug Tracker': 'https://github.com/mendelsshop/fstringlt36/issues'},
+    project_urls={
+        'Bug Tracker': 'https://github.com/mendelsshop/fstringlt36/issues'
+    },
     install_requires=[''],
     classifiers=[
         'Programming Language :: Python',
