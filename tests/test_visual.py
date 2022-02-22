@@ -19,6 +19,7 @@ path = sep.join(split_path)
 # or any variation of that it would not work
 sys.path.append(path)
 from fstringlt36 import f
+# creates a test class
 
 
 
@@ -34,7 +35,7 @@ def boxify(list):
     '''
     # find larggest string in list
     larggest_string = len(max(list, key=len))
-    print('#' * (larggest_string + 4))
+    print('#' * (larggest_string+4))
     for item in list:
         # center each item with .center(larggest_string)
         print('# ' + item.center(larggest_string) + ' #')
@@ -56,8 +57,8 @@ def main():
     val = 5 * 5
     world['set'] = {1, 2, 3, '4', 5}
     world['function'] = lambda x: x**2
-
-    string = f('{hello=!r} {worlds}')
+    
+    string = f('{hello} {worlds}')
     tests = []
     tests.append('len of fake f_string ' + str(len(string)))
     tests.append('fake f_string ' + string)
