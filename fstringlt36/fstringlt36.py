@@ -1,6 +1,6 @@
-import re
 import logging
 import inspect
+
 # if imported from pip
 try:
     from . import regexs
@@ -25,8 +25,8 @@ else:
 # next feaure detect amount of curly braces and based that reurn either an evaluted or unevaluated vairable encapsulted in a certain amount of curly braces
 # make sure that when something like f("{5 + 5") is evaluated it converts the eval of 5 * 5 to a string
 
-class f(UserString):
 
+class f(UserString):
     def __init__(self, string):
         self.logger = logging
         if sys.version_info > (3, 9):
@@ -35,7 +35,8 @@ class f(UserString):
                 encoding='utf-8',
                 format='%(asctime)s %(levelname)s %(message)s',
                 datefmt='%m/%d/%Y %I:%M:%S %p',
-                level=logging.DEBUG)
+                level=logging.DEBUG,
+            )
             # print('3.9 or above')
 
         else:
@@ -43,9 +44,10 @@ class f(UserString):
                 filename='debug.log',
                 format='%(asctime)s %(levelname)s %(message)s',
                 datefmt='%m/%d/%Y %I:%M:%S %p',
-                level=logging.DEBUG)
+                level=logging.DEBUG,
+            )
             # print('3.8 or lower')
-        
+
         self.pythonv = pythonv
         self.logger.debug('python version: %s', self.pythonv)
         self.string = string
@@ -98,7 +100,7 @@ class f(UserString):
             # check if the = is part of an operator
             equal = True
             string = self.regex1('=').split(string)
-            
+
         if type(string) is str:
             string = [string, '']
 
@@ -112,27 +114,31 @@ class f(UserString):
             if string[1] not in ['a', 's', 'r']:
                 # if string does not start with a, s, or r
                 if string[1][0] not in ['a', 's', 'r']:
-                    raise SyntaxError("SyntaxError: f-string: invalid conversion character: expected 's', 'r', or 'a'")
-                
+                    raise SyntaxError(
+                        "SyntaxError: f-string: invalid conversion character: expected 's', 'r', or 'a'"
+                    )
+
                 else:
                     # if after with a, s, or r there is anything else
                     if string[1][1:]:
                         raise SyntaxError("f-string: expecting '}'")
 
             elif string == '=':
-                return None, strcpy 
+                return None, strcpy
 
             else:
                 return '!' + string[1], string[0]
 
         return None, strcpy
 
-    def var_to_string(self, string, ogstring, format=None, equal=None, type_conversion=None):
+    def var_to_string(
+        self, string, ogstring, format=None, equal=None, type_conversion=None
+    ):
         '''
         this function takes a string
         trys to evaluate the string first in the local scope
         and then in the global scope
-        if still nothing is found catches the NameError 
+        if still nothing is found catches the NameError
         and optinally if the string has a format
         returns a string of the variable
         '''
@@ -149,7 +155,9 @@ class f(UserString):
 
             except NameError:
                 self.logger.error('variable ' + string + ' not found')
-                self.logger.info('finding the value of whats in string based on globals')
+                self.logger.info(
+                    'finding the value of whats in string based on globals'
+                )
                 value = eval(format % eval(string, None, self.get_global_scope(string)))
 
         else:
@@ -159,9 +167,11 @@ class f(UserString):
 
             except NameError:
                 self.logger.error('variable ' + string + ' not found')
-                self.logger.info('finding the value of whats in string based on globals')
+                self.logger.info(
+                    'finding the value of whats in string based on globals'
+                )
                 value = eval(string, None, self.get_global_scope(string))
-        
+
         if type_conversion:
             if type_conversion == '!a':
                 # need to fix error with unicode characters and regex
@@ -173,10 +183,11 @@ class f(UserString):
             elif type_conversion == '!r':
                 value = repr(value)
 
-            value1 =self.regex1('!').split(ogstring)[0]
+            value1 = self.regex1('!').split(ogstring)[0]
 
         if equal:
-            if type_conversion: return value1 + value
+            if type_conversion:
+                return value1 + value
 
             return ogstring + repr(value)
 
@@ -205,14 +216,20 @@ class f(UserString):
 
             if equal:
                 type_conversion = self.type_conversions(equals[0][-1])[0]
-                
+
             else:
                 type_conversion = self.type_conversions(split_match[0])[0]
                 string = self.type_conversions(split_match[0])[1]
 
             # print(type_conversion, 'type conversion')
             # print(string, 'string')
-            s = self.var_to_string(string, split_match[0], equal=equal, type_conversion=type_conversion, format=format)
+            s = self.var_to_string(
+                string,
+                split_match[0],
+                equal=equal,
+                type_conversion=type_conversion,
+                format=format,
+            )
             self.string = self.string.replace(match, s)
             # using re.sub messes with unicode and errors out wit bad escape \U so until i figure it out i will use str.replace()
             # self.output = re.sub(match, s, self.output)
@@ -226,6 +243,7 @@ class f(UserString):
         amount defaults to 1
         '''
         return (amount * '{') + str(string) + (amount * '}')
+
 
 def main():
     print('to test it use the tests.py in the test directory')

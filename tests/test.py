@@ -8,7 +8,7 @@ if os.name == 'nt':
     sep = '\\'
 else:
     sep = '/'
-    
+
 # gets the path to src directories
 path = os.path.dirname(os.path.realpath(__file__))
 split_path = path.split(sep)
@@ -17,6 +17,7 @@ split_path.append('fstringlt36')
 path = sep.join(split_path)
 sys.path.append(path)
 from fstringlt36 import f
+
 
 class TestFString(TestCase):
     def test_hello(self):
@@ -28,7 +29,7 @@ class TestFString(TestCase):
         w = "World"
         testcase = str(f('Hello, {w !r}'))
         self.assertEqual(testcase, "Hello, 'World'")
-    
+
     def test_lambda(self):
         w = "World"
         testcase = lambda x: str(f('Hello, {x}'))
@@ -48,7 +49,7 @@ class TestFString(TestCase):
         w = "bar"
         testcase = str(f('foo {w}').upper())
         self.assertEqual(testcase, 'FOO BAR')
-    
+
     def test_dot_lower(self):
         w = "BAR"
         testcase = str(f('FOO {w}').lower())
