@@ -22,8 +22,11 @@ if pythonv < '3.0':
 else:
     from collections import UserString
 # should probably do a better job for logging
-# next feaure detect amount of curly braces and based that reurn either an evaluted or unevaluated vairable encapsulted in a certain amount of curly braces
-# make sure that when something like f("{5 + 5") is evaluated it converts the eval of 5 * 5 to a string
+# next feaure detect amount of curly braces
+# based that reurn either an evaluted or unevaluated vairable
+# encapsulted in a certain amount of curly braces
+# make sure that when something like f("{5 + 5")
+# is evaluated it converts the eval of 5 * 5 to a string
 
 
 class f(UserString):
@@ -66,7 +69,8 @@ class f(UserString):
         this function returns a dict of global variables
         if the string provided is in the local scope
         or else it returns a dict of None
-        this is from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
+        this is from:
+        https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
         '''
         while string not in self.scope.f_locals:
             self.scope = self.scope.f_back
@@ -80,7 +84,8 @@ class f(UserString):
         this function returns a dict of global variables
         if the string provided is in the global scope
         or else it returns a dict of None
-        this is from https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
+        this is from:
+        https://github.com/rinslow/fstring/blob/master/fstring/fstring.py
         '''
         while string not in self.scope.f_globals:
             self.scope = self.scope.f_back
@@ -91,7 +96,7 @@ class f(UserString):
 
     def str_equal_string(self, string):
         equal = None
-        # need to check if its the last no space char or if its followed by !s, !a or !r
+        # check if its the last no space char or its followed by !s, !a or !r
         # so that it does not split in middle the variable/string
         # if the last match from self.regex10('=').findall(string):
         #     equal = self.regex10('=').findall(string)[-1]
@@ -145,7 +150,8 @@ class f(UserString):
 
         if type(format) is str:
             # check if python version is 2.6 or greater
-            # if this is true we can use str.format() because 2.6 is the oldest version to support it
+            # if this is true we can use str.format() 
+            # because 2.6 is the oldest version to support it
             if self.pythonv >= '2.6':
                 pass
             try:
@@ -205,7 +211,8 @@ class f(UserString):
         # print('iteerating through string')
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
-            # this can split in middle string so we need to figure out after sometthing else not if : in to in qoutes
+            # this can split in middle string 
+            # need to figure out after something else not if : in 2 qoutes
             # we need to also check if : is followed by an operator like :=
             split_match = self.regex1(':').split(match[1:-1])
             try:
@@ -239,7 +246,8 @@ class f(UserString):
                 format=format,
             )
             self.string = self.string.replace(match, s)
-            # using re.sub messes with unicode and errors out wit bad escape \U so until i figure it out i will use str.replace()
+            # using re.sub messes with unicode and errors out wit bad escape \U 
+            # so until i figure it out i will use str.replace()
             # self.output = re.sub(match, s, self.output)
         # amount of curly braces shoould be handled here
         self.logger.info('parsing end')
