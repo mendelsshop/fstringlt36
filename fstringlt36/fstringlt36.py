@@ -6,8 +6,10 @@ try:
     from . import regexs
 # if imported from tests/test.py
 # or from tests/test_visual.py
+# for python 3
 except ImportError:
     import regexs
+# for python 2
 except ValueError:
     import regexs
 import sys

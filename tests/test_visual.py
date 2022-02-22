@@ -50,7 +50,6 @@ def main():
 
     hello = "Hello,"
     worlds = "wo"
-    # emoji = ""
     world = {'stuff': 'to'}
     world['thing'] = 'world'
     world['list'] = [1, 'hi', 3, 4, 5]
