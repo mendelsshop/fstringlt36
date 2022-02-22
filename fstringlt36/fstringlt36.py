@@ -150,7 +150,7 @@ class f(UserString):
 
         if type(format) is str:
             # check if python version is 2.6 or greater
-            # if this is true we can use str.format() 
+            # if this is true we can use str.format()
             # because 2.6 is the oldest version to support it
             if self.pythonv >= '2.6':
                 pass
@@ -211,7 +211,7 @@ class f(UserString):
         # print('iteerating through string')
         self.logger.info('parsing starts')
         for match in self.regex0.findall(self.string):
-            # this can split in middle string 
+            # this can split in middle string
             # need to figure out after something else not if : in 2 qoutes
             # we need to also check if : is followed by an operator like :=
             split_match = self.regex1(':').split(match[1:-1])
@@ -246,7 +246,7 @@ class f(UserString):
                 format=format,
             )
             self.string = self.string.replace(match, s)
-            # using re.sub messes with unicode and errors out wit bad escape \U 
+            # using re.sub messes with unicode and errors out wit bad escape \U
             # so until i figure it out i will use str.replace()
             # self.output = re.sub(match, s, self.output)
         # amount of curly braces shoould be handled here
