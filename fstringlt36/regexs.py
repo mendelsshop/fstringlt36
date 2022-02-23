@@ -21,7 +21,7 @@ regex1 = lambda x: re.compile(
 # '3 1 {25'
 # first we use a regex to replace all '{{' that are not in any form of quotes or parenthsis with something not '{', f'{{{5*5:{4}}'}}}' -> f'`{25:{4}}}}' in this case where using '`' to replce '{{'
 # then we have to find fstring expressions and evaluate/replcae them  and not any extra '}' f'`{25:{4}}}} -> f'`  025}}' so want to get {5*5:{4}} and not {5*5:{4}}}} so thats why were not also replacing '}}' with something else yet
-# so when we find '{' with a regex we need to check if it is in quotes or parentheses if its not wefind the next '}' and if theres another '{' we need to find the next '}' and so on 
+# so when we find '{' with a regex we need to check if it is in quotes or parentheses if its not wefind the next '}' and if theres another '{' we need to find the next '}' and so on this probably could be done with a for loop
 # then we have to replace all '}}' with something not '}' f'`  025}}' -> f'`  025?' in this example where using '?' to replace '}}'
 # now we check for any '{' or '}' if they are any left raise an error
 # finally we replace all '`' with '{' and '?' with '}' f'`  025?' -> f'{025}'
