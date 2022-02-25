@@ -28,6 +28,8 @@ print(f('{hello()}')) = hello
 ```
 fix indexing into dictionary
 <br>
+raise error if exppresssion incluedes a \
+<br>
 and more 
 <br>
 https://www.python.org/dev/peps/pep-0498/ for more on f-strings
