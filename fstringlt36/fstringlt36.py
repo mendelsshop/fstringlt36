@@ -12,6 +12,8 @@ except ImportError:
 # for python 2
 except ValueError:
     import regexs
+except SystemError:
+    import regexs
 import sys
 
 pythonv = sys.version.split('(')[0]
