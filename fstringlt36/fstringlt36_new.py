@@ -61,10 +61,24 @@ class f(UserString):
         self.regex1 = regexs.regex1
         self.scope = inspect.stack()[1][0]
         self.logger.info('Started')
+        try:
+            print('data', self.data)
+        except:
+            pass
         self.data = self.f_string_parse(string)
+        print('data', self.data)
         self.logger.info('Finished')
 
     # get_scope() and get_global_scope() can technicaly be combined
+    def split_on_qoutes(self, item):
+        for quotes in ['"', "'", '"""', "'''"]:
+            try:
+                item = item.split(quotes)
+            except AttributeError:
+                for quote in item:
+                    quote = quote.split(quotes)
+        return item
+
     def get_scope(self, string):
         '''
         this function returns a dict of global variables
@@ -210,18 +224,38 @@ class f(UserString):
 
     def f_string_parse(self, string):
         replace = []
-        string = re.sub(r'{{', '_', string)
-        string = re.sub(r'}}', '_', string)
+        # string = re.sub(r'{{', '_', string)
+        # string = re.sub(r'}}', '_', string)
+        # split string on quotes ie ', ", ''', """
+        quotesstring = self.split_on_qoutes(string)
+
+        print(quotesstring)
+
+        replacestring = []
         
         for index, char in enumerate(string):
             print(char, index)
             if char == '{':
-                replace.append(index)
+                if replace:
+                    if replace[-1][0] == char and replace[-1][1] == (index -1):
+                        replace.pop()
+                replace.append((char, index))
             elif char == '}':
-                replace.append(index)
+                replace.append((char, index))
+        print(replace)
 
         if len(replace) % 2 != 0:
             raise SyntaxError("SyntaxError: f-string: unbalanced braces")
+        for i in replace:
+            if i[1] % 2 == 0:
+                continue
+            print(i)
+            # find the n ext item in replace
+            
+            s = string[(i[1]+1)]
+                
+                
+
         print('replace', replace)
         return string
 
