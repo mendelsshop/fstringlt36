@@ -2,6 +2,7 @@
 [![flake8](https://github.com/mendelsshop/fstringlt36/actions/workflows/flake8.yml/badge.svg)](https://github.com/mendelsshop/fstringlt36/actions/workflows/flake8.yml)
 [![Upload Python Package](https://github.com/mendelsshop/fstringlt36/actions/workflows/python-publish.yml/badge.svg)](https://github.com/mendelsshop/fstringlt36/actions/workflows/python-publish.yml)
 # fstringlt36 Regex Edition
+# I might finish this after I finish [UMPL](https://github.com/mendelsshop/UMPL), because making a launguage will help me understand how to do this properly.
 ## Installation: pip install fstringlt36
 ## About: 
 Python f-strings for before Python 3.6. using Regex
